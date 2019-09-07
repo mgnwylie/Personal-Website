@@ -6,10 +6,29 @@
     <description>Recent content on Megan Wylie&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 30 Dec 2016 21:49:57 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 07 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>CV.md</title>
+      <link>/cv/</link>
+      <pubDate>Sat, 07 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cv/</guid>
+      <description>This is my CV!</description>
+    </item>
+    
+    <item>
+      <title>New website!</title>
+      <link>/2019/09/07/new-website/</link>
+      <pubDate>Sat, 07 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/09/07/new-website/</guid>
+      <description>I created a new website using Hugo! This will be a slow process to figure out, but I&amp;rsquo;m hoping to make it my long-term, sustained website where I can blog about learning code and share figures and stories related to my research.
+See ya soon, Megan</description>
+    </item>
     
     <item>
       <title>A Plain Markdown Post</title>
