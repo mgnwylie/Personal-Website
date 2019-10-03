@@ -27,12 +27,14 @@ Here is a reproduction of that map, which now includes 2016.
 ```{r}
 
 library(leaflet)
+library(maps)
 
-m <- leaflet(options = leafletOptions(minZoom = 0, maxZoom = 25)) %>%
-  addTiles() %>%  # Add default OpenStreetMap map tiles
-  setView(56.1304, -106.3468, zoom = 18)
+mapStates = map(regions=sov.expand("Canada"), fill = TRUE, plot = FALSE) 
 
-m
+# this works, and makes a canada map - it's purple
+leaflet(data = mapStates) %>% 
+  addTiles() %>%
+  addPolygons(color = "#bdd7e7", stroke = FALSE)
 
 # add data
 

@@ -1,8 +1,8 @@
 {
-    "path" : "~/W-Personal/Personal-Website/public",
+    "path" : "~/W-Personal/Personal-Website/content/post",
     "sortOrder" : [
         {
-            "ascending" : true,
+            "ascending" : false,
             "columnIndex" : 2
         }
     ]
