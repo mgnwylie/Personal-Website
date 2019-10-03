@@ -11,6 +11,9 @@ Here is a reproduction of that map, which now includes 2016.
 
 # Map
 
+*note to self- needed to have the ```htm - l tag to indicate the start of html code*
+
+```html
 <html>
 <head>
   <title>Economic Inequality in Canadian Cities</title>
@@ -41,3 +44,4 @@ Here is a reproduction of that map, which now includes 2016.
   </script>
 </body>
 </html>
+```
