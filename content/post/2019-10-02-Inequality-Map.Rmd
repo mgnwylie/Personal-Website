@@ -1,7 +1,7 @@
 ---
 title: "Inequality Map"
 author: "Megan Wylie"
-date: 2019-10-02
+date: '2019-10-02'
 categories: ["R"]
 tags: ["R Markdown", "plot", "regression"]
 ---
@@ -9,11 +9,6 @@ tags: ["R Markdown", "plot", "regression"]
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
----
-date: "2019-10-02"
-title: Inequality in Canada: Interactive Map
----
 
 # Income inequality and health research
 

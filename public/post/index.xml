@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Megan Wylie&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Inequality Map</title>
+      <link>/2019/10/02/inequality-map/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/10/02/inequality-map/</guid>
+      <description>Income inequality and health researchI wrote my Master’s thesis on the topic of income inequality and health in Canadian cities. To show inequality throughout Canada, I mapped inequality levels for each Canadian city for three time periods: 2001, 2006, and 2011.
+Here is a reproduction of that map, which now includes 2016.
+Mapload librarieslibrary(leaflet)library(maps)mapStates = map(regions=sov.expand(&amp;quot;Canada&amp;quot;), fill = TRUE, plot = FALSE) # this works, and makes a canada map - it&amp;#39;s purpleleaflet(data = mapStates) %&amp;gt;% addTiles() %&amp;gt;%addPolygons(color = &amp;quot;#bdd7e7&amp;quot;, stroke = FALSE){&#34;</description>
+    </item>
     
     <item>
       <title>New website!</title>
