@@ -3,6 +3,7 @@ date: "2019-10-02"
 title: Inequality in Canada: Interactive Map
 ---
 
+
 # Income inequality and health research
 
 I wrote my Master's thesis on the topic of income inequality and health in Canadian cities. To show inequality throughout Canada, I mapped inequality levels for each Canadian city for three time periods: 2001, 2006, and 2011.
