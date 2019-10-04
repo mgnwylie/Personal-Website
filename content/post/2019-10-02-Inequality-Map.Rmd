@@ -19,7 +19,7 @@ Here is a reproduction of that map, which now includes 2016.
 # Map
 
 # load libraries
-```{r}
+```{rsetup, include=FALSE}
 
 library(leaflet)
 library(maps)
