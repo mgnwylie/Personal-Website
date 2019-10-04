@@ -19,19 +19,26 @@ Here is a reproduction of that map, which now includes 2016.
 # Map
 
 # load libraries
-```{rsetup, include=FALSE}
+```{r setup, include=FALSE}
 
 library(leaflet)
 library(maps)
 
+# Here I set up the Canada map from the map package
 mapStates = map(regions=sov.expand("Canada"), fill = TRUE, plot = FALSE) 
+
+# add data
+  #here I add the boundary files from Statistics Canada
+#bound <- read.gml(file, as = c("srt", "array"), directed = TRUE, coords = FALSE)
 
 # this works, and makes a canada map - it's purple
 leaflet(data = mapStates) %>% 
   addTiles() %>%
-  addPolygons(color = "#bdd7e7", stroke = FALSE)
+  addPolygons(color = "#bdd7e7", stroke = FALSE) %>%
+  
 
-# add data
+
+
 
 
 ```
