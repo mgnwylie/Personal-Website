@@ -18,8 +18,7 @@ Here is a reproduction of that map, which now includes 2016.
 
 # Map
 
-# load libraries
-```{r setup, include=FALSE}
+```{r setup, fig.caption = 'Urban Inequality in Canada', include=FALSE}
 
 library(leaflet)
 library(maps)
@@ -27,9 +26,25 @@ library(maps)
 # Here I set up the Canada map from the map package
 mapStates = map(regions=sov.expand("Canada"), fill = TRUE, plot = FALSE) 
 
+
+
+
 # add data
-  #here I add the boundary files from Statistics Canada
-#bound <- read.gml(file, as = c("srt", "array"), directed = TRUE, coords = FALSE)
+#here I add the boundary files from Statistics Canada
+
+file <- system.file("C:\\Users\\Megan Wylie\\Documents\\W-Personal\\Personal-Website\\data\\inequality-map\\data", package = "geojsonio")
+
+out <- geojson_read(file, what = "sp")
+#Error: File does not exist. Create it, or fix the path.
+
+url <- "https://github.com/mgnwylie/Thesis-data/blob/master/data.geojson"
+geojson_read(url, method = "local", what = "sp")
+#Error in rgdal::ogrListLayers(input) : Cannot open data source
+
+#bound <- geojsonio::geojson_read("https://github.com/mgnwylie/Thesis-data/blob/master/data.geojson", what = "sp")
+
+
+
 
 # this works, and makes a canada map - it's purple
 leaflet(data = mapStates) %>% 
