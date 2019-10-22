@@ -20,37 +20,83 @@ Here is a reproduction of that map, which now includes 2016.
 
 ```{r setup, fig.caption = 'Urban Inequality in Canada', include=FALSE}
 
+#install packages
+
+install.packages("geojsonio")
+install.packages("sf")
+install.packages("mapview")
+install.packages("tidyverse")
+
+#load the packages
+
+library(tidyverse)
+library(geojsonio)
+library(sf)
+library(mapview)
 library(leaflet)
-library(maps)
 
 # Here I set up the Canada map from the map package
 mapStates = map(regions=sov.expand("Canada"), fill = TRUE, plot = FALSE) 
 
+## Uploading Geojson file to R when file has NULL columns
 
+#upload data
+df <- geojsonio::geojson_read("data/data.geojson")
 
+#isolate the important stuff
+df<- df$features
 
-# add data
-#here I add the boundary files from Statistics Canada
+#rename columns for later
+new.names <- c(
+  "type" ,
+  names(df[[1]]$properties) ,
+  "geometry.type" ,
+  "lng" ,
+  "lat"
+)
 
-file <- system.file("C:\\Users\\Megan Wylie\\Documents\\W-Personal\\Personal-Website\\data\\inequality-map\\data", package = "geojsonio")
+#Start creating datafram
+point.locations <- df[[1]] %>% as.data.frame()
 
-out <- geojson_read(file, what = "sp")
-#Error: File does not exist. Create it, or fix the path.
+#Rename columns with your new names
+names(point.locations) <- new.names
 
-url <- "https://github.com/mgnwylie/Thesis-data/blob/master/data.geojson"
-geojson_read(url, method = "local", what = "sp")
-#Error in rgdal::ogrListLayers(input) : Cannot open data source
-
-#bound <- geojsonio::geojson_read("https://github.com/mgnwylie/Thesis-data/blob/master/data.geojson", what = "sp")
-
-
-
-
-# this works, and makes a canada map - it's purple
-leaflet(data = mapStates) %>% 
-  addTiles() %>%
-  addPolygons(color = "#bdd7e7", stroke = FALSE) %>%
+#Loop through every item in the geojson list
+for (i in 2:length(df)) {
   
+  t <- df[[i]]$properties %>% unlist()
+  
+  #Make sure the item doesn't have any null column values
+  if (length(t) == 12) {
+    
+    out.file <- df[[i]] %>% as.data.frame()
+    names(out.file) <- new.names
+    
+    point.locations <- dplyr::bind_rows(point.locations , out.file)
+    
+  } else {
+    message(paste(t[["CMANAME"]] , "has NULL values."))
+  }
+
+}
+
+#Make data frame a spatial dataframe ("simple feature")
+point.locations.sf <- st_as_sf(point.locations , coords = c("lng" , "lat") , crs = 3347)
+
+#Put it on a map
+mapview::mapview(point.locations.sf, label = point.locations.sf$CMANAME)
+
+point.locations.sf.transform <- sf::st_transform(point.locations.sf , 4326)
+
+leaflet(point.locations.sf.transform) %>% 
+  addProviderTiles(provider = providers$CartoDB.Positron) %>%
+  addCircleMarkers(radius = 6 ,
+                   color = "#3182bd" ,
+                   fillColor = "#9ecae1" ,
+                   fillOpacity = .6 ,
+                   weight = 2 ,
+                   label = ~CMANAME)
+
 
 
 
