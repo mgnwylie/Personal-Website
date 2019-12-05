@@ -97,10 +97,7 @@ leaflet(point.locations.sf.transform) %>%
                    weight = 2 ,
                    label = ~CMANAME)
 
-
-
-
-
-
 ```
+
+
 
