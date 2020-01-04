@@ -22,10 +22,12 @@ Here is a reproduction of that map, which now includes 2016.
 
 #install packages
 
-install.packages("geojsonio")
-install.packages("sf")
-install.packages("mapview")
-install.packages("tidyverse")
+#install.packages("geojsonio")
+#install.packages("sf")
+#install.packages("mapview")
+#install.packages("tidyverse")
+#install.packages("shiny")
+install.packages("mlogit")
 
 #load the packages
 
@@ -34,6 +36,7 @@ library(geojsonio)
 library(sf)
 library(mapview)
 library(leaflet)
+library(shiny)
 
 # Here I set up the Canada map from the map package
 mapStates = map(regions=sov.expand("Canada"), fill = TRUE, plot = FALSE) 
@@ -83,19 +86,25 @@ for (i in 2:length(df)) {
 #Make data frame a spatial dataframe ("simple feature")
 point.locations.sf <- st_as_sf(point.locations , coords = c("lng" , "lat") , crs = 3347)
 
-#Put it on a map
+#Put it on a map!
+
+# Name cities
 mapview::mapview(point.locations.sf, label = point.locations.sf$CMANAME)
 
 point.locations.sf.transform <- sf::st_transform(point.locations.sf , 4326)
 
+# map via leaflet
 leaflet(point.locations.sf.transform) %>% 
   addProviderTiles(provider = providers$CartoDB.Positron) %>%
-  addCircleMarkers(radius = 6 ,
+  #addCircleMarkers defines size in terms of metres - they're too similar in size
+  addCircleMarkers(radius = 50*(qlogis(point.locations.sf.transform$gini01)),
                    color = "#3182bd" ,
                    fillColor = "#9ecae1" ,
                    fillOpacity = .6 ,
                    weight = 2 ,
                    label = ~CMANAME)
+
+
 
 ```
 
