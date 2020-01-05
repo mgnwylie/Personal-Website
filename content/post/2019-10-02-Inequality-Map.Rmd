@@ -1,0 +1,56 @@
+---
+title: "Inequality Map"
+author: "Megan Wylie"
+date: '2019-10-02'
+categories: ["R"]
+tags: ["R Markdown", "plot"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F )
+
+library(tidyverse)
+library(geojsonio)
+library(sf)
+library(mapview)
+library(leaflet)
+library(shiny)
+
+point.locations.sf <- read_rds("data/canada_city_inequality_sf.RDS")
+
+```
+
+# Income inequality and health research
+
+I wrote my Master's thesis on the topic of income inequality and health in Canadian cities. To show inequality throughout Canada, I mapped inequality levels for each Canadian city for three time periods: 2001, 2006, and 2011.
+
+Here is a reproduction of that map, which now includes 2016.
+
+# Map
+
+```{r , echo = F}
+# Name cities
+# mapview::mapview(point.locations.sf, label = point.locations.sf$CMANAME)
+
+point.locations.sf.transform <- sf::st_transform(point.locations.sf , 4326)
+
+# map via leaflet
+
+leaflet(point.locations.sf.transform) %>% 
+  addProviderTiles(provider = providers$CartoDB.Positron) %>%
+  #addCircleMarkers defines size in terms of metres - they're too similar in size
+  addCircleMarkers(radius = 50*(qlogis(point.locations.sf.transform$gini01)),
+                   color = "#3182bd" ,
+                   fillColor = "#9ecae1" ,
+                   fillOpacity = .6 , 
+                   #size = ~ gini16 ,
+                   weight = 2 ,
+                   label = ~CMANAME , 
+                   group = "gini16")
+
+
+
+```
+
+
+

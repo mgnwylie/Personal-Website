@@ -1,0 +1,142 @@
+---
+title: '2020-01-04: A very intro introduction to DPLYR, from RLadies MTL'
+author: "Megan Wylie"
+date: "04/01/2020"
+output: html_document
+---
+
+
+
+<p>Last month, on a break during my workday, I decided to google some communities where I could practice and learn to code in R. It had been on my mind for a while, as I’ve had many side project ideas and lack <em>any</em> coding skills to make them happen.</p>
+<div id="r-ladies" class="section level1">
+<h1>~R Ladies~</h1>
+<p>I came across R Ladies - a community of women (and other folks) in Montreal that meet once a month to learn something new in R! I’ve struggled with learning R as I now recognize that there are some basics I didn’t (and still don’t) fully understand - objects, when to use tibbles, what packages are associated with tibbles only, among, I’m sure, many other things.</p>
+<p>My first session was their November 20th session on dplyr, a package I had worked with before in courses and through google/Stack Overflow solutions. Sadly, instead of knowing it as the powerful data manipulator it is, I only knew that I had to <em>always</em> install it.</p>
+<p>I didn’t know what commands were associated with it or why they were grouped.</p>
+<p><em>Data manipulation</em> is the answer.</p>
+<p>Here I share the tutorial prepared by R Ladies. In this meet-up, we learned:
+- Sub-set data using <em>select</em>
+- Remove observations using <em>filter</em>
+- Group data with <em>group_by</em>
+- Perform calculations on groups while maintaining the whole dataset with <em>mutate</em>
+- Perform calculations on groups making a new grouped dataset with <em>summarize</em></p>
+<p>All of the materials for this session are open source - you can find them <a href="https://github.com/rladies/meetup-presentations_montreal/tree/master/20191121_dplyr-workshop">here</a></p>
+<p>I installed the package and loaded in the data. In the end I used my local file path as there seemed to be errors with the data loading in from GitHub - a blog for another time.</p>
+<p>Okay - Now onto the exercises! :)</p>
+<p>Exercises!</p>
+<p><sub>RLadies</sub> gave us the following tasks:
+1. Bind the two data frames into a single data frame. What are the new dimensions of the data frame?
+2. Delete the first column of the data with the “Notes”
+3. Remove all observations where Average.LMP.Gestational.Age has missing values
+4. Calculate the average birth weight by state using mutate and summarise. How are the results different?
+5. What were the states with the 5 highest fertility rates in 2010 (tricky question!)</p>
+<p><strong>Exercise #1:</strong></p>
+<p>On the first exercise, I already had to ask a question…. what is <em>bind</em>?</p>
+<p>Using the data provided by RLadies, it’s easy to understand and I picked it up quickly.</p>
+<p>The two datasets we loaded in, births_2003_2006 and births_2007_2018, represent data from the years listed in the names, 2003 to 2006 and 2007 to 2018.</p>
+<p>You can imagine a dataset where there are many observations (i.e. births) for those years, as well as other data on things such as State of the birth and birth weight.</p>
+<p><em>Example of the dataset births_2003_2006:</em></p>
+<table>
+<thead>
+<tr class="header">
+<th>Birth</th>
+<th align="center">Year</th>
+<th align="right">Birth Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td align="center">2003</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td align="center">2004</td>
+<td align="right">6.75</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td align="center">2005</td>
+<td align="right">7.25</td>
+</tr>
+</tbody>
+</table>
+<p>The dataset has been broken up into two sets of years, binding puts them back together by adding all of the observations into one dataset. In the below example, we can imagine that births 4 and 5 were originally their own dataset but using bind we added them onto the end of the first example dataset above.</p>
+<p><em>Example of re-joined datasets:</em>
+| Birth | Year | Birth Weight |
+| ————- |:————-:| —–:|
+| 1 | 2003 | 7 |
+| 2 | 2004 | 6.75 |
+| 3 | 2005 | 7.25 |
+| 4 | 2018 | 7.5 |
+| 5 | 2018 | 7 |</p>
+<p>To bind the two data frames, I first looked at their column header names. By knowing similar column header names, I would then be able to start investigating if the same names represent the same data, and therefore can be binded.</p>
+<pre class="r"><code>names(births_2007_2018)</code></pre>
+<pre><code>## [1] &quot;Notes&quot;                       &quot;State&quot;                      
+## [3] &quot;Year&quot;                        &quot;Mother.s.Bridged.Race&quot;      
+## [5] &quot;Births&quot;                      &quot;Birth.Rate&quot;                 
+## [7] &quot;Fertility.Rate&quot;              &quot;Average.Birth.Weight&quot;       
+## [9] &quot;Average.LMP.Gestational.Age&quot;</code></pre>
+<pre class="r"><code>names(births_2003_2006)</code></pre>
+<pre><code>## [1] &quot;Notes&quot;                       &quot;State&quot;                      
+## [3] &quot;Year&quot;                        &quot;Mother.s.Bridged.Race&quot;      
+## [5] &quot;Births&quot;                      &quot;Birth.Rate&quot;                 
+## [7] &quot;Fertility.Rate&quot;              &quot;Average.Birth.Weight&quot;       
+## [9] &quot;Average.LMP.Gestational.Age&quot;</code></pre>
+<p>They have the same column headers! I should have checked to confirm that the data from each column are in the same format and that they can be binded, but for the purpose of this blog I am just skipping ahead to binding the datasets.</p>
+<p>To bind the datasets, you use the command <em>bind_rows</em> followed by the two datasets that you want to bind together. I name this dataset births_2003_2018, as it now represents births from 2003 to 2018.</p>
+<pre class="r"><code>births_2003_2018 &lt;- bind_rows(births_2003_2006, births_2007_2018)</code></pre>
+<p><strong>Exercise #2:</strong></p>
+<p>For the next exercise, I removed a column from the dataset. To do this, I use the <em>select</em> command. The <em>select</em> command is used to keep only the data that you want to work with. With <em>select</em>, you name all of the columns you want to work with.</p>
+<p>In this blog, we want to work with all of the data except the column “Notes”.</p>
+<p>In option one, I could use the <em>select</em> command to name all of the columns except “Notes”. However, I thought another way might be easier…</p>
+<p>Therefore, I had a question on the second exercise too…</p>
+<p>Instead of naming all of the columns, <em>select</em> also has a trick that puts it into the negative. I used -c to indicate that I wanted to only remove the column “Notes”.</p>
+<pre class="r"><code>births_2003_2018 &lt;- select(births_2003_2018, -c(&quot;Notes&quot;))</code></pre>
+<p><strong>Exercise #3:</strong></p>
+<p>The next task was to remove observations that have missing data for the column “Average.LMP.Gestational.Age”.</p>
+<p>The task here is to remove observations instead of columns. Observations are the rows in the dataset that represent the individual birth cases.</p>
+<p>Where <em>select</em> works with columns, <em>filter</em> works with observations.</p>
+<p>To remove missing data, I used the operator is.na(<em>column name</em>).</p>
+<p>For manipulations that don’t involve missing values, the operators are more common. For example, to keep only observations where a column value is greater than 6, I would have used &gt; or &lt;.</p>
+<p>For missing values, however, you must use is.na(), which keeps only the missing values, or !is.na(), which keeps only non-missing values. The later is what I use below.</p>
+<p>If you forget, I’ve been using the <a href="https://nyu-cdsc.github.io/learningr/assets/data-transformation.pdf">DPLYR cheat sheet</a> to remember these little details!</p>
+<p>For this exercise, I also renamed the dataset births_no_na. My naming and renaming is mostly arbitrary here; I simply felt that removing observations was worth a dataset renaming!</p>
+<pre class="r"><code>births_no_na &lt;- filter(births_2003_2018, !is.na(Average.LMP.Gestational.Age))</code></pre>
+<p><strong>Exercise #4:</strong></p>
+<p>The next exercise involves a few new things. In this example I used piping. Piping, to me, performing many different data manipulations, or commands, together in creating a new dataset.</p>
+<p>Below, I <em>group_by</em> and <em>mutate</em> in the same line to create the new dataset births_by_state.</p>
+<p>Now what does <em>group_by</em> and <em>mutate</em> mean?</p>
+<p><em>group_by</em> groups the data so that all future operations, or calculations, will be done by the specified groups. Here, I want to know information by state. I want to know the average birth weight or the average fertility rate per state. Another potential group could be “Year”, which makes sense if I want to know information by year.</p>
+<p>But we haven’t learned to calculate things yet!</p>
+<p>Good news, that is what the other command, <em>mutate</em>, does. Mutate adds new columns, or variables, based on calculations from other columns.</p>
+<p>In this case, where we have the data grouped, it will maintain the entire dataset and make a new column with state-level averages.</p>
+<p>If I just wanted a table of state averages, I would use <em>summarize</em> instead of <em>mutate</em>.</p>
+<p>In the below example, the line of code then calculates the average birth weight by state.</p>
+<pre class="r"><code>births_by_state &lt;- group_by(births_no_na, State) %&gt;%  
+                    mutate(mean_wt = mean(Average.Birth.Weight))</code></pre>
+<p>Okay the last stretch!</p>
+<p><strong>Exercise #5:</strong></p>
+<p>Exercise 5 involves multiple steps and many of the above commands. I broke down the question into the following pieces.</p>
+<p>First - I needed to remove all observations except those in 2010.
+Second - I needed to group the data by state
+third - I needed to rank the data by fertility rate</p>
+<p>To remove observations, I used <em>filter</em>!</p>
+<pre class="r"><code>fer_rate_2010 &lt;- filter(births_no_na, Year==2010)
+
+rank_fer_rate &lt;- group_by(fer_rate_2010, State) %&gt;% 
+                  summarize(mean_wt = mean(Average.Birth.Weight))
+
+View(rank_fer_rate)</code></pre>
+<p>Instead of using a command to rank the data, I instead opened the dataset using <em>View</em> and manually ranked it. Maybe there will be another blog in the future where I learn to do some command ranking! For now, oh well, manual was faster.</p>
+<p>And that’s all! The next <sub>RLadies</sub> session is in January, 2020 and I will prepare another blog to summarize what I learned.</p>
+<p>Thank you and happy new year :)
+~Meg</p>
+<p><em>Resources:</em></p>
+<p>Here are some of the resources I used throughout the blog to help with small reminders and little errors:</p>
+<ul>
+<li><a href="https://nyu-cdsc.github.io/learningr/assets/data-transformation.pdf">DPLYR Cheat Sheet</a></li>
+<li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#tables">Markdown Cheat Sheet</a></li>
+</ul>
+</div>

@@ -1,53 +1,53 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Megan Wylie&#39;s website</title>
-    <link>/post/</link>
+    <link>www.mgnwylie.netlify.com/post/</link>
     <description>Recent content in Posts on Megan Wylie&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="www.mgnwylie.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Inequality Map</title>
-      <link>/2019/10/02/inequality-map/</link>
+      <link>www.mgnwylie.netlify.com/2019/10/02/inequality-map/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/10/02/inequality-map/</guid>
+      <guid>www.mgnwylie.netlify.com/2019/10/02/inequality-map/</guid>
       <description>Income inequality and health researchI wrote my Master’s thesis on the topic of income inequality and health in Canadian cities. To show inequality throughout Canada, I mapped inequality levels for each Canadian city for three time periods: 2001, 2006, and 2011.
 Here is a reproduction of that map, which now includes 2016.
-Mapload librarieslibrary(leaflet)library(maps)mapStates = map(regions=sov.expand(&amp;quot;Canada&amp;quot;), fill = TRUE, plot = FALSE) # this works, and makes a canada map - it&amp;#39;s purpleleaflet(data = mapStates) %&amp;gt;% addTiles() %&amp;gt;%addPolygons(color = &amp;quot;#bdd7e7&amp;quot;, stroke = FALSE){&#34;</description>
+Map{&#34;x&#34;:{&#34;options&#34;:{&#34;crs&#34;:{&#34;crsClass&#34;:&#34;L.CRS.EPSG3857&#34;,&#34;code&#34;:null,&#34;proj4def&#34;:null,&#34;projectedBounds&#34;:null,&#34;options&#34;:{}}},&#34;calls&#34;:[{&#34;method&#34;:&#34;addProviderTiles&#34;,&#34;args&#34;:[&#34;CartoDB.Positron&#34;,null,null,{&#34;errorTileUrl&#34;:&#34;&#34;,&#34;noWrap&#34;:false,&#34;detectRetina&#34;:false}]},{&#34;method&#34;:&#34;addCircleMarkers&#34;,&#34;args&#34;:[[44.7161383055624,46.3602264072949,46.6888618302217,45.8595980248753,45.3913967137087,45.9991917916709,46.0008927852855,45.5724870524509,45.2652800338688,44.4070331483825,44.7266676768355,46.5008452834452,46.5649887517552,46.527800489417,44.5626783934802,45.6416979106483,45.6667163806576,47.524105295094,48.985132759884,46.288126534626,46.4226616269978,44.8659346760328,45.081944413676,45.3912454086776,45.4923191468044,46.0092635659283,46.0123434315489,45.4030119720386,46.0257721016767,47.5430342019686,48.9577900617714,47.7508288847383,47.4938185291106,48.1157295283093,48.7772860291473,48.3397579181597,47.8081030810501,49.1998051129879,48.4571948336073,48.8948543298087,50.3412452453858,46.9204748754934,46.0692682527098,45.3896555125515,48.5906019712583,48.1319700342081,46.0964988930924,45.2071213691804,46.0432602185839,47.9791058063879,45.6273853248411,45.673039775257,45.07081484394,45.6087910649978,45.2765797140653,49.7982740520277,55.7577051170674,50.4491319920716,51.2542899256755,50.4404065758281,50.2226445322993,52.0973907023393,52.8091817153041,53.2408123981159,49.1310351496352,53.1266105649858,50.0089946079605,49.8433183609066,51.1805416031491,44.3945219982284,44.2595876490454,44.0150353214511,44.3431626797533,44.5171369439156,43.966869931283,43.9712887401926,43.9036829667177,43.2663000804399,43.0356342228146,43.4417576358189,43.1255092158269,42.798429819767,43.5438289479981,43.3704659694745,42.9330454435728,42.4233300278116,42.0896886555973,42.2207233084926,42.8705131828168,44.6361920680912,44.4983381713066,43.140191934214,42.8590150094478,54.4853805832357,55.7552176570091,56.2340263314616,60.6626591645465,48.3683370789068,49.8218377340891,49.8873933661248,46.4061631191168,48.4896642991276,45.7486983498592,49.9702691221426,49.4697073071528,49.9488375036179,50.3074432693478,50.8011611565232,49.1377133029249,49.1347735753622,49.2807616528579,48.465375054475,48.8085279852057,49.1280014195547,49.3343237721874,49.5577593257638,49.8098879482123,49.8982226756195,52.0042405634681,53.0490291787307,54.2344617061915,53.9244553320056,62.4708267225114,52.2815737666436,53.0082140721878,53.5128052620408,53.2807366186257,54.4216423755634,55.1831898220032,57.5659194478064,52.9720759280397,49.5047260368272],[-75.7864730989837,-72.5023636736404,-72.8767528696413,-72.4453288997284,-72.7395177235158,-73.0784043749739,-73.4302550148979,-73.7071306873214,-74.0602635839371,-79.7382009184056,-79.8186118018609,-79.4434132098603,-80.9865546522995,-84.1699099722662,-79.377595545652,-72.8966123892176,-74.2962061444226,-52.8111987751835,-57.7309631204172,-63.0735973687868,-63.8548488139372,-63.149011959175,-64.4892511964521,-63.193878981935,-62.5130290550059,-60.2627430156936,-64.8539810105347,-66.0123916015154,-66.7619257546729,-65.8063444625752,-55.663301762452,-66.7401090237736,-68.2103066049604,-66.7142547293002,-67.4163514265491,-68.5578423150506,-69.4433743912241,-68.3309247892685,-71.0327793882384,-72.1430706567533,-66.0445035843955,-71.3376179960134,-71.3536072660239,-71.9455884879438,-71.6250183035996,-78.8720186863033,-70.6768623609729,-72.765321660042,-71.9335657293361,-77.6715351962265,-74.5992170797488,-75.7726775106723,-74.9148783748949,-74.6106666157099,-75.692499501996,-99.9550266478807,-97.8414460926974,-104.619925851306,-102.639070363671,-105.511577815811,-107.854234792003,-106.564612772099,-108.125845855583,-105.610456973726,-103.01118243699,-109.791648842796,-110.5812557709,-112.766991634888,-114.078299982418,-76.5396937130286,-77.4555129923437,-78.389036658316,-78.2666064878511,-78.8154877286695,-78.7416951597525,-78.1657145966892,-79.5814933798666,-79.9242156251776,-79.2325414207602,-80.4907480749576,-80.3078499942408,-80.4388228963331,-80.2196437834469,-80.983655953978,-81.3293020231064,-82.1314481401391,-82.6382551556579,-82.8231073571127,-82.281995978222,-81.0158625979691,-80.2356401466876,-80.7285708643244,-80.7327071549923,-128.578777053224,-120.226194115947,-120.781685470077,-135.063400124493,-89.3513956262946,-94.4394667634482,-97.0497123813903,-82.6319924763065,-81.2804396953689,-77.2375285497442,-98.2884374249594,-119.666267073625,-119.458135690566,-119.345579523277,-120.511029212907,-121.723024103508,-122.308183119645,-122.838956866568,-123.551139816901,-123.725846633172,-124.234593793098,-125.129346605344,-124.922241904501,-125.590967129681,-124.30085406823,-122.15099646459,-122.807280967083,-130.163639316024,-121.934505334321,-114.405332373561,-113.797328389138,-112.83167761831,-113.790769803887,-110.034955792106,-110.246629787762,-118.833023721372,-111.335730797913,-113.378386835018,-115.594247348084],[-33.5232217713432,-27.6980944889417,-28.8528258064287,-34.8140126305562,-33.0418171396418,-30.9312192942951,-30.4714653160395,-24.8944190088224,-38.5489628074551,-29.6064169997025,-31.9079864740181,-28.1725378391741,-27.1787133767537,-29.5843759338728,-31.0073312022736,-37.0029341473134,-35.3456692083312,-25.9384120365669,-23.4758986982481,-23.3697525724517,-28.9975864732235,-25.3416113046482,-25.6297763307831,-18.1426375922922,-20.2613086848193,-23.1143160826719,-26.1394486270577,-22.0530664115872,-28.0615617583107,-19.7785062737533,-18.3453983361239,-23.6016155718605,-26.6253642105809,-23.6016155718605,-27.0413926183613,-30.3883234304741,-32.7064585934444,-36.264384569637,-32.2732202673489,-26.893357986337,-26.4805193786799,-31.9045606527908,-38.9729500823233,-31.1642569578322,-27.0145618204822,-30.1881481681752,-37.8492351759866,-36.5963302406691,-30.4062373090246,-24.2559286966368,-28.2186016997654,-26.7761276803406,-29.6640670880955,-28.2186016997654,-26.7761276803406,-30.4911646897931,-33.7622959582502,-30.072183834534,-31.188262209167,-27.4201022011019,-33.705457922465,-25.0443632835571,-28.1265114030585,-27.1631079400341,-30.5927940442812,-24.5474202944193,-22.3170760028488,-27.0029990971633,-15.7201701429094,-25.5793809287987,-25.3070811111017,-31.1374617627634,-25.6398454897224,-29.0503402263346,-32.5672576283441,-28.1130492066882,-17.3894461892231,-26.0830450495594,-27.0370935410008,-27.9061306114118,-31.9553427018367,-24.9390972539028,-30.804129095334,-39.0187882141378,-27.2937359784356,-29.6155604436167,-23.0097646823377,-27.0478061774558,-23.0319148888684,-31.0809149019894,-29.7613942835587,-33.1301902064625,-23.9583359573052,-25.5584099126413,-24.0714331116634,-28.6619937816385,-32.9991119500016,-30.4603233838683,-31.7532313183598,-27.6218942021875,-16.9297255397301,-31.5060178952662,-33.131956185099,-34.5839760845316,-26.5118884006635,-25.4809163500671,-25.5072633384878,-26.7018727412584,-30.4128771538228,-26.1777722933401,-21.6444512916229,-30.4964491629403,-25.7902947592538,-26.9468098105913,-26.5814742808001,-25.5146373021285,-22.7650974591647,-24.5441936004844,-29.7227052454466,-26.9099144086502,-28.2784279946738,-30.9268445220446,-38.9124786711348,-21.5061354520924,-23.5137351629441,-23.8239925170167,-24.5474202944193,-26.0356507954352,-29.3794729278026,-23.223368838343,-25.8783850164035,-23.5168391795297],null,&#34;gini16&#34;,{&#34;interactive&#34;:true,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:true,&#34;color&#34;:&#34;#3182bd&#34;,&#34;weight&#34;:2,&#34;opacity&#34;:0.5,&#34;fill&#34;:true,&#34;fillColor&#34;:&#34;#9ecae1&#34;,&#34;fillOpacity&#34;:0.6},null,null,null,null,[&#34;Brockville&#34;,&#34;Trois-Rivières&#34;,&#34;Shawinigan&#34;,&#34;Drummondville&#34;,&#34;Granby&#34;,&#34;Sorel-Tracy&#34;,&#34;Joliette&#34;,&#34;Montréal&#34;,&#34;Salaberry-de-Valleyfield&#34;,&#34;Barrie&#34;,&#34;Midland&#34;,&#34;North Bay&#34;,&#34;Greater Sudbury / Grand Sudbury&#34;</description>
     </item>
     
     <item>
       <title>New website!</title>
-      <link>/2019/09/07/new-website/</link>
+      <link>www.mgnwylie.netlify.com/2019/09/07/new-website/</link>
       <pubDate>Sat, 07 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/09/07/new-website/</guid>
-      <description>I created a new website using Hugo! This will be a slow process to figure out, but I&amp;rsquo;m hoping to make it my long-term, sustained website where I can blog about learning code and share figures and stories related to my research.
+      <guid>www.mgnwylie.netlify.com/2019/09/07/new-website/</guid>
+      <description>I created a new website using Hugo! This will be a slow process to figure out, but I&#39;m hoping to make it my long-term, sustained website where I can blog about learning code and share figures and stories related to my research.
 See ya soon, Megan</description>
     </item>
     
     <item>
       <title>A Plain Markdown Post</title>
-      <link>/2016/12/30/a-plain-markdown-post/</link>
+      <link>www.mgnwylie.netlify.com/2016/12/30/a-plain-markdown-post/</link>
       <pubDate>Fri, 30 Dec 2016 21:49:57 -0700</pubDate>
       
-      <guid>/2016/12/30/a-plain-markdown-post/</guid>
+      <guid>www.mgnwylie.netlify.com/2016/12/30/a-plain-markdown-post/</guid>
       <description>This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
- You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday&amp;rsquo;s Markdown and Pandoc&amp;rsquo;s Markdown.</description>
+ You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday&#39;s Markdown and Pandoc&#39;s Markdown.</description>
     </item>
     
     <item>
       <title>Hello R Markdown</title>
-      <link>/2015/07/23/hello-r-markdown/</link>
+      <link>www.mgnwylie.netlify.com/2015/07/23/hello-r-markdown/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/2015/07/23/hello-r-markdown/</guid>
+      <guid>www.mgnwylie.netlify.com/2015/07/23/hello-r-markdown/</guid>
       <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
 summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
@@ -55,11 +55,39 @@ summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
     
     <item>
       <title>Lorem Ipsum</title>
-      <link>/2015/01/01/lorem-ipsum/</link>
+      <link>www.mgnwylie.netlify.com/2015/01/01/lorem-ipsum/</link>
       <pubDate>Thu, 01 Jan 2015 13:09:13 -0600</pubDate>
       
-      <guid>/2015/01/01/lorem-ipsum/</guid>
+      <guid>www.mgnwylie.netlify.com/2015/01/01/lorem-ipsum/</guid>
       <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>www.mgnwylie.netlify.com/1/01/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>www.mgnwylie.netlify.com/1/01/01/</guid>
+      <description>���� �� ��� ��� ��� ��� ��� ��� ��� ��� ��� �v�\�:�*� �{�b�e�h�a�v�i�o�r�:�u�r�l�(�#�d�e�f�a�u�l�t�#�V�M�L�)�;�}�� �o�\�:�*� �{�b�e�h�a�v�i�o�r�:�u�r�l�(�#�d�e�f�a�u�l�t�#�V�M�L�)�;�}�� �w�\�:�*� �{�b�e�h�a�v�i�o�r�:�u�r�l�(�#�d�e�f�a�u�l�t�#�V�M�L�)�;�}�� �.�s�h�a�p�e� �{�b�e�h�a�v�i�o�r�:�u�r�l�(�#�d�e�f�a�u�l�t�#�V�M�L�)�;�}�� ��� ��� ��c�e�n�s�u�s�_�m�e�t�r�o�p�o�l�i�t�a�n�_�a�r�e�a�.�h�t�m�l��� ���� � ��� � � ��A�d�m�i�n�i�s�t�r�a�t�o�r��� � � ��A�d�m�i�n�i�s�t�r�a�t�o�r��� � � ��4��� � � ��3��� � � ��2�0�1�7�-�0�2�-�2�8�T�1�6�:�5�3�:�0�0�Z��� � � ��2�0�1�7�-�0�2�-�2�8�T�1�9�:�4�5�:�0�0�Z��� � � ��1�0��� � � ��1�2�4�8��� � � ��7�1�2�0��� � � ��S�t�a�t�C�a�n��� � � ��5�9��� � � ��1�6��� � � ��8�3�5�2��� � � ��1�5�.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>www.mgnwylie.netlify.com/1/01/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>www.mgnwylie.netlify.com/1/01/01/</guid>
+      <description>���� �� ��� ��� ��� ��� ��� ��� ��� ��� ��� �v�\�:�*� �{�b�e�h�a�v�i�o�r�:�u�r�l�(�#�d�e�f�a�u�l�t�#�V�M�L�)�;�}�� �o�\�:�*� �{�b�e�h�a�v�i�o�r�:�u�r�l�(�#�d�e�f�a�u�l�t�#�V�M�L�)�;�}�� �w�\�:�*� �{�b�e�h�a�v�i�o�r�:�u�r�l�(�#�d�e�f�a�u�l�t�#�V�M�L�)�;�}�� �.�s�h�a�p�e� �{�b�e�h�a�v�i�o�r�:�u�r�l�(�#�d�e�f�a�u�l�t�#�V�M�L�)�;�}�� ��� ��� ��c�e�n�s�u�s�_�m�e�t�r�o�p�o�l�i�t�a�n�_�a�r�e�a�.�h�t�m�l��� ���� � ��� � � ��A�d�m�i�n�i�s�t�r�a�t�o�r��� � � ��A�d�m�i�n�i�s�t�r�a�t�o�r��� � � ��4��� � � ��3��� � � ��2�0�1�7�-�0�2�-�2�8�T�1�6�:�5�3�:�0�0�Z��� � � ��2�0�1�7�-�0�2�-�2�8�T�1�9�:�4�5�:�0�0�Z��� � � ��1�0��� � � ��1�2�4�8��� � � ��7�1�2�0��� � � ��S�t�a�t�C�a�n��� � � ��5�9��� � � ��1�6��� � � ��8�3�5�2��� � � ��1�5�.</description>
+    </item>
+    
+    <item>
+      <title>2020-01-04: A very intro introduction to DPLYR, from RLadies MTL</title>
+      <link>www.mgnwylie.netlify.com/1/01/01/2020-01-04-a-very-intro-introduction-to-dplyr-from-rladies-mtl/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>www.mgnwylie.netlify.com/1/01/01/2020-01-04-a-very-intro-introduction-to-dplyr-from-rladies-mtl/</guid>
+      <description>Last month, on a break during my workday, I decided to google some communities where I could practice and learn to code in R. It had been on my mind for a while, as I’ve had many side project ideas and lack any coding skills to make them happen.
+~R Ladies~I came across R Ladies - a community of women (and other folks) in Montreal that meet once a month to learn something new in R!</description>
     </item>
     
   </channel>
