@@ -3,7 +3,7 @@ title: "Inequality Map"
 author: "Megan Wylie"
 date: '2019-10-02'
 categories: ["R"]
-tags: ["R Markdown", "plot", "regression"]
+tags: ["R Markdown", "plot"]
 ---
 
 ```{r setup, include=FALSE}
@@ -27,7 +27,7 @@ Here is a reproduction of that map, which now includes 2016.
 #install.packages("mapview")
 #install.packages("tidyverse")
 #install.packages("shiny")
-install.packages("mlogit")
+#install.packages("mlogit")
 
 #load the packages
 
