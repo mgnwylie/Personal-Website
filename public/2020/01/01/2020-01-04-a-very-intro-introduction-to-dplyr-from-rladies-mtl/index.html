@@ -10,7 +10,7 @@
 <meta property="og:title" content="2020-01-04: A very intro introduction to DPLYR, from RLadies MTL - Megan Wylie&#39;s website">
 
 
-  <link href='www.mgnwylie.netlify.com/favicon.ico' rel='icon' type='image/x-icon'/>
+  <link href='/www.mgnwylie.netlify.com/favicon.ico' rel='icon' type='image/x-icon'/>
 
 
 
@@ -46,9 +46,9 @@
 
   <ul class="nav-links">
     
-    <li><a href="www.mgnwylie.netlify.com/about/">About</a></li>
+    <li><a href="/www.mgnwylie.netlify.com/about/">About</a></li>
     
-    <li><a href="www.mgnwylie.netlify.com/cv/">CV</a></li>
+    <li><a href="/www.mgnwylie.netlify.com/cv/">CV</a></li>
     
     <li><a href="https://github.com/mgnwylie">GitHub</a></li>
     
@@ -198,7 +198,7 @@ third - I needed to rank the data by fertility rate</p>
 rank_fer_rate &lt;- group_by(fer_rate_2010, State) %&gt;% 
                   summarize(mean_wt = mean(Average.Birth.Weight))
 
-View(rank_fer_rate)</code></pre>
+#View(rank_fer_rate)</code></pre>
 <p>Instead of using a command to rank the data, I instead opened the dataset using <em>View</em> and manually ranked it. Maybe there will be another blog in the future where I learn to do some command ranking! For now, oh well, manual was faster.</p>
 <p>And that’s all! The next <sub>RLadies</sub> session is in January, 2020 and I will prepare another blog to summarize what I learned.</p>
 <p>Thank you and happy new year :)

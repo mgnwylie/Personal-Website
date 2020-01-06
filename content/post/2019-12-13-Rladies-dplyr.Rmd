@@ -1,7 +1,7 @@
 ---
-title: '2020-01-04: A very intro introduction to DPLYR, from RLadies MTL'
+title: '2019-01-04: A very intro introduction to DPLYR, from RLadies MTL'
 author: "Megan Wylie"
-date: "04/01/2020"
+date: "04/01/2019"
 output: html_document
 ---
 
@@ -186,7 +186,7 @@ fer_rate_2010 <- filter(births_no_na, Year==2010)
 rank_fer_rate <- group_by(fer_rate_2010, State) %>% 
                   summarize(mean_wt = mean(Average.Birth.Weight))
 
-View(rank_fer_rate)
+#View(rank_fer_rate)
 ```
 
 Instead of using a command to rank the data, I instead opened the dataset using *View* and manually ranked it. Maybe there will be another blog in the future where I learn to do some command ranking! For now, oh well, manual was faster. 
