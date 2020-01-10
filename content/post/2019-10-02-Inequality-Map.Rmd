@@ -57,12 +57,18 @@ tf <- point.locations.sf.transform %>%
                            , gini11_bin , gini16_bin) , 
             by = "CMANAME")
 
-#set up legend pallette 
-#pal <- colorBin("PuOr", df$z, bins = c(0, .1, .4, .9, 1))
+#set up legend - css styles
+# source: https://stackoverflow.com/questions/58505589/circles-in-legend-for-leaflet-map-with-addcirclemarkers-in-r-without-shiny
+addLegendCustom <- function(map, colors, group, labels, sizes, opacity = 0.5){
+  colorAdditions <- paste0(colors, "; border-radius: 50%; width:", 
+                           sizes, "px; height:", sizes, "px")
+  labelAdditions <- paste0("<div style='display: inline-block;height: ", 
+                           sizes, "px;margin-top: 4px;line-height: ", sizes, "px;'>", 
+                           labels, "</div>")
 
-#was trying ex from here: https://github.com/aagarw30/R-Leaflet-Tutorial/blob/master/CircleMarker_Pallete/CircleMarkerColor.R
-#pal2 = colorFactor(palette = c("yellow", "red", "black", "green"),
-               #    domain=tf$gini16_bin)
+  return(addLegend(map, colors = colorAdditions, 
+                   labels = labelAdditions, opacity = opacity))
+}
 
 # map via leaflet
 
@@ -103,25 +109,16 @@ leaflet(tf) %>%
                 overlayGroups = c("Gini Coefficient 2001", "Gini Coefficient 2006" ,
                              "Gini Coefficient 2011" , "Gini Coefficient 2016")) %>% 
   #add legends that appear/disappear with toggle
-        #addLegend (pal = pal, values = ~ gini01_bin, 
-         #          group = "Gini Coefficient 2001", 
-          #          title = "City Gini Coefficient 2001") %>% 
-        #addLegend (pal = pal, values = ~ gini06_bin, 
-         #          group = "Gini Coefficient 2006", 
-          #          title = "City Gini Coefficient 2006") %>% 
-        #addLegend (pal = pal, values = ~ gini11_bin, 
-         #          group = "Gini Coefficient 2011", 
-          #          title = "City Gini Coefficient 2011") %>% 
-        #addLegend (pal = pal, values = ~ gini16_bin, 
-         #          group = "Gini Coefficient 2016", 
-          #          title = "City Gini Coefficient 2016") %>% 
+  addLegendCustom(colors = ("#3182bd"),
+    labels = c("< 25th percentile Gini Coefficient",
+               "50th percentile Gini Coefficient", 
+               "75th percentile Gini Coefficient", 
+               "> 75th percentile Gini Coefficient"), 
+    sizes = c(5, 10, 15, 20)) %>%
   #hide layers 2001, 2006, and 2011 for when the map opens. 
   hideGroup("Gini Coefficient 2001") %>% 
               hideGroup("Gini Coefficient 2006") %>% 
             hideGroup("Gini Coefficient 2011")
-
-# I still need to change the legend values to the Gini Coefficient values. 
-
 
 ```
 
