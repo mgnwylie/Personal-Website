@@ -59,7 +59,7 @@ tf <- point.locations.sf.transform %>%
 
 #set up legend - css styles
 # source: https://stackoverflow.com/questions/58505589/circles-in-legend-for-leaflet-map-with-addcirclemarkers-in-r-without-shiny
-addLegendCustom <- function(map, colors, title, labels, sizes, opacity = 0.6){
+addLegendCustom <- function(map, colors, title, labels, sizes, opacity = 0.6, position){
   colorAdditions <- paste0(colors, "; border-radius: 50%; width:", 
                            sizes, "px; height:", sizes, "px")
   labelAdditions <- paste0("<div style='display: inline-block;height: ", 
@@ -67,7 +67,7 @@ addLegendCustom <- function(map, colors, title, labels, sizes, opacity = 0.6){
                            labels, "</div>")
   
   return(addLegend(map, colors = colorAdditions, 
-                   labels = labelAdditions, opacity = opacity, title))
+                   labels = labelAdditions, opacity = opacity, title, position))
 }
 
 # map via leaflet
