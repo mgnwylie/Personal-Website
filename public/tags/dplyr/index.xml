@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>DPLYR on Megan Wylie&#39;s website</title>
-    <link>/www.mgnwylie.netlify.com/tags/dplyr/</link>
+    <link>www.mgnwylie.netlify.com/tags/dplyr/</link>
     <description>Recent content in DPLYR on Megan Wylie&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/www.mgnwylie.netlify.com/tags/dplyr/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="www.mgnwylie.netlify.com/tags/dplyr/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>A very intro introduction to DPLYR, from RLadies MTL</title>
-      <link>/www.mgnwylie.netlify.com/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</link>
+      <link>www.mgnwylie.netlify.com/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/www.mgnwylie.netlify.com/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</guid>
+      <guid>www.mgnwylie.netlify.com/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</guid>
       <description>Last month, on a break during my workday, I decided to google some communities where I could practice and learn to code in R. It had been on my mind for a while, as I’ve had many side project ideas and lack any coding skills to make them happen.
 ~R Ladies~I came across R Ladies - a community of women (and other folks) in Montreal that meet once a month to learn something new in R!</description>
     </item>

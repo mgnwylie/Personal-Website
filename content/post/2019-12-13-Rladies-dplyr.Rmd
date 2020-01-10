@@ -40,9 +40,9 @@ library(httr)
 
 #load data
 
-births_2003_2006 <- readRDS("data/births_2003_2006.rds")
+births_2003_2006 <- readRDS("births_2003_2006.rds")
 
-births_2007_2018 <- readRDS("data/births_2007_2018.rds")
+births_2007_2018 <- readRDS("births_2007_2018.rds")
 ```
 
 I installed the package and loaded in the data. In the end I used my local file path as there seemed to be errors with the data loading in from GitHub - a blog for another time.

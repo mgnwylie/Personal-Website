@@ -17,7 +17,7 @@ library(leaflet)
 library(shiny)
 library(rgdal)
 
-point.locations.sf <- read_rds("data/canada_city_inequality_sf.RDS")
+point.locations.sf <- read_rds("canada_city_inequality_sf.RDS")
 
 ```
 

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>plot on Megan Wylie&#39;s website</title>
-    <link>/www.mgnwylie.netlify.com/tags/plot/</link>
+    <link>www.mgnwylie.netlify.com/tags/plot/</link>
     <description>Recent content in plot on Megan Wylie&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 02 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/www.mgnwylie.netlify.com/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="www.mgnwylie.netlify.com/tags/plot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Inequality Map</title>
-      <link>/www.mgnwylie.netlify.com/2020/01/02/inequality-map/</link>
+      <link>www.mgnwylie.netlify.com/2020/01/02/inequality-map/</link>
       <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/www.mgnwylie.netlify.com/2020/01/02/inequality-map/</guid>
+      <guid>www.mgnwylie.netlify.com/2020/01/02/inequality-map/</guid>
       <description>Income inequality and health researchI wrote my Master’s thesis on the topic of income inequality and health in Canadian cities. To show inequality throughout Canada, I mapped inequality levels for each Canadian city for three time periods: 2001, 2006, and 2011.
 Here is a reproduction of that map, which now includes 2016.
 Map## Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).</description>
@@ -24,20 +24,20 @@ Here is a reproduction of that map, which now includes 2016.
     
     <item>
       <title>A very intro introduction to DPLYR, from RLadies MTL</title>
-      <link>/www.mgnwylie.netlify.com/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</link>
+      <link>www.mgnwylie.netlify.com/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</link>
       <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/www.mgnwylie.netlify.com/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</guid>
+      <guid>www.mgnwylie.netlify.com/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</guid>
       <description>Last month, on a break during my workday, I decided to google some communities where I could practice and learn to code in R. It had been on my mind for a while, as I’ve had many side project ideas and lack any coding skills to make them happen.
 ~R Ladies~I came across R Ladies - a community of women (and other folks) in Montreal that meet once a month to learn something new in R!</description>
     </item>
     
     <item>
       <title>Hello R Markdown</title>
-      <link>/www.mgnwylie.netlify.com/2015/07/23/hello-r-markdown/</link>
+      <link>www.mgnwylie.netlify.com/2015/07/23/hello-r-markdown/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/www.mgnwylie.netlify.com/2015/07/23/hello-r-markdown/</guid>
+      <guid>www.mgnwylie.netlify.com/2015/07/23/hello-r-markdown/</guid>
       <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
 summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
