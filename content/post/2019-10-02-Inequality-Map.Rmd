@@ -59,15 +59,15 @@ tf <- point.locations.sf.transform %>%
 
 #set up legend - css styles
 # source: https://stackoverflow.com/questions/58505589/circles-in-legend-for-leaflet-map-with-addcirclemarkers-in-r-without-shiny
-addLegendCustom <- function(map, colors, group, labels, sizes, opacity = 0.5){
+addLegendCustom <- function(map, colors, title, labels, sizes, opacity = 0.6){
   colorAdditions <- paste0(colors, "; border-radius: 50%; width:", 
                            sizes, "px; height:", sizes, "px")
   labelAdditions <- paste0("<div style='display: inline-block;height: ", 
                            sizes, "px;margin-top: 4px;line-height: ", sizes, "px;'>", 
                            labels, "</div>")
-
+  
   return(addLegend(map, colors = colorAdditions, 
-                   labels = labelAdditions, opacity = opacity))
+                   labels = labelAdditions, opacity = opacity, title))
 }
 
 # map via leaflet
@@ -113,8 +113,9 @@ leaflet(tf) %>%
     labels = c("< 25th percentile Gini Coefficient",
                "50th percentile Gini Coefficient", 
                "75th percentile Gini Coefficient", 
-               "> 75th percentile Gini Coefficient"), 
-    sizes = c(5, 10, 15, 20)) %>%
+               "> 75th percentile Gini Coefficient"),
+    sizes = c(5, 10, 15, 20),
+    title = "topright") %>%
   #hide layers 2001, 2006, and 2011 for when the map opens. 
   hideGroup("Gini Coefficient 2001") %>% 
               hideGroup("Gini Coefficient 2006") %>% 
