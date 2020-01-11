@@ -1,10 +1,10 @@
-baseurl = "www.mgnwylie.netlify.com/"
+baseurl = "/"
 languageCode = "en-us"
-title = "Megan Wylie's website"
+title = "A Megan website"
 theme = "hugo-lithium"
 googleAnalytics = ""
 disqusShortname = ""
-ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$", "\\.rds$"]
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$", "\\.RDS$"]
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
@@ -13,9 +13,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$", "\\.rds$"]
     name = "About"
     url = "/about/"
 [[menu.main]]
-    name = "CV"
-    url = "/cv/"
-[[menu.main]]
     name = "GitHub"
     url = "https://github.com/mgnwylie"
 [[menu.main]]
@@ -23,7 +20,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$", "\\.rds$"]
     url = "https://twitter.com/mgnwylie"
 
 [params]
-    description = "Megan Wylie's website!"
+    description = "A website built through Hugo and blogdown."
 
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.12.0"
