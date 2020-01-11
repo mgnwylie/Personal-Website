@@ -15,7 +15,7 @@ Hello again! New year, and I'm already getting into more complicated hugo/blogdo
 
 Over the holidays I'd been blogging and encountered some (unfixable to me) issues with the first site I generated. After consultation with colleagues and many many hours on SO and various other websites, I decided to start over.
 
-Upon reading through the [blogdown book](https://bookdown.org/yihui/blogdown/other-themes.html) again, I decided to try one of their simple recommended themes! I went with [simple-a](https://github.com/AlexFinn/simple-a) because it looked nice and was recommended by the blogdown folks.
+Upon reading through the [blogdown book](https://bookdown.org/yihui/blogdown/other-themes.html) again, I decided to try one of their simple recommended themes! I went with [simple-a](https://github.com/AlexFinn/simple-a) because it looked nice and was recommended by the blogdown folks. It was a quick decision to try something new. 
 
 It doesn't have much documentation, so here is how I changed some of the simple aspects of the blog.
 
