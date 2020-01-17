@@ -1,5 +1,5 @@
 ---
-title: "Inequality Map"
+title: "Explore income inequality in Canadian cities: an interactive map of 2001- 2016 Gini coefficient data"
 author: "Megan Wylie"
 date: '2020-01-02'
 categories: ["R"]
@@ -7,7 +7,10 @@ tags: ["R Markdown", "plot"]
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(echo = F )
+# echo = FALSE doesn't show the R code in the post.
+# eval = FALSE to omit results
 
 library(tidyverse)
 library(geojsonio)
@@ -17,21 +20,32 @@ library(leaflet)
 library(shiny)
 library(rgdal)
 
-point.locations.sf <- read_rds("canada_city_inequality_sf.RDS")
-
 ```
 
-# Income inequality and health research
+# Background: income inequality and health research
 
-I wrote my Master's thesis on the topic of income inequality and health in Canadian cities. To show inequality throughout Canada, I mapped inequality levels for each Canadian city for three time periods: 2001, 2006, and 2011.
+I completed Master's research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project I calculated income inequality in about 130 cities for 2001 through 2011. Once the 2016 census data was available, I also calculated updated income inequality. 
 
-Here is a reproduction of that map, which now includes 2016.
+Now that data has been repurposed into an interactive leaflet map for your exploration! 
 
-# Map
+# How to use the map
+
+The below interactive map shows cities in Canada. The size of each citcle represents the level of income inequality. 
+
+Income inequality here is measured by the Gini coefficient, a measure that compares the incomes of everyone who lives in that city to a theoretical perfectly equal city. In this sense, the Gini coefficient measures how far each city is from perfect equality. The closer to 1, the more unequal the city.
+
+Cities in Canada generally range from low 0.3 score to higher 0.4. As a comparison to other countries, Boston had a Gini coefficient measure of .48 in 2015 and Oslo .31.
+
+I calculated the income inequality bins by percentile. For each year of analysis, I binned the cities by lowest 25%, highest 25%, the 50th percentile, and the 75th percentile. 
+
+*You can zoom in and out on the map, and select different layers of data from the top left layer options. When dragging your mouse over a city, the city name and Gini coefficient will appear.* 
+
 
 ```{r , echo = F}
 # Name cities
 # mapview::mapview(point.locations.sf, label = point.locations.sf$CMANAME)
+
+point.locations.sf <- read_rds("canada_city_inequality_sf.RDS")
 
 point.locations.sf.transform <- sf::st_transform(point.locations.sf , 4326)
 
@@ -40,7 +54,8 @@ tf <- point.locations.sf.transform %>%
   left_join(point.locations.sf.transform %>% 
               as.tibble() %>% 
               select(CMANAME , gini01 , gini06 , gini11 , gini16) %>% 
-              mutate_at(c("gini01" , "gini06" , "gini11" , "gini16") , dplyr::percent_rank) %>% 
+              mutate_at(c("gini01" , "gini06" , "gini11" , "gini16") , 
+                        dplyr::percent_rank) %>% 
               mutate(gini01_bin = if_else(gini01 > .75 , 4 , 
                                           if_else(gini01 > .5 , 3 , 
                                                   if_else(gini01 > .25 , 2 , 1))), 
@@ -57,17 +72,25 @@ tf <- point.locations.sf.transform %>%
                            , gini11_bin , gini16_bin) , 
             by = "CMANAME")
 
-#set up legend - css styles
+#set up legend - css/html styles
 # source: https://stackoverflow.com/questions/58505589/circles-in-legend-for-leaflet-map-with-addcirclemarkers-in-r-without-shiny
-addLegendCustom <- function(map, colors, title, labels, sizes, opacity = 0.6, position){
+
+addLegendCustom <- function(map, colors, title, labels, sizes, opacity = 0.6, position = "topright"){
   colorAdditions <- paste0(colors, "; border-radius: 50%; width:", 
                            sizes, "px; height:", sizes, "px")
-  labelAdditions <- paste0("<div style='display: inline-block;height: ", 
+  labelAdditions <- paste0("<div style='display: inline-block;text-align: right;height: ", 
                            sizes, "px;margin-top: 4px;line-height: ", sizes, "px;'>", 
                            labels, "</div>")
   
-  return(addLegend(map, colors = colorAdditions, 
-                   labels = labelAdditions, opacity = opacity, title, position))
+  return(
+    addLegend(map,
+      colors = colorAdditions, 
+      labels = labelAdditions,
+      opacity = opacity,
+      title = title,
+      position = position
+    )
+  )
 }
 
 # map via leaflet
@@ -75,8 +98,7 @@ addLegendCustom <- function(map, colors, title, labels, sizes, opacity = 0.6, po
 leaflet(tf) %>% 
   addProviderTiles(provider = providers$CartoDB.Positron) %>%
   #addCircleMarkers defines size in terms of metres - they're too similar in size
-  addCircleMarkers(#radius = 50*(qlogis(point.locations.sf.transform$gini01)),
-                   color = "#3182bd" ,
+  addCircleMarkers(color = "#3182bd" ,
                    fillColor = "#9ecae1" ,
                    fillOpacity = .6 , 
                    radius = ~ gini01_bin*2 ,
@@ -110,12 +132,12 @@ leaflet(tf) %>%
                              "Gini Coefficient 2011" , "Gini Coefficient 2016")) %>% 
   #add legends that appear/disappear with toggle
   addLegendCustom(colors = ("#3182bd"),
-    labels = c("< 25th percentile Gini Coefficient",
-               "50th percentile Gini Coefficient", 
-               "75th percentile Gini Coefficient", 
-               "> 75th percentile Gini Coefficient"),
+    labels = c("< 25th percentile",
+               "50th percentile", 
+               "75th percentile", 
+               "> 75th percentile"),
     sizes = c(5, 10, 15, 20),
-    title = "topright") %>%
+    title = "Urban Income Inequality Level") %>%
   #hide layers 2001, 2006, and 2011 for when the map opens. 
   hideGroup("Gini Coefficient 2001") %>% 
               hideGroup("Gini Coefficient 2006") %>% 
@@ -124,4 +146,10 @@ leaflet(tf) %>%
 ```
 
 
+# More information
 
+Thank you for your interest in my work! For more information on the data and calculations of the Gini coefficients, see my [thesis publication](http://digitool.library.mcgill.ca/R/EENC3B6JRGRNQYTFUC1QL1K64F9UY9YDIC1UPKXTDG24PQG39G-07956).
+
+In the following months I will be working to publish the research in an academic journal, which I will also link here. 
+
+~ Megan
