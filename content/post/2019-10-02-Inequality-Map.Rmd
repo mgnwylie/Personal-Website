@@ -8,7 +8,7 @@ tags: ["R Markdown", "plot"]
 
 ```{r setup, include=FALSE}
 
-knitr::opts_chunk$set(echo = F )
+knitr::opts_chunk$set(echo = F, message = F, warning = F)
 # echo = FALSE doesn't show the R code in the post.
 # eval = FALSE to omit results
 
@@ -34,14 +34,14 @@ The below interactive map shows cities in Canada. The size of each citcle repres
 
 Income inequality here is measured by the Gini coefficient, a measure that compares the incomes of everyone who lives in that city to a theoretical perfectly equal city. In this sense, the Gini coefficient measures how far each city is from perfect equality. The closer to 1, the more unequal the city.
 
-Cities in Canada generally range from low 0.3 score to higher 0.4. As a comparison to other countries, Boston had a Gini coefficient measure of .48 in 2015 and Oslo .31.
+Cities in Canada generally range from low 0.3 score to higher 0.5. As a comparison to other countries, Boston had a Gini coefficient measure of .48 in 2015 and Oslo .31.
 
 I calculated the income inequality bins by percentile. For each year of analysis, I binned the cities by lowest 25%, highest 25%, the 50th percentile, and the 75th percentile. 
 
 *You can zoom in and out on the map, and select different layers of data from the top left layer options. When dragging your mouse over a city, the city name and Gini coefficient will appear.* 
 
 
-```{r , echo = F}
+```{r map, echo = F, message = FALSE}
 # Name cities
 # mapview::mapview(point.locations.sf, label = point.locations.sf$CMANAME)
 
@@ -152,4 +152,5 @@ Thank you for your interest in my work! For more information on the data and cal
 
 In the following months I will be working to publish the research in an academic journal, which I will also link here. 
 
-~ Megan
+
+Megan 

@@ -23,14 +23,13 @@ Upon reading through the blogdown book again, I decided to try one of their simp
     </item>
     
     <item>
-      <title>Inequality Map</title>
-      <link>/2020/01/02/inequality-map/</link>
+      <title>Explore income inequality in Canadian cities: an interactive map of 2001- 2016 Gini coefficient data</title>
+      <link>/2020/01/02/explore-income-inequality-in-canadian-cities-an-interactive-map-of-2001-2016-gini-coefficient-data/</link>
       <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/01/02/inequality-map/</guid>
-      <description>Income inequality and health researchI wrote my Master’s thesis on the topic of income inequality and health in Canadian cities. To show inequality throughout Canada, I mapped inequality levels for each Canadian city for three time periods: 2001, 2006, and 2011.
-Here is a reproduction of that map, which now includes 2016.
-Map## Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).</description>
+      <guid>/2020/01/02/explore-income-inequality-in-canadian-cities-an-interactive-map-of-2001-2016-gini-coefficient-data/</guid>
+      <description>Background: income inequality and health researchI completed Master’s research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project I calculated income inequality in about 130 cities for 2001 through 2011. Once the 2016 census data was available, I also calculated updated income inequality.
+Now that data has been repurposed into an interactive leaflet map for your exploration!</description>
     </item>
     
     <item>
