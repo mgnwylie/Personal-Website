@@ -7,7 +7,7 @@ categories: []
 tags: []
 Categories: []
 Description: ''
-Tags: []
+Tags: ["Hugo", "simple-a", "Markdown", "website setup"]
 ---
 
 

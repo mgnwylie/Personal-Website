@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on A Megan website</title>
+    <link>/tags/hugo/</link>
+    <description>Recent content in Hugo on A Megan website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 11 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Simple-a hugo theme - small edits to personalize.</title>
+      <link>/2020/01/11/simple-a-hugo-theme-small-edits-to-personalize/</link>
+      <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/11/simple-a-hugo-theme-small-edits-to-personalize/</guid>
+      <description>Hello again! New year, and I&#39;m already getting into more complicated hugo/blogdown projects.
+Over the holidays I&#39;d been blogging and encountered some (unfixable to me) issues with the first site I generated. After consultation with colleagues and many many hours on SO and various other websites, I decided to start over.
+Upon reading through the blogdown book again, I decided to try one of their simple recommended themes! I went with simple-a because it looked nice and was recommended by the blogdown folks.</description>
+    </item>
+    
+  </channel>
+</rss>
