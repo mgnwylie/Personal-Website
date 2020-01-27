@@ -24,19 +24,19 @@ library(rgdal)
 
 # Background: income inequality and health research
 
-I completed Master's research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project I calculated income inequality in about 130 cities for 2001 through 2011. Once the 2016 census data was available, I also calculated updated income inequality. 
+I completed master's research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project, I calculated income inequality in 130 cities for 2001 through 2011. I was also able to calculate income inequality in 2016 once the census data was released in 2018. 
 
-Now that data has been repurposed into an interactive leaflet map for your exploration! 
+I've now repurposed these data into an interactive leaflet map for your exploration! 
 
 # How to use the map
 
 The below interactive map shows cities in Canada. The size of each citcle represents the level of income inequality. 
 
-Income inequality here is measured by the Gini coefficient, a measure that compares the incomes of everyone who lives in that city to a theoretical perfectly equal city. In this sense, the Gini coefficient measures how far each city is from perfect equality. The closer to 1, the more unequal the city.
+Income inequality here is measured by the Gini coefficient, a measure that compares the incomes of everyone who lives in that city to a theoretical, perfectly equal, city. In this sense, the Gini coefficient measures how far each city is from perfect equality. The closer to 1, the more unequal the city.
 
 Cities in Canada generally range from low 0.3 score to higher 0.5. As a comparison to other countries, Boston had a Gini coefficient measure of .48 in 2015 and Oslo .31.
 
-I calculated the income inequality bins by percentile. For each year of analysis, I binned the cities by lowest 25%, highest 25%, the 50th percentile, and the 75th percentile. 
+I calculated the income inequality bins by percentile. For each year of analysis, I binned the cities by the lowest 25%, highest 25%, the 25-50th percentile, and the 50-75th percentile. 
 
 *You can zoom in and out on the map, and select different layers of data from the top left layer options. When dragging your mouse over a city, the city name and Gini coefficient will appear.* 
 

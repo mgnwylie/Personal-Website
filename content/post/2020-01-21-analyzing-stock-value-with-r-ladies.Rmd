@@ -1,0 +1,320 @@
+---
+title: Analyzing stock value with R Ladies
+author: Megan Wylie
+date: '2020-01-21'
+slug: analyzing-stock-value-with-r-ladies
+categories: []
+tags: ["stock market", "R", "PortfolioAnalytics", "portfolio" ]
+Categories: []
+Description: ''
+Tags: []
+draft: TRUE
+---
+
+This week for R Ladies we did a tutorial on stock market analysis. 
+
+This first R chunk sets up the R-Markdown environment. Within the brackets of the first line, the R code is called *setup*. Include = FALSE (or F) means that when the R-Markdown file is run from R Studio to another file format, i.e. being *knit*, it does not run the code.
+
+This tutorial is longer and more complex than the previous workshop, and I've split it into two blog posts. 
+
+In the first blog post, I review:
+- getting stock data from Yahoo
+- x
+- y
+
+In the second blog post, I show you how to:
+- z
+- a
+- b
+
+This tutorial also requires a few new packages, loaded below. (Notice DPLYR from the last workshop!)
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = F, message = F, warning = F)
+
+library(PortfolioAnalytics)
+library(PerformanceAnalytics)
+library(quantmod)
+library(zoo)
+library(plotly)
+library(tidyquant)
+library(dplyr)
+library(DEoptim)
+library(ROI)
+require(ROI.plugin.glpk)
+require(ROI.plugin.quadprog)
+library(xts)
+
+```
+
+For this tutorial, I am going to explain the code by chunk, which I have separated by <- thing.
+
+```{r , echo = F, message = FALSE}
+# this gets data from the stock exchange.
+getSymbolData <- function(symbolList, start = "2019-06-01", end = "2019-12-31"){
+  getSymbols(
+    symbolList, 
+    auto.assign = TRUE,
+    from = start, 
+    to = end,
+  )
+  # Assign to dataframe
+  # Get adjusted prices
+  p_data <- xts(
+    get(symbolList[1])[, 6]
+  )
+  for (i in 2:length(symbolList)){
+    p_data <- merge.xts(p_data, get(symbolList[i])[, 6])
+  }
+  colnames(p_data) <- symbolList
+  # calculate returns
+  r_data <- na.omit(CalculateReturns(p_data))
+  colnames(r_data) <- symbolList
+  list(returns_data = r_data, price_data = p_data)
+}
+```
+
+
+```{r , echo = F, message = FALSE}
+# Stocks BNS Air Canada, Shopify, goeasy
+my_stocks <- getSymbolData(c("BNS.TO", "AC", "SHOP", "GSY"))
+# save(x = my_stocks, file = "my_stocks.RDS")
+``` 
+
+
+
+
+```{r , echo = F, message = FALSE}
+#Megan - this makes it a data frame that I can look at of return data.  
+return_data <- as.data.frame(my_stocks$returns_data)
+View(return_data)
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# megan - this changes the name to BNS_TO
+names(return_data) <- c("BNS_TO", "AC", "SHOP", "GSY")
+View(return_data)
+
+#megan - I think that it's saving different parts of the data in different data frames. 
+``` 
+
+
+
+
+```{r , echo = F, message = FALSE}
+#return_data$Date <- index(my_stocks$returns_data)
+price_data <- as.data.frame(my_stocks$price_data)
+#View(price_data)
+names(price_data) <- c("BNS_TO", "AC", "SHOP", "GSY")
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# this makes a "value"? XTS data.
+DATE = index(my_stocks$returns_data)
+#"structure"
+#str(my_stocks)
+#View(my_stocks)
+
+my_stocks$returns_data
+``` 
+
+
+
+
+```{r , echo = F, message = FALSE}
+# Look at plot
+plotly::plot_ly(
+  data = price_data,
+  y = ~ BNS_TO,
+  type = "scatter",
+  mode = "lines"
+) %>% layout(
+  title = title,
+  xaxis = list(
+    type = "date"
+  ),
+  yaxis = list(
+    title = "Price"
+  )
+)
+``` 
+
+
+
+
+```{r , echo = F, message = FALSE}
+returns <- my_stocks$returns_data
+price <- my_stocks$price_data
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# Mean returns and covariance matrix
+mean_returns <- colMeans(returns)
+cov_matrix <- cov(returns)
+
+# side note - ?? and ? before search for what a function means.
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# Portfolio specification
+my_folio <- portfolio.spec(assets = colnames(returns))
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# Add constraint 
+my_folio <- add.constraint(
+  portfolio = my_folio, 
+  type = "box", 
+  min = 0.05, #these are risk
+  max = 0.65
+)
+``` 
+
+
+
+
+
+```{r , echo = F, message = FALSE}
+my_folio <- add.constraint(
+  portfolio = my_folio, 
+  type = "leverage", # "full_investment"
+  min_sum = 0.99,  #this is very risky
+  max_sum = 1.01
+) 
+``` 
+
+
+
+
+```{r , echo = F, message = FALSE}
+# Maximize the mean return with ROI
+max_return <- add.objective(
+  portfolio = my_folio, 
+  type = "return", #return
+  name = "mean"
+) 
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# Optimization
+opt_max_return <- optimize.portfolio(
+  R = returns, 
+  portfolio = max_return, 
+  optimize_method = "ROI",
+  trace = TRUE
+)
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# these print the details on how much I should invest.
+print.default(opt_max_return) #this prints a lot more than the other one.. (after)
+print(opt_max_return)
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# Plot optimized maximum mean (i.e. return?)
+plot(
+  opt_max_return, 
+  risk.col = "StdDev", 
+  return.col = "mean",
+  main = "Minimum Variance Optimization", 
+  chart.assets = TRUE,
+  xlim = c(-0.5, 1), 
+  ylim = c(-0.002, 0.004)
+)
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# Minimize variance (risk) with ROI
+min_var <- add.objective(
+  portfolio = my_folio, 
+  type = "risk", #risk
+  name = "var"
+)
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# Optimize. Note that although âvarâ is the risk metric, 
+# âStdDevâ is returned as an objective measure.
+opt_min_var <- optimize.portfolio(
+  R = returns, 
+  portfolio = min_var,
+  optimize_method = "ROI",  
+  trace = TRUE
+)
+``` 
+
+
+
+
+```{r , echo = F, message = FALSE}
+print.default(opt_min_var)
+print(opt_min_var)
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# Plot optimized minimum var (i.e. risk)
+plot(
+  opt_min_var, 
+  risk.col = "StdDev", 
+  return.col = "mean",
+  main = "Minimum Variance Optimization", 
+  chart.assets = TRUE,
+  xlim = c(-0.5, 1), 
+  ylim = c(-0.002, 0.004)
+)
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+meansd_ef <- create.EfficientFrontier(
+  R = returns,
+  portfolio = my_folio,
+  type = "mean-sd",
+  n.portfolios = 10,
+)
+``` 
+
+
+
+```{r , echo = F, message = FALSE}
+# Plot efficient frontier
+chart.EfficientFrontier(
+  meansd_ef,
+  match.col = "StdDev", # which column to use for risk
+  type = "l", 
+  RAR.text = "Sharpe Ratio",
+  tangent.line = FALSE,
+  chart.assets = TRUE,
+  labels.assets = TRUE,
+  xlim = c(-0.5, 1), 
+  ylim = c(-0.002, 0.004),
+  element.color = "blue"
+)
+
+``` 
+

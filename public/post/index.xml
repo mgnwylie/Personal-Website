@@ -6,10 +6,20 @@
     <description>Recent content in Posts on A Megan website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 11 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Analyzing stock value with R Ladies</title>
+      <link>/2020/01/21/analyzing-stock-value-with-r-ladies/</link>
+      <pubDate>Tue, 21 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/21/analyzing-stock-value-with-r-ladies/</guid>
+      <description>This week for R Ladies we did a tutorial on stock market analysis.
+This first R chunk sets up the R-Markdown environment. Within the brackets of the first line, the R code is called setup. Include = FALSE (or F) means that when the R-Markdown file is run from R Studio to another file format, i.e. being knit, it does not run the code.</description>
+    </item>
     
     <item>
       <title>Simple-a hugo theme - small edits to personalize.</title>
@@ -28,8 +38,7 @@ Upon reading through the blogdown book again, I decided to try one of their simp
       <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/2020/01/02/explore-income-inequality-in-canadian-cities-an-interactive-map-of-2001-2016-gini-coefficient-data/</guid>
-      <description>Background: income inequality and health researchI completed Master’s research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project I calculated income inequality in about 130 cities for 2001 through 2011. Once the 2016 census data was available, I also calculated updated income inequality.
-Now that data has been repurposed into an interactive leaflet map for your exploration!</description>
+      <description>Background: income inequality and health researchI completed master’s research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project, I calculated income inequality in 130 cities for 2001 through 2011. I was also able to calculate income inequality in 2016 once the census data was released in 2018.</description>
     </item>
     
     <item>
