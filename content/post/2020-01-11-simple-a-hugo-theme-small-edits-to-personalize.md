@@ -52,3 +52,5 @@ The file to change the copyright and year information is the footer.html. To be 
 
 I'll continue to add more notes as I go along. :) 
 
+<3 Megan
+

@@ -1,5 +1,5 @@
 ---
-title: Analyzing stock value with R Ladies
+title: Analyzing stock value with R Ladies, Part 1
 author: Megan Wylie
 date: '2020-01-21'
 slug: analyzing-stock-value-with-r-ladies
@@ -75,6 +75,7 @@ getSymbolData <- function(symbolList, start = "2019-06-01", end = "2019-12-31"){
 }
 ```
 
+We chose to get data from BNS, Air Canada, Shopify, and GoEasy. These were arbitrary choices, and you can find the companies stock code by just googling *stock [company name]*
 
 ```{r , echo = F, message = FALSE}
 # Stocks BNS Air Canada, Shopify, goeasy
@@ -145,7 +146,8 @@ plotly::plot_ly(
 ``` 
 
 
-
+# NEW POST - Post #2 
+- looking at the portfolio.
 
 ```{r , echo = F, message = FALSE}
 returns <- my_stocks$returns_data
@@ -195,7 +197,7 @@ my_folio <- add.constraint(
 ``` 
 
 
-
+# post 3 - maximizing return! 
 
 ```{r , echo = F, message = FALSE}
 # Maximize the mean return with ROI
@@ -288,7 +290,7 @@ plot(
 )
 ``` 
 
-
+# post 4 - efficient frontier! 
 
 ```{r , echo = F, message = FALSE}
 meansd_ef <- create.EfficientFrontier(

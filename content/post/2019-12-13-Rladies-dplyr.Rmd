@@ -210,3 +210,5 @@ Here are some of the resources I used throughout the blog to help with small rem
 - [DPLYR Cheat Sheet](https://nyu-cdsc.github.io/learningr/assets/data-transformation.pdf)
 - [Markdown Cheat Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#tables)
 
+<3 Megan
+
