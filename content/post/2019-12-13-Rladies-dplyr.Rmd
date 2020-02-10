@@ -18,6 +18,7 @@ I didn't know what commands were associated with it or why they were grouped.
 _Data manipulation_ is the answer.
 
 Here I share the tutorial prepared by R Ladies. In this meet-up, we learned:
+
 - Sub-set data using *select*
 - Remove observations using *filter*
 - Group data with *group_by*

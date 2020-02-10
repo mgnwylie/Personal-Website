@@ -1,9 +1,13 @@
 ---
-title: "Explore income inequality in Canadian cities: an interactive map of 2001- 2016 Gini coefficient data"
+title: 'Explore income inequality in Canadian cities: an interactive map of 2001-
+  2016 Gini coefficient data'
 author: "Megan Wylie"
 date: '2020-01-02'
-categories: ["R"]
-tags: ["R Markdown", "plot"]
+output: pdf_document
+tags:
+- R Markdown
+- plot
+categories: R
 ---
 
 ```{r setup, include=FALSE}

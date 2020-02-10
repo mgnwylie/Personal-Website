@@ -1,5 +1,5 @@
 ---
-title: Analyzing stock value with R Ladies, Part 1
+title: Analyzing stocks and portfolios with R Ladies
 author: Megan Wylie
 date: '2020-01-21'
 slug: analyzing-stock-value-with-r-ladies
@@ -8,26 +8,40 @@ tags: ["stock market", "R", "PortfolioAnalytics", "portfolio" ]
 Categories: []
 Description: ''
 Tags: []
-draft: TRUE
 ---
 
-This week for R Ladies we did a tutorial on stock market analysis. 
+This week for R Ladies we did a tutorial on stock market analysis. Led by Scott Clone, the group downloaded data on stock market prices from the internet, reformatted the data, and created a portfolio of the stocks based on risk preferences. 
 
-This first R chunk sets up the R-Markdown environment. Within the brackets of the first line, the R code is called *setup*. Include = FALSE (or F) means that when the R-Markdown file is run from R Studio to another file format, i.e. being *knit*, it does not run the code.
+All code here was written by Scott Clone, and I just outline my own learnings from the tutorial. 
 
-This tutorial is longer and more complex than the previous workshop, and I've split it into two blog posts. 
+# Documents
 
-In the first blog post, I review:
-- getting stock data from Yahoo
-- x
-- y
+As usual, all of the documents can be found on the [RLadies GitHub page](https://github.com/rladies/meetup-presentations_montreal). The documents for this particular tutorial are on [Scott Clone's GitHub](https://github.com/Scott-Clone/portfolio-modelling/tree/993f826eee0fec086201875b14ed0ac4d53c02e8).
 
-In the second blog post, I show you how to:
-- z
-- a
-- b
+In this meetup we learned:
 
-This tutorial also requires a few new packages, loaded below. (Notice DPLYR from the last workshop!)
+- Extracting stock price and returns data from the internet
+- Grouping data into stock portfolios
+- Estimating risk of portfolios using economic risk methods
+
+
+# Tutorial: Portfolio Modelling
+
+## Side note: Setting up R chunks in R Markdown (RMD)
+
+An important part of R Markdown is setting up the R chunks. These R-chunk settings decide if the R code is run and displayed on my blog (where you're probably reading this!) or if the output is the only visible feature. This is really cool because it means that I can have code that is:
+
+(1) not displayed, or 
+(2) not run, or 
+(3) the complete opposite (or some inbetween). 
+
+There are a few settings that allow me to do this (and a lot more to explore). 
+
+_include = FALSE_ means that the code doesn't run when I generate the blog post, therefore not displaying unneccessary errors or notes about loading a package. It also means that the output is not displayed.   
+
+_echo = FALSE_ means that the code will not be shown in the post. I set it to TRUE.
+
+_message = FALSE_ means that errors and messages regarding the code will not be shown.
 
 ```{r setup, include=FALSE}
 
@@ -48,10 +62,12 @@ library(xts)
 
 ```
 
-For this tutorial, I am going to explain the code by chunk, which I have separated by <- thing.
+## Getting stock price and returns data
 
-```{r , echo = F, message = FALSE}
-# this gets data from the stock exchange.
+The below code sets up a function to extract stock data from the internet. The dataframe getSymbolData sets the date parameters: from 2019-06-01 until 2019-12-31 and sets up column names and values: r_data, price_data, and returns_data. 
+
+```{r  echo=T, results='hide'}
+# set parameters for the stock dates, as start and end.
 getSymbolData <- function(symbolList, start = "2019-06-01", end = "2019-12-31"){
   getSymbols(
     symbolList, 
@@ -59,75 +75,51 @@ getSymbolData <- function(symbolList, start = "2019-06-01", end = "2019-12-31"){
     from = start, 
     to = end,
   )
-  # Assign to dataframe
-  # Get adjusted prices
-  p_data <- xts(
+    p_data <- xts(
     get(symbolList[1])[, 6]
   )
   for (i in 2:length(symbolList)){
     p_data <- merge.xts(p_data, get(symbolList[i])[, 6])
   }
   colnames(p_data) <- symbolList
-  # calculate returns
+  # calculate returns for price and returns data, rename columns
   r_data <- na.omit(CalculateReturns(p_data))
   colnames(r_data) <- symbolList
   list(returns_data = r_data, price_data = p_data)
 }
 ```
 
-We chose to get data from BNS, Air Canada, Shopify, and GoEasy. These were arbitrary choices, and you can find the companies stock code by just googling *stock [company name]*
+We chose to use data from the Bank of Nova Scotia (BNS), Air Canada, Shopify, and GoEasy. These were arbitrary choices, and you can find the companies stock code by just googling *stock [company name]*
 
-```{r , echo = F, message = FALSE}
-# Stocks BNS Air Canada, Shopify, goeasy
+This outputs a data frame with stock data for returns and prices from our chosen companies.
+
+We group them into the _my_stocks_ data frame to be used later on in this tutorial. 
+
+```{r , echo=T, results='hide'}
+# Stocks for BNS, Air Canada, Shopify, goeasy
 my_stocks <- getSymbolData(c("BNS.TO", "AC", "SHOP", "GSY"))
-# save(x = my_stocks, file = "my_stocks.RDS")
 ``` 
 
+Here we separated the return data and the price data into two separate data frames and renamed the column headers.
 
-
-
-```{r , echo = F, message = FALSE}
-#Megan - this makes it a data frame that I can look at of return data.  
+```{r , echo=T, results='hide'}
+#This makes it a data frame of return data.  
 return_data <- as.data.frame(my_stocks$returns_data)
-View(return_data)
-``` 
 
-
-
-```{r , echo = F, message = FALSE}
-# megan - this changes the name to BNS_TO
+#This changes the name to BNS_TO from BNS.TO
 names(return_data) <- c("BNS_TO", "AC", "SHOP", "GSY")
-View(return_data)
 
-#megan - I think that it's saving different parts of the data in different data frames. 
-``` 
-
-
-
-
-```{r , echo = F, message = FALSE}
+#Do the same for price data
 #return_data$Date <- index(my_stocks$returns_data)
 price_data <- as.data.frame(my_stocks$price_data)
-#View(price_data)
 names(price_data) <- c("BNS_TO", "AC", "SHOP", "GSY")
 ``` 
 
+We can then plot the data!
 
+The below plot uses the package [Plotly](https://plot.ly/), for interactive plots, to display price data for BNS.
 
-```{r , echo = F, message = FALSE}
-# this makes a "value"? XTS data.
-DATE = index(my_stocks$returns_data)
-#"structure"
-#str(my_stocks)
-#View(my_stocks)
-
-my_stocks$returns_data
-``` 
-
-
-
-
-```{r , echo = F, message = FALSE}
+```{r , echo=T, results='hold'}
 # Look at plot
 plotly::plot_ly(
   data = price_data,
@@ -145,35 +137,40 @@ plotly::plot_ly(
 )
 ``` 
 
+# Looking at the portfolio
 
-# NEW POST - Post #2 
-- looking at the portfolio.
+We will now test the risk and returns of a portfolio containing the stocks for BNS, Shopify, GoEasy, and Air Canada.
 
-```{r , echo = F, message = FALSE}
+Below, we take the original data frame, my_stocks, and separate out returns and price data. This differs from the earlier separation of price and returns data as we do not save it as a data frame using _as.data.frame_ but instead as xml documents. This type of document can then be processes by some of the portfolio analtyics packages.
+
+To test returns, we get the average returns and variance of returns. Scott explained that variance of data for stock market analysts is _risk_.
+
+```{r , echo=T, results='hide'}
+# Separate returns data, in xts format.
 returns <- my_stocks$returns_data
+
+# Separate price data, in xts format.
 price <- my_stocks$price_data
-``` 
 
-
-
-```{r , echo = F, message = FALSE}
-# Mean returns and covariance matrix
+# Calculate the average returns and risk (covariance matrix)
 mean_returns <- colMeans(returns)
 cov_matrix <- cov(returns)
-
-# side note - ?? and ? before search for what a function means.
 ``` 
 
+# Deciding on your risk and return preference in the stock portfolio.
 
+The below code then combines all of the returns data into the data frame _my_folio_, or the portfolio. 
 
-```{r , echo = F, message = FALSE}
-# Portfolio specification
+```{r , echo=T, results='hide'}
+# Create the portfolio
 my_folio <- portfolio.spec(assets = colnames(returns))
 ``` 
 
+As described by Scott, we can then set our risk levels with the min and max options. He did not specify what the values in the risk min and max mean, but they vary from 0 to 1. 
 
+Below is a medium risk portfolio, with min set as 0.05 and max set as 0.65.
 
-```{r , echo = F, message = FALSE}
+```{r , echo=T, results='hide'}
 # Add constraint 
 my_folio <- add.constraint(
   portfolio = my_folio, 
@@ -183,34 +180,32 @@ my_folio <- add.constraint(
 )
 ``` 
 
+Or we could set a very risky portfolio! Below the very risky portfolio is set with min as 0.99 and max as 1.01. 
 
-
-
-
-```{r , echo = F, message = FALSE}
+```{r , echo=T, results='hide'}
 my_folio <- add.constraint(
   portfolio = my_folio, 
-  type = "leverage", # "full_investment"
+  # The type means the type of investment
+  type = "leverage", 
   min_sum = 0.99,  #this is very risky
   max_sum = 1.01
 ) 
 ``` 
 
+# Maximize returns: How much of each stock to put in the portfolio 
 
-# post 3 - maximizing return! 
+We can then run the _optomize.portfolio_ function to optomize returns based on our risk parameters. 
 
-```{r , echo = F, message = FALSE}
-# Maximize the mean return with ROI
+The function here will analyze the returns data for the stocks we selected and suggest how much of each stock we should put in our portfolio.
+
+```{r , echo=T, results='hide'}
+# Maximize the average returns with return on investment (ROI)
 max_return <- add.objective(
   portfolio = my_folio, 
-  type = "return", #return
+  type = "return",
   name = "mean"
 ) 
-``` 
 
-
-
-```{r , echo = F, message = FALSE}
 # Optimization
 opt_max_return <- optimize.portfolio(
   R = returns, 
@@ -220,17 +215,17 @@ opt_max_return <- optimize.portfolio(
 )
 ``` 
 
+One can then use the below _print_ commands to print out results from the optomize portfolio function. The results are quite long, so I don't include them.
 
-
-```{r , echo = F, message = FALSE}
+```{r , echo=T, results='hide'}
 # these print the details on how much I should invest.
-print.default(opt_max_return) #this prints a lot more than the other one.. (after)
-print(opt_max_return)
+#print.default(opt_max_return) #this prints a lot more than the other one.. (after)
+#print(opt_max_return)
 ``` 
 
+Below is a plot that visually displays how much of each stock should be in the portfolio to maximize returns.
 
-
-```{r , echo = F, message = FALSE}
+```{r , echo=T, results='hold'}
 # Plot optimized maximum mean (i.e. return?)
 plot(
   opt_max_return, 
@@ -243,7 +238,7 @@ plot(
 )
 ``` 
 
-
+The below code does a similar function to maxamize returns, but instead minimizes risk. 
 
 ```{r , echo = F, message = FALSE}
 # Minimize variance (risk) with ROI
@@ -252,32 +247,21 @@ min_var <- add.objective(
   type = "risk", #risk
   name = "var"
 )
-``` 
 
-
-
-```{r , echo = F, message = FALSE}
-# Optimize. Note that although âvarâ is the risk metric, 
-# âStdDevâ is returned as an objective measure.
 opt_min_var <- optimize.portfolio(
   R = returns, 
   portfolio = min_var,
   optimize_method = "ROI",  
-  trace = TRUE
-)
+  trace = TRUE)
+
+# I commented out the print function again to limit the lengthy results.
+#print.default(opt_min_var)
+#print(opt_min_var)
 ``` 
 
 
 
-
-```{r , echo = F, message = FALSE}
-print.default(opt_min_var)
-print(opt_min_var)
-``` 
-
-
-
-```{r , echo = F, message = FALSE}
+```{r , echo=T, results='hold'}
 # Plot optimized minimum var (i.e. risk)
 plot(
   opt_min_var, 
@@ -290,7 +274,11 @@ plot(
 )
 ``` 
 
-# post 4 - efficient frontier! 
+# The efficient frontier 
+
+In the end, we plotted our portfolio against the efficient frontier! From a [quick google](https://www.investopedia.com/terms/e/efficientfrontier.asp) and what I remember of the tutorial, the efficient frontier helps position the portfolio in its risk and returns level.
+
+Apparently, optimal portfolios should lie on the curve displayed in the image below. 
 
 ```{r , echo = F, message = FALSE}
 meansd_ef <- create.EfficientFrontier(
@@ -301,10 +289,10 @@ meansd_ef <- create.EfficientFrontier(
 )
 ``` 
 
+Wow, this was a throw back to my business school days! 
 
-
-```{r , echo = F, message = FALSE}
-# Plot efficient frontier
+```{r , echo=T, results='hold'}
+# Plot efficient frontier!
 chart.EfficientFrontier(
   meansd_ef,
   match.col = "StdDev", # which column to use for risk
@@ -319,4 +307,8 @@ chart.EfficientFrontier(
 )
 
 ``` 
+
+This was quite a dive into R analysis of stocks and portfolios! Thank you again Scott for putting together the tutorial and pushing my knowledge of R into a new domain.
+
+<3 Megan
 
