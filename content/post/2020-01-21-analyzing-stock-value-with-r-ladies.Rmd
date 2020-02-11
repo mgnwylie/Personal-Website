@@ -8,6 +8,7 @@ tags: ["stock market", "R", "PortfolioAnalytics", "portfolio" ]
 Categories: []
 Description: ''
 Tags: ["R", "Porfolio Analysis", "Stocks", "Efficient Frontier"]
+draft: TRUE
 ---
 
 This week for R Ladies we did a tutorial on stock market analysis. Led by Scott Clone, the group downloaded data on stock market prices from the internet, reformatted the data, and created a portfolio of the stocks based on risk preferences. 
