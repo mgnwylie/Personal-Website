@@ -11,7 +11,7 @@ Tags: ["R", "Porfolio Analysis", "Stocks", "Efficient Frontier"]
 draft: TRUE
 ---
 
-This week for R Ladies we did a tutorial on stock market analysis. Led by Scott Clone, the group downloaded data on stock market prices from the internet, reformatted the data, and created a portfolio of the stocks based on risk preferences. 
+This week for R Ladies we did stock market analysis! Led by Scott Clone, the group downloaded data on stock market prices from the internet, reformatted the data, and created portfolios of the stocks based on risk preferences. We were risky investors! 
 
 All code here was written by Scott Clone, and I just outline my own learnings from the tutorial. 
 
@@ -21,7 +21,7 @@ As usual, all of the documents can be found on the [RLadies GitHub page](https:/
 
 In this meetup we learned:
 
-- Extracting stock price and returns data from the internet
+- Extracting stock price data from the internet
 - Grouping data into stock portfolios
 - Estimating risk of portfolios using economic risk methods
 
@@ -120,15 +120,25 @@ We can then plot the data!
 
 The below plot uses the package [Plotly](https://plot.ly/), for interactive plots, to display price data for BNS.
 
+I added some additional formatting to the figure.
+
 ```{r , echo=T, results='hold'}
+# add column name to first column
+price_data <- setNames(cbind(rownames(price_data), 
+                             price_data, row.names = NULL), 
+         c("Date", "BNS_TO", "AC", "SHOP", "GSY"))
+
 # Look at plot
 plotly::plot_ly(
   data = price_data,
   y = ~ BNS_TO,
+  x = ~ Date,
   type = "scatter",
-  mode = "lines"
+  mode = "lines",
+  tickangle = 45 #attempting to format the x-axis.
 ) %>% layout(
-  title = title,
+  title = "BNS Stock Price",
+  margin = list(b = 160), #changes x-axis labels
   xaxis = list(
     type = "date"
   ),
@@ -232,7 +242,7 @@ plot(
   opt_max_return, 
   risk.col = "StdDev", 
   return.col = "mean",
-  main = "Minimum Variance Optimization", 
+  main = "Low Risk Optimization", 
   chart.assets = TRUE,
   xlim = c(-0.5, 1), 
   ylim = c(-0.002, 0.004)
