@@ -17,7 +17,7 @@
       <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/2020/01/02/explore-income-inequality-in-canadian-cities-an-interactive-map-of-2001-2016-gini-coefficient-data/</guid>
-      <description>Background: income inequality and health researchI completed master’s research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project, I calculated income inequality in 130 cities for 2001 through 2011. I was also able to calculate income inequality in 2016 once the census data was released in 2018.</description>
+      <description>Background: income inequality and health research I completed master’s research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project, I calculated income inequality in 130 cities for 2001 through 2011. I was also able to calculate income inequality in 2016 once the census data was released in 2018.</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       
       <guid>/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</guid>
       <description>Last month, on a break during my workday, I decided to google some communities where I could practice and learn to code in R. It had been on my mind for a while, as I’ve had many side project ideas and occasionally get stuck from small errors !
-~R Ladies~I came across R Ladies - a community of women (and other folks) in Montreal that meet once a month to learn something new in R!</description>
+~R Ladies~ I came across R Ladies - a community of women (and other folks) in Montreal that meet once a month to learn something new in R!</description>
     </item>
     
     <item>
@@ -36,9 +36,9 @@
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
       <guid>/2015/07/23/hello-r-markdown/</guid>
-      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
-summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
     </item>
     
   </channel>

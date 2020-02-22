@@ -6,10 +6,28 @@
     <description>Recent content in Posts on A Megan website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Convicted landlords of Montreal: exploring new open housing data</title>
+      <link>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</link>
+      <pubDate>Fri, 14 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Convicted landlords of Montreal: exploring new open housing data</title>
+      <link>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</link>
+      <pubDate>Fri, 14 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Analyzing stocks and portfolios with R Ladies</title>
@@ -18,8 +36,8 @@
       
       <guid>/2020/01/21/analyzing-stock-value-with-r-ladies/</guid>
       <description>This week for R Ladies we did stock market analysis! Led by Scott Clone, the group downloaded data on stock market prices from the internet, reformatted the data, and created portfolios of the stocks based on risk preferences. We were risky investors!
-All code here was written by Scott Clone, and I just outline my own learnings from the tutorial.
-DocumentsAs usual, all of the documents can be found on the RLadies GitHub page.</description>
+All code here was written by Scott Clone, and I outline in my notes what I learned from the tutorial.
+Documents As usual, all of the documents can be found on the RLadies GitHub page.</description>
     </item>
     
     <item>
@@ -28,8 +46,8 @@ DocumentsAs usual, all of the documents can be found on the RLadies GitHub page
       <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/2020/01/11/simple-a-hugo-theme-small-edits-to-personalize/</guid>
-      <description>Hello again! New year, and I&#39;m already getting into more complicated hugo/blogdown projects.
-Over the holidays I&#39;d been blogging and encountered some (unfixable to me) issues with the first site I generated. After consultation with colleagues and many many hours on SO and various other websites, I decided to start over.
+      <description>Hello again! New year, and I&amp;rsquo;m already getting into more complicated hugo/blogdown projects.
+Over the holidays I&amp;rsquo;d been blogging and encountered some (unfixable to me) issues with the first site I generated. After consultation with colleagues and many many hours on SO and various other websites, I decided to start over.
 Upon reading through the blogdown book again, I decided to try one of their simple recommended themes! I went with simple-a because it looked nice and was recommended by the blogdown folks.</description>
     </item>
     
@@ -39,7 +57,7 @@ Upon reading through the blogdown book again, I decided to try one of their simp
       <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/2020/01/02/explore-income-inequality-in-canadian-cities-an-interactive-map-of-2001-2016-gini-coefficient-data/</guid>
-      <description>Background: income inequality and health researchI completed master’s research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project, I calculated income inequality in 130 cities for 2001 through 2011. I was also able to calculate income inequality in 2016 once the census data was released in 2018.</description>
+      <description>Background: income inequality and health research I completed master’s research in April of 2019 on the topic of income inequality and its impacts on health in Canadian cities. As part of this project, I calculated income inequality in 130 cities for 2001 through 2011. I was also able to calculate income inequality in 2016 once the census data was released in 2018.</description>
     </item>
     
     <item>
@@ -49,7 +67,7 @@ Upon reading through the blogdown book again, I decided to try one of their simp
       
       <guid>/2019/10/02/a-very-intro-introduction-to-dplyr-from-rladies-mtl/</guid>
       <description>Last month, on a break during my workday, I decided to google some communities where I could practice and learn to code in R. It had been on my mind for a while, as I’ve had many side project ideas and occasionally get stuck from small errors !
-~R Ladies~I came across R Ladies - a community of women (and other folks) in Montreal that meet once a month to learn something new in R!</description>
+~R Ladies~ I came across R Ladies - a community of women (and other folks) in Montreal that meet once a month to learn something new in R!</description>
     </item>
     
     <item>
@@ -58,7 +76,7 @@ Upon reading through the blogdown book again, I decided to try one of their simp
       <pubDate>Sat, 07 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/09/07/new-website/</guid>
-      <description>I created a new website using Hugo! This will be a slow process to figure out, but I&#39;m hoping to make it my long-term, sustained website where I can blog about learning code and share figures and stories related to my research.
+      <description>I created a new website using Hugo! This will be a slow process to figure out, but I&amp;rsquo;m hoping to make it my long-term, sustained website where I can blog about learning code and share figures and stories related to my research.
 See ya soon, Megan</description>
     </item>
     
@@ -69,7 +87,7 @@ See ya soon, Megan</description>
       
       <guid>/2016/12/30/a-plain-markdown-post/</guid>
       <description>This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
- You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday&#39;s Markdown and Pandoc&#39;s Markdown.</description>
+ You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday&amp;rsquo;s Markdown and Pandoc&amp;rsquo;s Markdown.</description>
     </item>
     
     <item>
@@ -78,9 +96,9 @@ See ya soon, Megan</description>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
       <guid>/2015/07/23/hello-r-markdown/</guid>
-      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
-summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
     </item>
     
   </channel>

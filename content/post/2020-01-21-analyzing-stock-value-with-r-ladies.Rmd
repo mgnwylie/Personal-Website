@@ -8,37 +8,35 @@ tags: ["stock market", "R", "PortfolioAnalytics", "portfolio" ]
 Categories: []
 Description: ''
 Tags: ["R", "Porfolio Analysis", "Stocks", "Efficient Frontier"]
-draft: TRUE
+draft: FALSE
 ---
 
 This week for R Ladies we did stock market analysis! Led by Scott Clone, the group downloaded data on stock market prices from the internet, reformatted the data, and created portfolios of the stocks based on risk preferences. We were risky investors! 
 
-All code here was written by Scott Clone, and I just outline my own learnings from the tutorial. 
+All code here was written by Scott Clone, and I outline in my notes what I learned from the tutorial. 
 
-# Documents
+### Documents
 
 As usual, all of the documents can be found on the [RLadies GitHub page](https://github.com/rladies/meetup-presentations_montreal). The documents for this particular tutorial are on [Scott Clone's GitHub](https://github.com/Scott-Clone/portfolio-modelling/tree/993f826eee0fec086201875b14ed0ac4d53c02e8).
 
-In this meetup we learned:
+In this meetup we learned how to:
 
-- Extracting stock price data from the internet
-- Grouping data into stock portfolios
-- Estimating risk of portfolios using economic risk methods
+- Extract stock price data from the internet,
+- Group data into stock portfolios based on risk preferences,
+- Estimate risk of portfolios, and 
+- Visualize the portfolios in figures based on returns and weights in our portfolios
 
-
-# Tutorial: Portfolio Modelling
-
-## Side note: Setting up R chunks in R Markdown (RMD)
+### Side note: Setting up R chunks in R Markdown (Rmd)
 
 An important part of R Markdown is setting up the R chunks. These R-chunk settings decide if the R code is run and displayed on my blog (where you're probably reading this!) or if the output is the only visible feature. This is really cool because it means that I can have code that is:
 
 (1) not displayed, or 
 (2) not run, or 
-(3) the complete opposite (or some inbetween). 
+(3) the complete opposite (or some in between). 
 
 There are a few settings that allow me to do this (and a lot more to explore). 
 
-_include = FALSE_ means that the code doesn't run when I generate the blog post, therefore not displaying unneccessary errors or notes about loading a package. It also means that the output is not displayed.   
+_include = FALSE_ means that the code doesn't run when I generate the blog post, therefore not displaying unnecessary errors or notes about loading a package. It also means that the output is not displayed.   
 
 _echo = FALSE_ means that the code will not be shown in the post. I set it to TRUE.
 
@@ -63,9 +61,13 @@ library(xts)
 
 ```
 
-## Getting stock price and returns data
+# Tutorial: Portfolio Modelling
 
-The below code sets up a function to extract stock data from the internet. The dataframe getSymbolData sets the date parameters: from 2019-06-01 until 2019-12-31 and sets up column names and values: r_data, price_data, and returns_data. 
+## Downloading stock price and returns data
+
+The below code is a function to download stock data.
+
+_getSymbolData_ is a function with date extraction parameters. In the below example, we set the parameter to extract data from 2019-06-01 until 2019-12-31 and sets column names and values to be r_data, price_data, and returns_data. 
 
 ```{r  echo=T, results='hide'}
 # set parameters for the stock dates, as start and end.
@@ -90,18 +92,20 @@ getSymbolData <- function(symbolList, start = "2019-06-01", end = "2019-12-31"){
 }
 ```
 
-We chose to use data from the Bank of Nova Scotia (BNS), Air Canada, Shopify, and GoEasy. These were arbitrary choices, and you can find the companies stock code by just googling *stock [company name]*
+We chose to use data from the Bank of Nova Scotia (BNS), Air Canada, Shopify, and GoEasy. These were arbitrary choices, and you can find the companies stock code by just googling "*stock [company name].*"
 
-This outputs a data frame with stock data for returns and prices from our chosen companies.
+This outputs a data frame with stock data for returns and prices from our chosen companies in our chosen time frame.
 
-We group them into the _my_stocks_ data frame to be used later on in this tutorial. 
+We group them into the _my_stocks_. This will be used later on in this tutorial to create portfolios. BUT FIRST! Data cleaning...  
 
 ```{r , echo=T, results='hide'}
 # Stocks for BNS, Air Canada, Shopify, goeasy
 my_stocks <- getSymbolData(c("BNS.TO", "AC", "SHOP", "GSY"))
 ``` 
 
-Here we separated the return data and the price data into two separate data frames and renamed the column headers.
+## Data cleaning
+
+Below we separated the return data and the price data into two separate data frames and renamed the column headers.
 
 ```{r , echo=T, results='hide'}
 #This makes it a data frame of return data.  
@@ -116,11 +120,7 @@ price_data <- as.data.frame(my_stocks$price_data)
 names(price_data) <- c("BNS_TO", "AC", "SHOP", "GSY")
 ``` 
 
-We can then plot the data!
-
-The below plot uses the package [Plotly](https://plot.ly/), for interactive plots, to display price data for BNS.
-
-I added some additional formatting to the figure.
+To see what the stock returns were like over time, we then plot the data for our chosen time periods. The below plot uses the package [Plotly](https://plot.ly/), for interactive plots, to display price data for BNS. Ideally, we would do this for each stock.
 
 ```{r , echo=T, results='hold'}
 # add column name to first column
@@ -148,13 +148,13 @@ plotly::plot_ly(
 )
 ``` 
 
-# Looking at the portfolio
+# Creating a portfolio: to be risky, or to be safe?
 
-We will now test the risk and returns of a portfolio containing the stocks for BNS, Shopify, GoEasy, and Air Canada.
+We will now test the risk and returns of a portfolio containing the stocks for BNS, Shopify, GoEasy, and Air Canada. Portfolios are groups of stocks someone choose to invest in. By investing in multiple stocks, someone can mitigate the risk of loosing money, as their risk is distributed over more companies. I.e., not putting _all your eggs in one risky basket_. [Investopedia](https://www.investopedia.com/terms/p/portfolio.asp) has more information if you're interested.
 
-Below, we take the original data frame, my_stocks, and separate out returns and price data. This differs from the earlier separation of price and returns data as we do not save it as a data frame using _as.data.frame_ but instead as xml documents. This type of document can then be processes by some of the portfolio analtyics packages.
+Below, we take the original data frame, _my_stocks_, and separate out returns and price data. This differs from the earlier separation of price and returns data as we do not save it as a data frame using _as.data.frame_ but instead as a xml document. This type of document can then be processes by the portfolio analytic package.
 
-To test returns, we get the average returns and variance of returns. Scott explained that variance of data for stock market analysts is _risk_.
+To test returns, we take the average returns and variance/standard deviation of returns. Scott explained that variance/standard deviation of data for stock market analysts is what investors call _risk_.
 
 ```{r , echo=T, results='hide'}
 # Separate returns data, in xts format.
@@ -168,9 +168,9 @@ mean_returns <- colMeans(returns)
 cov_matrix <- cov(returns)
 ``` 
 
-# Deciding on your risk and return preference in the stock portfolio.
+# Deciding on your risk and return preference in your portfolio.
 
-The below code then combines all of the returns data into the data frame _my_folio_, or the portfolio. 
+The below code then combines all of the returns data from each company into the data frame _my_folio_, or the portfolio. Assets are the stocks you own. 
 
 ```{r , echo=T, results='hide'}
 # Create the portfolio
@@ -191,7 +191,9 @@ my_folio <- add.constraint(
 )
 ``` 
 
-Or we could set a very risky portfolio! Below the very risky portfolio is set with min as 0.99 and max as 1.01. 
+Or we could set a very risky portfolio! Below the very risky portfolio is set with min as 0.99 and max as 1.01. Vegas here I come!  
+
+These functions are determining how much of each stock a person should buy from the set list of companies to get returns at their preferred risk level. 
 
 ```{r , echo=T, results='hide'}
 my_folio <- add.constraint(
@@ -205,9 +207,7 @@ my_folio <- add.constraint(
 
 # Maximize returns: How much of each stock to put in the portfolio 
 
-We can then run the _optomize.portfolio_ function to optomize returns based on our risk parameters. 
-
-The function here will analyze the returns data for the stocks we selected and suggest how much of each stock we should put in our portfolio.
+We can then run the _optimize.portfolio_ function to optimize returns based on our risk parameters. The function here analyzes the returns data for the stocks we selected and suggest how much of each stock we should put in our portfolio.
 
 ```{r , echo=T, results='hide'}
 # Maximize the average returns with return on investment (ROI)
@@ -226,7 +226,7 @@ opt_max_return <- optimize.portfolio(
 )
 ``` 
 
-One can then use the below _print_ commands to print out results from the optomize portfolio function. The results are quite long, so I don't include them.
+One can then use the below _print_ commands to print out results from the optimize portfolio function. The results are quite long, so I don't include them in this post.
 
 ```{r , echo=T, results='hide'}
 # these print the details on how much I should invest.
@@ -234,7 +234,9 @@ One can then use the below _print_ commands to print out results from the optomi
 #print(opt_max_return)
 ``` 
 
-Below is a plot that visually displays how much of each stock should be in the portfolio to maximize returns.
+Below is a plot that visually displays how much of each stock should be in the portfolio to maximize returns. It needs some visual work, but in essence, the x-axis shows the standard deviation, or risk, of the portfolio. The y-axis shows the average returns for the top chart and the weight of each stock in the portfolio for the bottom chart. 
+
+This figure shows that, at high risk or when searching for max returns, we should mostly buy Shopify stocks. It makes sense that a start-up, Shopify, would be riskier than Air Canada or the Bank of Nova Scotia. 
 
 ```{r , echo=T, results='hold'}
 # Plot optimized maximum mean (i.e. return?)
@@ -242,14 +244,15 @@ plot(
   opt_max_return, 
   risk.col = "StdDev", 
   return.col = "mean",
-  main = "Low Risk Optimization", 
-  chart.assets = TRUE,
+  main = "High Risk Optimization", 
+  chart.assets = TRUE, #this adds the individual stocks to the figure
   xlim = c(-0.5, 1), 
   ylim = c(-0.002, 0.004)
-)
+  #title(xlab = "Risk", ylab = "Average Returns")
+  )
 ``` 
 
-The below code does a similar function to maxamize returns, but instead minimizes risk. 
+The below code does a similar function to maximize returns, but instead minimizes risk. 
 
 ```{r , echo = F, message = FALSE}
 # Minimize variance (risk) with ROI
@@ -278,16 +281,16 @@ plot(
   opt_min_var, 
   risk.col = "StdDev", 
   return.col = "mean",
-  main = "Minimum Variance Optimization", 
+  main = "Medium-Low Risk Optimization", 
   chart.assets = TRUE,
   xlim = c(-0.5, 1), 
   ylim = c(-0.002, 0.004)
 )
 ``` 
 
-# The efficient frontier 
+# The Efficient Frontier 
 
-In the end, we plotted our portfolio against the efficient frontier! From a [quick google](https://www.investopedia.com/terms/e/efficientfrontier.asp) and what I remember of the tutorial, the efficient frontier helps position the portfolio in its risk and returns level.
+In the end, we plotted our portfolio against the efficient frontier! From a [quick google](https://www.investopedia.com/terms/e/efficientfrontier.asp) and what I remember of the tutorial, the Efficient Frontier helps position the portfolio in its risk and returns level.
 
 Apparently, optimal portfolios should lie on the curve displayed in the image below. 
 
@@ -319,7 +322,8 @@ chart.EfficientFrontier(
 
 ``` 
 
-This was quite a dive into R analysis of stocks and portfolios! Thank you again Scott for putting together the tutorial and pushing my knowledge of R into a new domain.
+This was quite a dive into R analysis of stocks and portfolios! Thank you again Scott for putting together the tutorial and pushing my knowledge of R into a new domain. Apologies for the horrendous figures. All of my R experience is with ggplot and not base R plotting. An area to improve for next time!
 
-<3 Megan
+Happy weekend,
+~ Megan
 

@@ -1,0 +1,51 @@
+id,lieu_infraction _no_civique,lieu_infraction _rue,code_arrondissement,nom_contrevenant ,article,nature_infraction,date_jugement,amende_imposée 
+1,2094,Place Beaudet,ST,Michael A. Pires,23 al. 1,"En ayant une partie du bâtiment évacué en vertu du règlement, vacant ou laissé à l'abandon qui n'est pas clos ou barricadé(e) de façon à en empêcher l'accès et à prévenir tout accident.",05-04-2018,1500
+2,2094,Place Beaudet,ST,Michael A. Pires,23 al. 2,"Étant propriétaire d'un bâtiment, en n'ayant pas pris toutes les mesures nécessaires afin de supprimer la condition dangereuse de votre bâtiment.",05-04-2018,1500
+3,3290,Goyer,CN,Immeuble 3290 Goyer Inc.,25 al. 2 par. 9,En ayant des rongeurs (souris) dans un logement.,05-04-2018,1350
+4,3290,Goyer,CN,Immeuble 3290 Goyer Inc.,25 al. 2 par. 9,En ayant des rongeurs dans un logement.,05-04-2018,1350
+5,3290,Goyer,CN,Immeuble 3290 Goyer Inc.,25 al. 2 par. 9,En ayant des insectes (coquerelles) dans un logement.,05-04-2018,1350
+6,3290,Goyer,CN,Immeuble 3290 Goyer Inc.,25 al. 2 par. 2,En ayant des animaux morts (rat) dans un logement.,05-04-2018,500
+7,3275,Barclay,CN,9309-2005 Québec Inc.,25 al. 2 par. 9,En ayant des rongeurs (souris) dans un logement.,05-04-2018,1350
+8,1225,Saint-Marc,VM,4378962 Canada Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-05-2018,400
+9,1225,Saint-Marc,VM,4378962 Canada Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-05-2018,400
+10,1225,Saint-Marc,VM,4378962 Canada Inc.,25 al. 2 par. 9,En ayant de la vermine (coquerelles) dans un logement.,07-05-2018,1000
+11,1225,Saint-Marc,VM,4378962 Canada Inc.,25 al. 2 par. 9,En ayant de la vermine (coquerelles) dans un logement.,07-05-2018,1000
+12,1225,Saint-Marc,VM,4378962 Canada Inc.,25 al. 2 par. 10,En ayant les conditions favorisant la prolifération de moisissure dans un logement.,07-05-2018,2000
+13,1225,Saint-Marc,VM,4378962 Canada Inc.,25 al. 2 par. 10,En ayant de la moisissure dans un logement.,07-05-2018,2000
+14,1225,Saint-Marc,VM,4378962 Canada Inc.,25 al. 2 par. 10,En ayant de la moisissure dans un logement.,07-05-2018,2000
+15,1225,Saint-Marc,VM,4378962 Canada Inc.,9,En ne permettant pas à l'autorité compétante de pénétrer dans un bâtiment sans nuire à l'exécution de ses fonctions.,07-05-2018,400
+16,1225,Saint-Marc,VM,4378962 Canada Inc.,9,En ne permettant pas à l'autorité compétante de pénétrer dans un bâtiment sans nuire à l'exécution de ses fonctions.,07-05-2018,500
+17,1225,Saint-Marc,VM,4378962 Canada Inc.,26,En ayant une partie constituante d'un bâtiment qui n'a pas été réparée ou remplacée au besoin.,07-05-2018,2000
+18,1225,Saint-Marc,VM,4378962 Canada Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-05-2018,500
+19,1225,Saint-Marc,VM,4378962 Canada Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-05-2018,500
+20,1225,Saint-Marc,VM,4378962 Canada Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-05-2018,500
+21,1225,Saint-Marc,VM,4378962 Canada Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-05-2018,500
+22,1225,Saint-Marc,VM,4378962 Canada Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-05-2018,500
+23,3290,Goyer,CN,"9216-3948 Québec Inc
+Extermination Roger",25.0.1 par. 3,Étant gestionnaire de parasites en ayant procédé à une extermination de punaises de lit sans avoir fourni à l'autorité compétente dans les 10 jours suivant l'extermination une copie de la déclaration d'inspection préalable prévue au paragraphe 1 du présen,17-05-2018,500
+24,3300,Goyer,CN,"9216-3948 Québec Inc
+Extermination Roger",25.0.1 par. 3,Étant gestionnaire de parasites en ayant procédé à une extermination de punaises de lit sans avoir fourni à l'autorité compétente dans les 10 jours suivant l'extermination une copie de la déclaration d'inspection préalable prévue au paragraphe 1 du présen,17-05-2018,500
+25,3300,Goyer,CN,"9216-3948 Québec Inc
+Extermination Roger",25.0.1 par. 3,Étant gestionnaire de parasites en ayant procédé à une extermination de punaises de lit sans avoir fourni à l'autorité compétente dans les 10 jours suivant l'extermination une copie de la déclaration d'inspection préalable prévue au paragraphe 1 du présen,17-05-2018,500
+26,3290,Goyer,CN,"9216-3948 Québec Inc
+Extermination Roger",25.0.1 par. 3,Étant gestionnaire de parasites en ayant procédé à une extermination de punaises de lit sans avoir fourni à l'autorité compétente dans les 10 jours suivant l'extermination une copie de la déclaration d'inspection préalable prévue au paragraphe 1 du présen,17-05-2018,500
+27,3265,Barclay,CN,"9216-3948 Québec Inc
+Extermination Roger",25.0.1 par. 3,Étant gestionnaire de parasites en ayant procédé à une extermination de punaises de lit sans avoir fourni à l'autorité compétente dans les 10 jours suivant l'extermination une copie de la déclaration d'inspection préalable prévue au paragraphe 1 du présen,17-05-2018,500
+28,3275,Barclay,CN,"9216-3948 Québec Inc
+Extermination Roger",25.0.1 par. 3,Étant gestionnaire de parasites en ayant procédé à une extermination de punaises de lit sans avoir fourni à l'autorité compétente dans les 10 jours suivant l'extermination une copie de la déclaration d'inspection préalable prévue au paragraphe 1 du présen,17-05-2018,500
+29,3290,Goyer,CN,"9216-3948 Québec Inc
+Extermination Roger",25.0.1 par. 3,Étant gestionnaire de parasites en ayant procédé à une extermination de punaises de lit sans avoir fourni à l'autorité compétente dans les 10 jours suivant l'extermination une copie de la déclaration d'inspection préalable prévue au paragraphe 1 du présen,17-05-2018,500
+30,3201,Henri-Bourassa Est,MN,Gestion 3201 Henri Bourassa Inc.,34,En ayant un logement qui n'est pas pourvu d'un système de plomberie en état de fonctionnement et pouvant être utilisé aux fins auxquelles il est destiné.,07-06-2018,4000
+31,3201,Henri-Bourassa Est,MN,Gestion 3201 Henri Bourassa Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-06-2018,850
+32,3201,Henri-Bourassa Est,MN,Gestion 3201 Henri Bourassa Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-06-2018,850
+33,3201,Henri-Bourassa Est,MN,Gestion 3201 Henri Bourassa Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-06-2018,850
+34,3201,Henri-Bourassa Est,MN,Gestion 3201 Henri Bourassa Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,07-06-2018,850
+35,3201,Henri-Bourassa Est,MN,Gestion 3201 Henri Bourassa Inc.,64.15 al. 1,En ayant une porte dans une séparation coupe-feu qui n'est pas munie d'un mécanisme de fermeture automatique homologué.,07-06-2018,1100
+36,8805,boul. Pie-IX,VY,"Yen, Bo LY",12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,31-08-2018,300
+37,315,rue Rielle,VE,10880884 Canada Inc,50,En ayant un bâtiment non pourvu d'une installation électrique assurant un éclairage intérieur des espaces communs.,01-10-2018,500
+38,15,rue Camille,LN,Tofara Makoni,25.1,En ayant une partie ou un accessoire d'un bâtiment qui n'est pas maintenu(e)en bon état.,05-11-2018,675
+39,15,rue Camille,LN,Tofara Makoni,26,En ayant une partie constituante d'un bâtiment qui n'a pas été réparée ou remplacée au besoin.,05-11-2018,1500
+40,15,rue Camille,LN,Tofara Makoni,26,En ayant une partie constituante d'un bâtiment qui n'a pas été réparée ou remplacée au besoin.,05-11-2018,1500
+41,15,rue Camille,LN,Tofara Makoni,26,En ayant une partie constituante d'un bâtiment qui n'a pas été réparée ou remplacée au besoin.,05-11-2018,1500
+42,11969,ave. Jubinville,MN,Rodriguez Barthelus,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,08-11-2018,250
+43,11969,ave Jubinville,MN,Rodriguez Barthelus,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,08-11-2018,250
