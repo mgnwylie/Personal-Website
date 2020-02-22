@@ -7,7 +7,7 @@ categories: []
 tags: ["stock market", "R", "PortfolioAnalytics", "portfolio" ]
 Categories: []
 Description: ''
-Tags: ["R", "Porfolio Analysis", "Stocks", "Efficient Frontier"]
+Tags: ["R", "Portfolio Analysis", "Stocks"]
 draft: FALSE
 ---
 
