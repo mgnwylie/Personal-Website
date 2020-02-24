@@ -82,7 +82,7 @@ geocode <- function(address, api.key , verbose=FALSE) {
 }
 
 
-key <- "AIzaSyDdNyvzi87jUh-E8h_ce2MbPnwvcuEIme0"
+key <- ""
 
 location18 <- condamnes2018 %>% pull(addresses)
 locations18_geocode <- ldply(location18, .progress = "text" , function(x) geocode(x , api.key = key))
