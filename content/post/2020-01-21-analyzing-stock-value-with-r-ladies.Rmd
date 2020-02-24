@@ -1,5 +1,5 @@
 ---
-title: Analyzing stocks and portfolios with R Ladies
+title: Analyzing stocks and portfolios with RLadies
 author: Megan Wylie
 date: '2020-01-21'
 slug: analyzing-stock-value-with-r-ladies

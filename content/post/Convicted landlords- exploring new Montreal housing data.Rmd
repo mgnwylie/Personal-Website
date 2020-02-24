@@ -9,24 +9,99 @@ draft: TRUE
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(geojsonR)
+library(ggmap)
+library(dplyr)
+library(tidyverse)
+library(RCurl)
+library(RJSONIO)
+library(plyr)
+library(mapsapi)
+
+if(!requireNamespace("devtools")) install.packages("devtools")
+devtools::install_github("dkahle/ggmap")
 ```
 
-## R Markdown
+## Data cleaning 
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r data}
 
-```{r cars}
-summary(cars)
+condamnes2018 <- read.csv(file = 'data/liste_des_contrevenants_condamnes_annee_2018.csv')
+condamnes2019 <- read.csv(file = 'data/liste-des-contrevenants-condamnes-annee-2019.csv')
+exterm <- FROM_GeoJson('data/declarations-exterminations-punaises-de-lit.geojson')
+#sanit <- FROM_GeoJson('data/inspections-salubrite.geojson')
+
+#edit data
+
+# I need the csv files to have geographic coordinates. 
+# I'll geolocate them, but first I have to merge their house numbers and roads 
+
+# makes one column that is 'addresses' for the 2018 data
+cols <- c( 'lieu_infraction._no_civique' , 'lieu_infraction._rue')
+condamnes2018$addresses <- apply( condamnes2018[ , cols ] , 1 , paste , collapse = " " )
+
+# makes one column that is 'addresses' for the 2019 data
+cols <- c( 'lieu_infraction._no_civique' , 'lieu_infraction._rue')
+condamnes2019$addresses <- apply( condamnes2019[ , cols ] , 1 , paste , collapse = " " )
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+## Geocoding
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+
+```{r geocode}
+# geolocate the addresses
+
+# this makes two functions to use in geocoding.
+
+# builds url to access API
+url <- function(address, return.call = "json", sensor = "false" , key) {
+  root <- "https://maps.google.com/maps/api/geocode/"
+  u <- paste(root, return.call, "?address=", address, "&sensor=", sensor, "&key=" , 
+             key , sep = "")
+  return(URLencode(u))
+}
+
+# Function to parse the results:
+geocode <- function(address, api.key , verbose=FALSE) {
+  if(verbose) cat(address,"\n")
+   u <- url(address , key = api.key)
+   doc <- getURL(u)
+   x <- fromJSON(doc,simplify = FALSE)
+    if(x$status=="OK") {
+      lat <- x$results[[1]]$geometry$location$lat
+      lng <- x$results[[1]]$geometry$location$lng
+      location_type  <- x$results[[1]]$geometry$location_type
+      formatted_address  <- x$results[[1]]$formatted_address
+      return(c(lat, lng, location_type, formatted_address))
+      Sys.sleep(0.5)
+  } else {
+    return(c(NA,NA,NA, NA))
+  }
+}
+
+
+key <- "AIzaSyDdNyvzi87jUh-E8h_ce2MbPnwvcuEIme0"
+
+location18 <- condamnes2018 %>% pull(addresses)
+locations18_geocode <- ldply(location18, .progress = "text" , function(x) geocode(x , api.key = key))
+names(locations18_geocode) <- c("lat","lng","location_type", "formatted")
+condamnes2018 <- condamnes2018 %>% bind_cols(locations18_geocode)
+
+
+
+# to do:
+# - add that the addresses are in Quebec.
+# join based on formatted field
+# - use gitpass to hide api key
+
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Reference links
+
+### Geocoding and Google / API docs
+https://cran.r-project.org/web/packages/ggmap/readme/README.html
+https://www.storybench.org/geocode-csv-addresses-r/
+https://gist.github.com/josecarlosgonz/6417633
