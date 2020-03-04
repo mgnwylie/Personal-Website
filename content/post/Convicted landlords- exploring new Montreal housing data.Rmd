@@ -5,6 +5,7 @@ date: "22/02/2020"
 output: html_document
 Tags: []
 draft: TRUE
+runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -17,9 +18,27 @@ library(RCurl)
 library(RJSONIO)
 library(plyr)
 library(mapsapi)
+library(keyring)
+library(sf)
+library(raster)
+library(dplyr)
+library(spData)
+#library(spDataLarge) #not available for this version of R (tutorial on Lovelace)
+library(tmap)    # for static and interactive maps
+library(leaflet) # for interactive maps
+library(mapview) # for interactive maps
+library(ggplot2) # tidyverse data visualization package
+library(shiny)   # for web applications
+library(rworldmap)
+
 
 if(!requireNamespace("devtools")) install.packages("devtools")
 devtools::install_github("dkahle/ggmap")
+
+#keyring_create("Rcredential") #creates keyring
+keyring_unlock("Rcredential") # opens keyring for session
+key_set("googleapi", keyring ="Rcredential") #API key
+
 ```
 
 ## Data cleaning 
@@ -30,7 +49,7 @@ devtools::install_github("dkahle/ggmap")
 condamnes2018 <- read.csv(file = 'data/liste_des_contrevenants_condamnes_annee_2018.csv')
 condamnes2019 <- read.csv(file = 'data/liste-des-contrevenants-condamnes-annee-2019.csv')
 exterm <- FROM_GeoJson('data/declarations-exterminations-punaises-de-lit.geojson')
-#sanit <- FROM_GeoJson('data/inspections-salubrite.geojson')
+#sanit <- FROM_GeoJson('data/inspections-salubrite.geojson') #seems like this file has errors
 
 #edit data
 
@@ -40,10 +59,12 @@ exterm <- FROM_GeoJson('data/declarations-exterminations-punaises-de-lit.geojson
 # makes one column that is 'addresses' for the 2018 data
 cols <- c( 'lieu_infraction._no_civique' , 'lieu_infraction._rue')
 condamnes2018$addresses <- apply( condamnes2018[ , cols ] , 1 , paste , collapse = " " )
+condamnes2018$addresses <- paste0(condamnes2018$addresses, ", Montreal") #ensures geocoded to Montreal
 
 # makes one column that is 'addresses' for the 2019 data
 cols <- c( 'lieu_infraction._no_civique' , 'lieu_infraction._rue')
 condamnes2019$addresses <- apply( condamnes2019[ , cols ] , 1 , paste , collapse = " " )
+condamnes2019$addresses <- paste0(condamnes2019$addresses, ", Montreal") #ensures geocoded to Montreal
 ```
 
 
@@ -82,20 +103,153 @@ geocode <- function(address, api.key , verbose=FALSE) {
 }
 
 
-key <- ""
+key <- key_get('googleapi', keyring ="Rcredential") 
 
+#2018
 location18 <- condamnes2018 %>% pull(addresses)
 locations18_geocode <- ldply(location18, .progress = "text" , function(x) geocode(x , api.key = key))
+
+#rename columns and join to original dataset
 names(locations18_geocode) <- c("lat","lng","location_type", "formatted")
 condamnes2018 <- condamnes2018 %>% bind_cols(locations18_geocode)
 
 
+#2019
+location19 <- condamnes2019 %>% pull(addresses)
+locations19_geocode <- ldply(location19, .progress = "text" , function(x) geocode(x , api.key = key))
 
-# to do:
-# - add that the addresses are in Quebec.
-# join based on formatted field
-# - use gitpass to hide api key
+#rename columns and join to original dataset
+names(locations19_geocode) <- c("lat","lng","location_type", "formatted")
+condamnes2019 <- condamnes2019 %>% bind_cols(locations19_geocode)
 
+
+
+# keep this - closes opened keyring session
+keyring_lock("Rcredential")
+```
+
+
+```{r merge}
+
+# merge 2018, 2019 and exterm datasets
+  #condames2018 (tibble), condamnes2019 (tibble) and exterm (list)
+
+#add year variable to 2018 and 2019 condamnes datasets
+condamnes2018 <- add_column(condamnes2018, year = 2018)
+condamnes2019 <- add_column(condamnes2019, year = 2019)
+
+#append condamnes datasets
+condamnes18and19 <- bind_rows(condamnes2018, condamnes2019)
+
+#merge with exterm
+  #I'll do this later!
+
+```
+
+```{r, shiny}
+
+#make shiny app!
+
+# what we want to diplay:
+# - date of judgement (date_jugement) - many options [date range]
+# - year - two options [checkbox group]
+# - map of them w/ address 
+# - nature of infraction - text box
+
+#data cleaning
+mpgData <- mtcars
+mpgData$am <- factor(mpgData$am, labels = c("Automatic", "Manual"))
+
+
+#Set up UI
+ui <- pageWithSidebar(
+
+  # App title ----
+  headerPanel("Convicted Landlords of Montreal"),
+
+  # Sidebar panel for inputs ----
+  sidebarPanel(
+    
+    # Input: Selector for variable to plot against mpg ----
+      selectInput("variable", "Variable:", 
+                c("Cylinders" = "cyl",
+                  "Transmission" = "am",
+                  "Gears" = "gear")),
+    
+    # Input: Checkbox for year selection ----
+      checkboxInput("year", "Year", TRUE), #isn't right.
+    
+    # Date range
+      dateRangeInput("date_jugement", "Judgement Date", TRUE)
+  ),
+
+  # Main panel for displaying outputs ----
+  mainPanel(
+    
+    # Output: Formatted text for caption ----
+      h3(textOutput("caption")),
+
+      # Output: Plot of the requested variable against mpg ----
+      plotOutput("mpgPlot")
+  )
+)
+
+
+
+#Define server 
+# Define server logic to plot various variables against mpg ----
+server <- function(input, output) {
+  
+  
+  # Compute the formula text ----
+  # This is in a reactive expression since it is shared by the
+  # output$caption and output$mpgPlot functions
+  formulaText <- reactive({
+    paste("mpg ~", input$variable)
+  })
+
+  # Return the formula text for printing as a caption ----
+  output$caption <- renderText({
+    formulaText()
+  })
+
+  # Generate a plot of the requested variable against mpg ----
+  # and only exclude outliers if requested
+  output$mpgPlot <- renderPlot({
+    boxplot(as.formula(formulaText()),
+            data = mpgData,
+            outline = input$outliers,
+            col = "#75AADB", pch = 19)
+  })
+  
+}
+
+
+# deploy the shiny app
+shinyApp(ui, server)
+
+```
+
+
+
+```{r, junk}
+#shinyApp(
+
+ # ui = fluidPage(
+  #  selectInput("region", "Region:",
+                choices = colnames(WorldPhones)),
+    plotOutput("phonePlot")
+  ),
+
+  server = function(input, output) {
+    output$phonePlot = renderPlot({
+      barplot(WorldPhones[,input$region]*1000,
+              ylab = "Number of Telephones", xlab = "Year")
+    })
+  },
+
+  options = list(height = 500)
+)
 
 ```
 
@@ -105,3 +259,15 @@ condamnes2018 <- condamnes2018 %>% bind_cols(locations18_geocode)
 https://cran.r-project.org/web/packages/ggmap/readme/README.html
 https://www.storybench.org/geocode-csv-addresses-r/
 https://gist.github.com/josecarlosgonz/6417633
+
+### security
+https://www.infoworld.com/article/3320999/r-tip-keep-your-passwords-and-tokens-secure-with-the-keyring-package.html
+
+# Maps
+https://geocompr.robinlovelace.net/adv-map.html
+
+# Shiny
+https://shiny.rstudio.com/articles/build.html
+https://bookdown.org/yihui/rmarkdown/shiny-embedded.html
+https://shiny.rstudio.com/tutorial/written-tutorial/lesson5/ Note: adding data
+
