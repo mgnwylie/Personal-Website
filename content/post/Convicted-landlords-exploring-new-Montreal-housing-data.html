@@ -1,0 +1,222 @@
+---
+title: 'Convicted landlords: exploring new Montreal housing data'
+author: "Megan Wylie"
+date: "22/02/2020"
+output: html_document
+Tags: []
+draft: TRUE
+runtime: shiny
+---
+
+
+
+<div id="section-data-cleaning" class="section level2">
+<h2>Data cleaning</h2>
+<pre class="r"><code>condamnes2018 &lt;- read.csv(file = &#39;data/liste_des_contrevenants_condamnes_annee_2018.csv&#39;)
+condamnes2019 &lt;- read.csv(file = &#39;data/liste-des-contrevenants-condamnes-annee-2019.csv&#39;)
+exterm &lt;- FROM_GeoJson(&#39;data/declarations-exterminations-punaises-de-lit.geojson&#39;)
+#sanit &lt;- FROM_GeoJson(&#39;data/inspections-salubrite.geojson&#39;) #seems like this file has errors
+
+#edit data
+
+# I need the csv files to have geographic coordinates. 
+# I&#39;ll geolocate them, but first I have to merge their house numbers and roads 
+
+# makes one column that is &#39;addresses&#39; for the 2018 data
+cols &lt;- c( &#39;lieu_infraction._no_civique&#39; , &#39;lieu_infraction._rue&#39;)
+condamnes2018$addresses &lt;- apply( condamnes2018[ , cols ] , 1 , paste , collapse = &quot; &quot; )
+condamnes2018$addresses &lt;- paste0(condamnes2018$addresses, &quot;, Montreal&quot;) #ensures geocoded to Montreal
+
+# makes one column that is &#39;addresses&#39; for the 2019 data
+cols &lt;- c( &#39;lieu_infraction._no_civique&#39; , &#39;lieu_infraction._rue&#39;)
+condamnes2019$addresses &lt;- apply( condamnes2019[ , cols ] , 1 , paste , collapse = &quot; &quot; )
+condamnes2019$addresses &lt;- paste0(condamnes2019$addresses, &quot;, Montreal&quot;) #ensures geocoded to Montreal
+
+#load OSM</code></pre>
+</div>
+<div id="section-geocoding" class="section level2">
+<h2>Geocoding</h2>
+<pre class="r"><code># geolocate the addresses
+
+# this makes two functions to use in geocoding.
+
+# builds url to access API
+#url &lt;- function(address, return.call = &quot;json&quot;, sensor = &quot;false&quot; , key) {
+ # root &lt;- &quot;https://maps.google.com/maps/api/geocode/&quot;
+  #u &lt;- paste(root, return.call, &quot;?address=&quot;, address, &quot;&amp;sensor=&quot;, sensor, &quot;&amp;key=&quot; , 
+   #          key , sep = &quot;&quot;)
+#  return(URLencode(u))
+#}
+
+# Function to parse the results:
+#geocode &lt;- function(address, api.key , verbose=FALSE) {
+ # if(verbose) cat(address,&quot;\n&quot;)
+  # u &lt;- url(address , key = api.key)
+ #  doc &lt;- getURL(u)
+  # x &lt;- fromJSON(doc,simplify = FALSE)
+   # if(x$status==&quot;OK&quot;) {
+    #  lat &lt;- x$results[[1]]$geometry$location$lat
+     # lng &lt;- x$results[[1]]$geometry$location$lng
+      #location_type  &lt;- x$results[[1]]$geometry$location_type
+      #formatted_address  &lt;- x$results[[1]]$formatted_address
+      #return(c(lat, lng, location_type, formatted_address))
+      #Sys.sleep(0.5)
+  #} else {
+  #  return(c(NA,NA,NA, NA))
+  #}
+#}
+
+
+#key &lt;- key_get(&#39;googleapi&#39;, keyring =&quot;Rcredential&quot;) 
+
+#2018
+#location18 &lt;- condamnes2018 %&gt;% pull(addresses)
+#locations18_geocode &lt;- ldply(location18, .progress = &quot;text&quot; , function(x) geocode(x , api.key = key))
+
+#rename columns and join to original dataset
+#names(locations18_geocode) &lt;- c(&quot;lat&quot;,&quot;lng&quot;,&quot;location_type&quot;, &quot;formatted&quot;)
+#condamnes2018 &lt;- condamnes2018 %&gt;% bind_cols(locations18_geocode)
+
+
+#2019
+#location19 &lt;- condamnes2019 %&gt;% pull(addresses)
+#locations19_geocode &lt;- ldply(location19, .progress = &quot;text&quot; , function(x) geocode(x , api.key = key))
+
+#rename columns and join to original dataset
+#names(locations19_geocode) &lt;- c(&quot;lat&quot;,&quot;lng&quot;,&quot;location_type&quot;, &quot;formatted&quot;)
+#condamnes2019 &lt;- condamnes2019 %&gt;% bind_cols(locations19_geocode)
+
+
+
+# keep this - closes opened keyring session
+#keyring_lock(&quot;Rcredential&quot;)</code></pre>
+<pre class="r"><code># merge 2018, 2019 and exterm datasets
+  #condames2018 (tibble), condamnes2019 (tibble) and exterm (list)
+
+#add year variable to 2018 and 2019 condamnes datasets
+#condamnes2018 &lt;- add_column(condamnes2018, year = 2018)
+#condamnes2019 &lt;- add_column(condamnes2019, year = 2019)
+
+#append condamnes datasets
+#condamnes18and19 &lt;- bind_rows(condamnes2018, condamnes2019)
+
+#merge with exterm
+  # TO DO</code></pre>
+<pre class="r"><code># tmap
+
+#condamnes &lt;- st_as_sf(condamnes18and19, coords = c(&quot;lng&quot;, 
+ #                                     &quot;lat&quot;),
+  #                 crs = 4326) #epsg codes - numbers that associate with coord systems
+#condamnes
+
+#map &lt;- tm_shape(condamnes) +
+#  tm_dots(condamnes)
+
+#plot(condamnes)
+
+#make shiny app!
+
+# to do:
+# - date of judgement (date_jugement) - many options [date range] (done)
+# - year - two options [checkbox group] (done)
+# - map of them w/ address (done) - could add details in the interaction
+# - nature of infraction - text box 
+# - update button
+# - asthetics
+
+
+#Set up UI
+#ui &lt;- pageWithSidebar(
+
+  # App title ----
+#  headerPanel(&quot;Convicted Landlords of Montreal&quot;),
+
+  # Sidebar panel for inputs ----
+#  sidebarPanel(
+    
+ #   selectInput(&quot;year&quot;, &quot;Year:&quot;, 
+  #              c(&quot;2018&quot; = &quot;2018&quot;,
+   #               &quot;2019&quot; = &quot;2019&quot;)),
+    
+    #selectInput(&quot;code_arrondissement&quot;, &quot;Neighbourhood code:&quot;, 
+#                c(&quot;ST&quot; = &quot;ST&quot;,
+#                  &quot;CN&quot; = &quot;CN&quot;,
+#                  &quot;VM&quot; = &quot;VM&quot;,
+#                  &quot;MN&quot; = &quot;MN&quot;,
+#                  &quot;LN&quot; = &quot;LM&quot;,
+#                  &quot;VY&quot; = &quot;VY&quot;,
+#                  &quot;AC&quot; = &quot;AC&quot;,
+#                  &quot;PL&quot; = &quot;PL&quot;)),
+    
+#    selectInput(&quot;nom_contrevenant&quot;, &quot;Landlord name:&quot;, 
+#                c(&quot;Michael A. Pires&quot; = &quot;Michael A. Pires&quot;,
+#                  &quot;9309-2005 Québec Inc.&quot; = &quot;9309-2005 Québec Inc.&quot;,
+#                  &quot;9216-3948 Québec Inc\nExtermination Roger&quot; = &quot;9216-3948 Québec Inc\nExtermination Roger&quot;,
+#                  &quot;Yen, Bo LY&quot; = &quot;Yen, Bo LY&quot;,
+#                  &quot;Tofara Makoni&quot; = &quot;Tofara Makoni&quot;,
+#                  &quot;Veng Kheang Ngoy&quot; = &quot;Veng Kheang Ngoy&quot;,
+#                  &quot;Elena Harizomenov&quot; = &quot;Elena Harizomenov&quot;,
+#                  &quot;9331-2700 QC. Inc.&quot; = &quot;9331-2700 QC. Inc.&quot;,
+#                  &quot;Rocco Lavallé&quot; = &quot;Rocco Lavallé&quot;,
+#                  &quot;Immo Côte-Vertu 2Ltd&quot; = &quot;Immo Côte-Vertu 2Ltd&quot;,
+#                  &quot;9357-2881 QC Inc.&quot; = &quot;9357-2881 QC Inc.&quot;)),
+#  
+    # Date range
+#      dateRangeInput(&quot;date_jugement&quot;, &quot;Date of Conviction&quot;, TRUE)
+#  ),
+
+  # Main panel for displaying outputs ----
+#  mainPanel(
+  
+#      leafletOutput(&quot;my_tmap&quot;)
+
+#  )
+  
+#)
+
+
+
+#Define server 
+# Define server logic to plot various variables against mpg ----
+#server &lt;- function(input, output) {
+  
+  
+#  output$my_tmap = renderLeaflet({
+#    tm &lt;- tm_shape(condamnes) + tm_dots() +
+#                            tm_scale_bar(position = c(0.5, 0.02)) +
+#                            tm_layout(title = &quot;Conviction Locations&quot;,
+#                                                      frame = FALSE)
+   
+#    tmap_leaflet(tm)
+#  })
+  
+#}
+
+
+# deploy the shiny app
+#shinyApp(ui, server)</code></pre>
+</div>
+<div id="section-reference-links" class="section level2">
+<h2>Reference links</h2>
+<div id="section-geocoding-and-google-api-docs" class="section level3">
+<h3>Geocoding and Google / API docs</h3>
+<p><a href="https://cran.r-project.org/web/packages/ggmap/readme/README.html" class="uri">https://cran.r-project.org/web/packages/ggmap/readme/README.html</a>
+<a href="https://www.storybench.org/geocode-csv-addresses-r/" class="uri">https://www.storybench.org/geocode-csv-addresses-r/</a>
+<a href="https://gist.github.com/josecarlosgonz/6417633" class="uri">https://gist.github.com/josecarlosgonz/6417633</a></p>
+</div>
+<div id="section-security" class="section level3">
+<h3>security</h3>
+<p><a href="https://www.infoworld.com/article/3320999/r-tip-keep-your-passwords-and-tokens-secure-with-the-keyring-package.html" class="uri">https://www.infoworld.com/article/3320999/r-tip-keep-your-passwords-and-tokens-secure-with-the-keyring-package.html</a></p>
+</div>
+</div>
+<div id="section-maps" class="section level1">
+<h1>Maps</h1>
+<p><a href="https://geocompr.robinlovelace.net/adv-map.html" class="uri">https://geocompr.robinlovelace.net/adv-map.html</a></p>
+</div>
+<div id="section-shiny" class="section level1">
+<h1>Shiny</h1>
+<p><a href="https://shiny.rstudio.com/articles/build.html" class="uri">https://shiny.rstudio.com/articles/build.html</a>
+<a href="https://bookdown.org/yihui/rmarkdown/shiny-embedded.html" class="uri">https://bookdown.org/yihui/rmarkdown/shiny-embedded.html</a>
+<a href="https://shiny.rstudio.com/tutorial/written-tutorial/lesson5/" class="uri">https://shiny.rstudio.com/tutorial/written-tutorial/lesson5/</a> Note: adding data
+<a href="https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html#leaflet-and-shiny-integration" class="uri">https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html#leaflet-and-shiny-integration</a></p>
+</div>

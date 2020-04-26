@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sf on A Megan website</title>
+    <link>/tags/sf/</link>
+    <description>Recent content in sf on A Megan website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/sf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Geospatial data analysis in R with the McGill Geographic Information Centre</title>
+      <link>/2020/04/15/geospatial-data-analysis-in-r-with-the-mcgill-geographic-information-centre/</link>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/15/geospatial-data-analysis-in-r-with-the-mcgill-geographic-information-centre/</guid>
+      <description>Hello hello! I hope that this blog finds you well. These are scary times, and as many of us stay home working or studying, what better to do than make maps?!
+Last month, mere days before the global shutdown, I attended a workshop at McGill’s Geographic Information Centre. This workshop focused on geospatial data analysis and mapping.
+After leaving university and loosing access to the private software available through university privileges I’d started to move my life to open source.</description>
+    </item>
+    
+  </channel>
+</rss>

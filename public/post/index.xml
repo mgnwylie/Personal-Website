@@ -6,31 +6,24 @@
     <description>Recent content in Posts on A Megan website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 14 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Convicted landlords of Montreal: exploring new open housing data</title>
-      <link>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</link>
-      <pubDate>Fri, 14 Feb 2020 00:00:00 +0000</pubDate>
+      <title>Geospatial data analysis in R with the McGill Geographic Information Centre</title>
+      <link>/2020/04/15/geospatial-data-analysis-in-r-with-the-mcgill-geographic-information-centre/</link>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</guid>
-      <description></description>
+      <guid>/2020/04/15/geospatial-data-analysis-in-r-with-the-mcgill-geographic-information-centre/</guid>
+      <description>Hello hello! I hope that this blog finds you well. These are scary times, and as many of us stay home working or studying, what better to do than make maps?!
+Last month, mere days before the global shutdown, I attended a workshop at McGill’s Geographic Information Centre. This workshop focused on geospatial data analysis and mapping.
+After leaving university and loosing access to the private software available through university privileges I’d started to move my life to open source.</description>
     </item>
     
     <item>
-      <title>Convicted landlords of Montreal: exploring new open housing data</title>
-      <link>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</link>
-      <pubDate>Fri, 14 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Analyzing stocks and portfolios with R Ladies</title>
+      <title>Analyzing stocks and portfolios with RLadies</title>
       <link>/2020/01/21/analyzing-stock-value-with-r-ladies/</link>
       <pubDate>Tue, 21 Jan 2020 00:00:00 +0000</pubDate>
       
@@ -99,6 +92,15 @@ See ya soon, Megan</description>
       <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
 summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+    </item>
+    
+    <item>
+      <title>Convicted landlords: exploring new Montreal housing data</title>
+      <link>/1/01/01/convicted-landlords-exploring-new-montreal-housing-data/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/convicted-landlords-exploring-new-montreal-housing-data/</guid>
+      <description>Data cleaning condamnes2018 &amp;lt;- read.csv(file = &amp;#39;data/liste_des_contrevenants_condamnes_annee_2018.csv&amp;#39;) condamnes2019 &amp;lt;- read.csv(file = &amp;#39;data/liste-des-contrevenants-condamnes-annee-2019.csv&amp;#39;) exterm &amp;lt;- FROM_GeoJson(&amp;#39;data/declarations-exterminations-punaises-de-lit.geojson&amp;#39;) #sanit &amp;lt;- FROM_GeoJson(&amp;#39;data/inspections-salubrite.geojson&amp;#39;) #seems like this file has errors #edit data # I need the csv files to have geographic coordinates. # I&amp;#39;ll geolocate them, but first I have to merge their house numbers and roads # makes one column that is &amp;#39;addresses&amp;#39; for the 2018 data cols &amp;lt;- c( &amp;#39;lieu_infraction._no_civique&amp;#39; , &amp;#39;lieu_infraction._rue&amp;#39;) condamnes2018$addresses &amp;lt;- apply( condamnes2018[ , cols ] , 1 , paste , collapse = &amp;quot; &amp;quot; ) condamnes2018$addresses &amp;lt;- paste0(condamnes2018$addresses, &amp;quot;, Montreal&amp;quot;) #ensures geocoded to Montreal # makes one column that is &amp;#39;addresses&amp;#39; for the 2019 data cols &amp;lt;- c( &amp;#39;lieu_infraction.</description>
     </item>
     
   </channel>

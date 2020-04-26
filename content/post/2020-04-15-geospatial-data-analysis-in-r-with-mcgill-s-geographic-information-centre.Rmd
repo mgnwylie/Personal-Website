@@ -1,0 +1,310 @@
+---
+title: 'Geospatial data analysis in R with the McGill Geographic Information Centre'
+author: "Megan Wylie"
+date: '2020-04-15'
+output: pdf_document
+tags:
+- tmap
+- sf
+categories: R
+---
+
+Hello hello! I hope that this blog finds you well. These are scary times, and as many of us stay home working or studying, what better to do than make maps?!
+
+Last month, mere days before the global shutdown, I attended a workshop at McGill's Geographic Information Centre. This workshop focused on geospatial data analysis and mapping.
+
+```{r setup, include=FALSE}
+
+#install.packages(c("sf", "tmap", "tidyverse","osmdata", "gbfs", "nngeo", "rstan")) 
+library(sf)
+library(tidyverse)
+library(tmap)
+library(osmdata)
+library(gbfs)
+library(nngeo)
+library(leaflet)
+library(rstan)
+
+```
+
+After leaving university and loosing access to the private software available through university privileges I'd started to move my life to open source. R has been my open source programming of choice.
+
+I had dabbled with R and geospatial analysis in the past (particularity to make [this map](https://www.linkedin.com/in/megan-wylie-490a6863/detail/treasury/position:1361386257/?entityUrn=urn%3Ali%3Afsd_profileTreasuryMedia%3A(ACoAAA2BRqwB9udnhoS5dUQAeJfH5M0jkzPyKO8%2C1550676271396)&section=position%3A1361386257&treasuryCount=2) on my LinkedIn) and was pleased with the result. But the whole process of it was bizarre! Install seven packages and use bits and pieces of each for different parts of the data wrangling, converting data to geospatial data, and another package for mapping. Too many man! 
+
+That was circa 2016. Come 2020, *tmap* and *sf* have come to the rescue. Now all geospatial analysis and mapping can be done relatively easily with these two pages. Bonus! *tmap* functions very similarly to the well known *ggplot*, making my transition easier. 
+
+For this tutorial, I'll walk you through:
+
+* reading in data, 
+* dealing with data projections and coordinate systems, 
+* performing geospatial analysis (buffer, intersect, union, and spatial join) and 
+* creating maps and layering data. 
+
+By the end of this tutorial you should be familiar with *tmap* and *sf* and have an understanding of how to build your own map in R using online data. 
+
+_Research question:_ As designed by Tim Elrick and the GIC, we are examining which AirBnB rental units will be most attractive to eco-friendly upper class tourists based on their proximity to parks and Bixi bike rentals. 
+
+# Reading in data from online
+
+For this tutorial we were exclusively with online data. Instead of downloading the data, saving it and reading it into the project via the folder system, you can upload data directly to R using web links to data sources.
+
+Here we work with three datasets:
+
+* Montreal boroughs data
+* Open Street Map park's data
+* AirBnB rental data
+* Bixi docked bike data
+
+# sf package
+
+When reading in the Montreal borough data, we use read_sf(temp). This takes the data and reads it into R as simple features, where we can easily see the geometry type of each of our observations in the dataset. This package makes simple what I had previously had to do in multiple lines of code with proceeding packages.
+
+Alternatively, where the AirBnB data were in csv format, st_as_sf converts the data into sf data after specifying which columns are the longitude and latitude coordinates of the data. 
+
+With sf, we now how a column called geometry! We can refer back to this when wrangling data or analyzing and visualizing on our maps! 
+
+```{r loading data, echo=T, results='hide', warning=FALSE, message=FALSE}
+
+# Montreal Borough Data
+# save data link as object url
+url <- "http://donnees.ville.montreal.qc.ca/dataset/00bd85eb-23aa-4669-8f1b-ba9a000e3dd8/resource/e9b0f927-8f75-458c-8fda-b5da65cc8b73/download/limadmin.json"
+
+# create a temp file 
+temp <- tempfile()
+
+# Download the data to the temp file; for data the are downloaded as shp, you'll need to unzip as .shp files emcompass many files in a folder. Use unzip(temp)
+download.file(url, temp)
+
+# read in data as mtl object
+mtl <- read_sf(temp)
+
+# Download Open Street Map (OSM) data
+parks <- opq(bbox = "Montreal") %>% 
+  add_osm_feature(key = "leisure", value = "park") %>% 
+  osmdata_sf()
+
+parks <- parks$osm_polygons
+
+
+# Download airbnb data
+url <- "http://data.insideairbnb.com/canada/qc/montreal/2020-01-13/visualisations/listings.csv"
+download.file(url, temp)
+airbnb <- read_csv(temp)
+airbnb <- st_as_sf(airbnb, coords = c("longitude", 
+                                      "latitude"),
+                   crs = 4326) #epsg codes - numbers that associate with coord systems
+
+
+# Download Bixi bike data
+get_station_information("Montreal", getwd())
+bixi <- readRDS("station_information.rds")
+bixi <- st_as_sf(bixi, coords = c("lon", "lat"), crs = 4326)
+
+```
+
+# Geospatial data wrangling
+
+the *sf* package doesn't only provide a geometry column, it also provides all of the features you need for transforming geospatial data. 
+
+Here I refer to two of those methods:
+
+* Unions
+* Intersections
+* Buffers
+* Spatial joins
+* Nearest neighbour
+
+*st_union* combines multiple geometries into one. In this case we dissolve all of the neighbourhoods inside the island of Montreal to create just the outline.
+
+*st_intersection* will only keep the shared portion of geometry between the multiple inputs. As we only want to keep parks and Bixi stations that are on the Island of Montreal, we use *st_intersection* along with the new object mtl_outline.
+
+```{r wrangling, echo=T, results='hide', warning=FALSE, message=FALSE}
+
+# union function - only keeps outline.
+mtl_outline <- st_union(mtl)
+
+# intersection - only keeps parks and Bixis on the Island of Montreal
+parks <- parks %>% st_intersection(mtl_outline)
+bixi <- st_intersection(bixi, mtl_outline)
+
+```
+
+# Mapping
+
+So far we have shown how to use the *sf* package to work with geospatial data manipulation. Geospatial data visualization, however, requires a new package. (It is still remarkable to be able to make maps predominately with these two packages! Don't despair!)
+
+You can, of course, make your maps using the base R 'plot' function and I use it all the time to do basic checks on my variables. 
+
+After reading in the four datasets, let's see what the maps look like.
+
+## Plot the OSM data
+
+```{r plot1, echo=T, results='hold'}
+plot(parks["osm_id"])
+```
+
+## Intro to *tmap*
+
+*tmap* functions very similar to ggplot, by using addition symbols to add layers to the map and maintaining plain language functionality.
+
+With *tmap* it is important to remember that it is made up of two commands: *tm_shape()* plus a second command that specifies the geometry, such as *tm_polygon()* or *tm_dots()*.
+
+Here I map all of our data. Let's take a look! 
+
+```{r maps, echo=T, results='hold', message=FALSE}
+tmap_mode("plot")
+
+tm_shape(mtl) + 
+  tm_polygons("TYPE", palette = "Pastel2") +
+  tm_shape(parks) +
+  tm_fill(col = "darkgreen") + #not the outline
+  tm_shape(bixi) +
+  tm_dots() +
+  tm_compass() +
+  tm_scale_bar(position = c(0.5, 0.02)) +
+  tm_layout(title = "Bixi Stations in MTL",
+            frame = FALSE) +
+  tm_credits("Source: OSM & Bixi")
+```
+
+## Sub setting: analyzing a specific neighbourhood
+
+Using *dplyr* and tmap, we can also subset the map to only look at data within one neighbourhood. To do this, we first only keep one neighbourhood observation in the mtl dataset, using *unique*, then use *dplyr*'s filter() to only select Le Sud-Ouest, the chosen neighbourhood. 
+
+Finally, we use *st_intersects* (which is different than *st_intersection*)! *st_intersects* identifies if the two inputs have any geographically similar features. In the below code, it then filters the AirBnB data by those that are similar to Le Sud-Ouest. 
+
+```{r subset, echo=T, results='hide', message=FALSE, warning=FALSE}
+
+airbnb %>% 
+  st_drop_geometry() %>%  #makes processing faster and removes unneccesary text
+  count(neighbourhood) %>% 
+  arrange(desc(n))
+
+unique(mtl$NOM)
+
+lso <- airbnb %>% 
+        st_transform(crs = 2959) %>%  #utm 18n
+        filter(st_intersects(.,   
+                             mtl %>% 
+                               st_transform(crs = 2959) %>% 
+                               filter(NOM == "Le Sud-Ouest"),
+                             sparse = FALSE)) 
+
+# Turns it into an interactive map 
+tmap_mode("view") 
+
+tm_style("classic")
+
+```
+
+```{r subset2, echo=T, results='hold', message=F, warning=F}
+
+tm_shape(lso) +
+  tm_dots()
+
+```
+
+# Analysis: the eco-friendly AirBnBs
+
+So! Now let's find these eco-friendly AirBnBs!
+
+## Side note: Geographic distortion
+
+One of the important parts of working with geospatial data is distortion. As the earth is a sphere, it is impossible to show every aspect of the world perfectly on our flat computer screens. This means that cartographers and geographers have distorted aspects of the world to flatten it. They most frequently distort distance, shape and size. 
+
+## Bixi-friendly AirBnBs
+
+To find which AirBnBs are closest to Bixi stations, we need to use a buffer distance measure. Distance! We now know that it can't be distorted, and therefore we use the UTM map project for Montreal, a localized map projection that maintains distance between features.
+
+Buffering is exactly what it sounds like, you go an equal distance around your point creating a buffer. This buffer will create a polygon around the Bixi station and we can do analysis on what falls within that buffer zone. To do this we use *st_buffer*.
+
+```{r analysis1, echo=T, results='hold'}
+
+# Need to transform to UTM for distance analysis
+bixi_buffer <- bixi %>% 
+                 st_transform(crs = 2959) %>% 
+                 st_buffer(100)
+
+tm_shape(bixi_buffer) +
+  tm_polygons() +
+  tm_shape(bixi) +
+  tm_dots() +
+  tm_view(set.view = 13) # Zoom-in
+
+```
+
+## Of the Bixi-friendly AirBnBs, which neighbourhoods have the highest median price
+
+Maybe our tourists are also quite wealthy and we want to point out the nicest accommodations for them that are also near Bixi stations. 
+
+Below we do this using *st_join*, spatially joining the Bixi-friendly AirBnBs with Montreal neighbourhoods. We then do a quick *head* function to see which neighbourhoods they may want to look into. Of course, Westmount is the highest priced Bixi-friendly location.
+
+```{r analysis2, echo=T, results='hold', warning=FALSE, message=FALSE}
+
+bixi_friendly_airbnbs <- airbnb %>% 
+                          st_transform(crs = 2959) %>% 
+                          st_intersection(bixi_buffer)
+
+top10 <- mtl %>% 
+          st_transform(crs = 2959) %>% 
+          st_join(bixi_friendly_airbnbs) %>% 
+          group_by(NOM) %>% 
+          summarise(n = n(),
+                    `median price` = median(price, na.rm = TRUE)) %>%  # to create a variable name with a space
+          st_drop_geometry() %>% 
+          arrange(desc(`median price`))
+
+head(top10, n=10)
+
+```
+
+# Which AirBnBs are closest to Parks?
+
+Finally, let's add our last environmental feature: parks! For parks, we want to know how close the AirBnBs are to parks and not how many parks are within a certain area. To do this, we use nearest neighbor analysis.
+
+The nearest neighbor command is *st_nn*. Similarly to buffer analysis, we need to ensure that distance is not distorted, and so we transform the coordinate system. 
+
+Not our Bixi-friendly AirBnBs are also limited to those that are close to parks!
+
+```{r hidden, include = F}
+# Nearest neighbours - this geospatial analysis takes a few minutes.
+airbnb_close2park <- st_nn(parks %>% st_transform(crs = 2959),
+                           bixi_friendly_airbnbs) # st_nn takes care of spatial transformations
+
+```
+
+
+```{r analysis3, eval=F, echo=T}
+# Nearest neighbours - this geospatial analysis takes a few minutes.
+airbnb_close2park <- st_nn(parks %>% st_transform(crs = 2959),
+                           bixi_friendly_airbnbs) # st_nn takes care of spatial transformations
+
+```
+
+```{r analysis4, echo=T, results='hold', warning=FALSE, message=FALSE}
+
+# Add an icon
+icon <- tmap_icons("bike.png")
+
+tmap_mode("view") 
+
+tm_shape(bixi) + 
+  tm_symbols(shape = icon, size = 0.1) +
+  tm_shape(parks) +
+  tm_fill(col = "green") +
+  tm_shape(bixi_friendly_airbnbs[unlist(airbnb_close2park),]) +
+  tm_dots(col = "price") 
+
+```
+
+
+Resources:
+
+* sf [cheat sheet](https://github.com/rstudio/cheatsheets/blob/master/sf.pdf)
+* Markdown [cheat sheet](https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+
+I know that there is a lot of other fun things to do in R with maps and I look forward to continue this exploration! (Upcoming: ShinyApp maps!) 
+
+~ Stay safe, and I hope that you are all holding up well! ~
+Megan

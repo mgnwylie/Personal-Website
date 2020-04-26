@@ -4,22 +4,42 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-02-14T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</loc>
-    <lastmod>2020-02-14T00:00:00+00:00</lastmod>
+    <loc>/categories/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2020/02/14/convicted-landlords-of-montreal-exploring-new-open-housing-data/</loc>
-    <lastmod>2020-02-14T00:00:00+00:00</lastmod>
+    <loc>/2020/04/15/geospatial-data-analysis-in-r-with-the-mcgill-geographic-information-centre/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2020-02-14T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/sf/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/tmap/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -28,12 +48,7 @@
   </url>
   
   <url>
-    <loc>/tags/efficient-frontier/</loc>
-    <lastmod>2020-01-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/porfolio-analysis/</loc>
+    <loc>/tags/portfolio-analysis/</loc>
     <lastmod>2020-01-21T00:00:00+00:00</lastmod>
   </url>
   
@@ -44,11 +59,6 @@
   
   <url>
     <loc>/tags/stocks/</loc>
-    <lastmod>2020-01-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-01-21T00:00:00+00:00</lastmod>
   </url>
   
@@ -78,22 +88,12 @@
   </url>
   
   <url>
-    <loc>/categories/</loc>
-    <lastmod>2020-01-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/2020/01/02/explore-income-inequality-in-canadian-cities-an-interactive-map-of-2001-2016-gini-coefficient-data/</loc>
     <lastmod>2020-01-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/plot/</loc>
-    <lastmod>2020-01-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
     <lastmod>2020-01-02T00:00:00+00:00</lastmod>
   </url>
   
@@ -135,6 +135,10 @@
   <url>
     <loc>/tags/regression/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/1/01/01/convicted-landlords-exploring-new-montreal-housing-data/</loc>
   </url>
   
 </urlset>

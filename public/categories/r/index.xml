@@ -6,10 +6,21 @@
     <description>Recent content in R on A Megan website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Geospatial data analysis in R with the McGill Geographic Information Centre</title>
+      <link>/2020/04/15/geospatial-data-analysis-in-r-with-the-mcgill-geographic-information-centre/</link>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/15/geospatial-data-analysis-in-r-with-the-mcgill-geographic-information-centre/</guid>
+      <description>Hello hello! I hope that this blog finds you well. These are scary times, and as many of us stay home working or studying, what better to do than make maps?!
+Last month, mere days before the global shutdown, I attended a workshop at McGill’s Geographic Information Centre. This workshop focused on geospatial data analysis and mapping.
+After leaving university and loosing access to the private software available through university privileges I’d started to move my life to open source.</description>
+    </item>
     
     <item>
       <title>Explore income inequality in Canadian cities: an interactive map of 2001- 2016 Gini coefficient data</title>
