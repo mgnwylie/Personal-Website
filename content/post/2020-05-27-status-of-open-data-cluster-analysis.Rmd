@@ -1,0 +1,263 @@
+---
+title: 'Status of Open Data: cluster analysis'
+author: Megan Wylie
+date: '2020-05-27'
+slug: status-of-open-data-cluster-analysis
+categories: []
+tags:
+  - machine learning
+  - cluster analysis
+Categories: []
+Description: ''
+Tags: []
+---
+
+```{r setup, include=FALSE}
+
+library(tidyverse)
+library(ggpubr)
+library(rvest)
+library(psych)
+library(tables)
+library(ggalt)
+library(ggforce)
+library(concaveman)
+library(ggrepel)
+library(gridExtra)
+library(gridtext)
+library(data.table)
+library(cowplot)
+set.seed(12)
+```
+
+
+
+
+```{r prep, include=FALSE}
+## Load data
+
+# Leaders Edition Ranking
+# full calculated scores, sub-index and sub-component values, country classifications and other contextual information
+full_scores <- read.csv("https://opendatabarometer.org/data/leadersEdition/ODB-leadersEdition-Rankings.csv")
+    
+# Leaders Edition Scores
+# raw scores / answers for the questions
+raw_scores <- read.csv("https://opendatabarometer.org/data/leadersEdition/ODB-leadersEdition-Scores.csv")
+    
+# Leaders Edition Datasets Scored 
+datasets_scored <- read.csv("https://opendatabarometer.org/data/leadersEdition/ODB-leadersEdition-Datasets-Scored.csv")
+
+###############
+## Clean data #
+###############
+          
+# read in indicators csv / data dictionary
+indicators <- read.csv("https://opendatabarometer.org/data/leadersEdition/ODB-leadersEdition-Indicators.csv")
+
+# make data consistent between indicators data dictionary and raw_scores    
+# only keep indicator data that relates to raw_data
+indicators <- indicators %>% filter(code %in% names(raw_scores))
+          
+# do the same for raw_scores
+raw_scores <- raw_scores %>% select(Country, names(raw_scores)[names(raw_scores) %in% indicators$code])
+
+# collect report groupings from online 
+url <- "https://opendatabarometer.org/leadersedition/report/#findings"
+            
+odb_groups <- html_nodes(read_html(url) , "table") %>%
+            .[[1]] %>% 
+            html_table(fill = T) %>% 
+            bind_cols(
+                group_odb = 
+                  read_html(url) %>% 
+                  html_nodes(xpath = '//*[@id="table1"]/table/tbody[1]/tr/td[1]') %>% 
+                  html_attr("class") %>% 
+                  str_extract_all("(?<=-).+$") %>% 
+                  unlist())
+            
+odb_groups <- odb_groups %>% 
+              select(country = `Governments and groups` , group_odb , everything()) %>% 
+              rename_all(str_replace_all , "\\s" , "_") %>% 
+              rename_all(str_remove_all , pattern = "\\(.+$") %>% 
+              rename_all(str_to_lower) 
+            
+            
+#change United States of America to USA
+levels(odb_groups$country) <- c(levels(odb_groups$country), "United States of America") 
+odb_groups$country[odb_groups$country=="USA"] <- "United States of America"
+            
+#Change United Kingdom to UK
+levels(odb_groups$country) <- c(levels(odb_groups$country), "United Kingdom") 
+odb_groups$country[odb_groups$country=="UK"] <- "United Kingdom"
+```
+
+```{r analysis, include=FALSE}
+#########################
+# ANALYSIS              #
+# K-Means Clustering    #
+#########################
+
+# clustering within each category/subindex: readiness, implementation and impact
+# this is because the overall clustering resulted in different category weights because there were different numbers of questions.
+      
+# set up data          
+score_matrix <- raw_scores                  
+        
+subindex_unique <- indicators %>%           
+                    pull("subindex") %>%        
+                    unique() %>%                
+                    as.character()             
+        
+        
+plots <- list() ; data <- list() ; sum_tab <- list() 
+        
+df <- full_scores %>%  left_join(odb_groups %>% select(country, group_odb),
+                                           by = c("Country" = "country")) %>% as.tibble()
+                                
+            
+#cluster for each subindex (loop three times)
+            
+for (i in 1:length(subindex_unique)) {        
+          
+      set.seed(12) # for consistent results
+              
+      # only keep one subindex
+      indicator <- subindex_unique[i]           
+                
+      # only keep question titles for that subindex
+      X <- indicators %>%              
+        filter(subindex == indicator) %>%       
+        pull(code) %>%                          
+        as.character()                          
+                
+      # Distance: cluster analysis using raw scores for that subindex
+      dis_mat <- score_matrix %>%                 
+                select(Country , X) %>%                
+                dist() %>%                              
+                cmdscale() %>%                          
+                as_tibble() %>%                         
+                bind_cols(country = score_matrix$Country) %>%  
+                select(country, x = V1 , y = V2)         
+                
+      # cluster analysis: K-means
+      clust <- kmeans(select(dis_mat, x, y), 3)$cluster %>% 
+        as.factor()
+                              
+      # add cluster groups to distance data
+      dis_mat <- dis_mat %>% mutate(cluster = clust)
+                
+      # sort data by average of group to order clusters
+      tmp <- str_to_title(indicator)
+                
+      # use full scores because it contains the subindex names 
+      tf <- full_scores %>% 
+            left_join(dis_mat , by = c("Country" = "country")) %>% 
+            select(cluster , 
+                      contains(tmp)) %>% 
+            group_by(cluster) %>%         
+            summarise_if(is.numeric , mean)
+                          
+      cols <- names(select(ungroup(tf) , contains(tmp))) 
+                
+      # Rank by the sum of means
+      tf <- tf %>% ungroup() %>% 
+                    mutate(sum_mean = rowSums(.[cols])) %>% 
+                    mutate(rank = order(desc(sum_mean)))
+                            
+      dis_mat <- dis_mat %>% left_join(tf %>% select(cluster , rank)) %>% 
+                  mutate(cluster = factor(rank)) %>% select(-rank)
+                
+      # plots
+      dis_mat <- dis_mat %>% left_join(full_scores, by = c("country" = "Country"))
+                
+      p <- ggplot(dis_mat, aes(x=x, y=y, color = cluster)) + 
+            geom_mark_hull(concavity = 5,expand=0,radius=0, aes(fill = cluster)) +
+            geom_point() + 
+            geom_text_repel(label = dis_mat$ISO3) +
+            labs (color = "Cluster Group", fill = "Cluster Group",
+                  title = indicator) +
+            theme(axis.text.x = element_blank(),
+                  axis.text.y = element_blank(),
+                  axis.ticks.x = element_blank(),
+                  axis.ticks.y = element_blank()) 
+                
+      #save plots and data; filling empty list object
+      plots[[indicator]] <- p                   
+      data[[indicator]] <- dis_mat
+      sum_tab[[indicator]] <- tf
+                
+      dis_mat <- dis_mat %>% 
+                  select(country, cluster)
+      
+      # rename cluster variable 
+      tmp <- paste0(indicator, "_cluster")
+      
+      names(dis_mat)[2] <- tmp
+      
+      # attach data to dataframe
+      df <- df %>% left_join(dis_mat , by = c("Country" = "country"))
+
+}
+```
+
+
+
+```{r plots, include=FALSE}
+##############
+# save plots #
+##############
+ggsave(plot = plots$readiness, "readiness-plot.png")
+ggsave(plot = plots$impact, "impact-plot.png")
+ggsave(plot = plots$implementation, "implementation-plot.png")
+
+# save single plot with single legend
+prow <- plot_grid(
+  plots$readiness + theme(legend.position="none"),
+  plots$implementation + theme(legend.position="none"),
+  plots$impact + theme(legend.position="none"),
+  align = 'vh',
+  hjust = -1,
+  nrow = 1
+)
+
+legend <- get_legend(
+  # create space to the left of the legend
+  plots$readiness + theme(legend.box.margin = margin(0, 0, 0, 12))
+)
+
+# create image with three plots and one legend
+p <- plot_grid(prow, legend, rel_widths = c(3, .4))
+
+p
+
+###########################
+# save summary statistics #
+###########################
+
+# create an empty vector
+stats <- list()
+
+# calculate summary statistics
+for (i in 1:length(subindex_unique)) { 
+        
+      indicator <- subindex_unique[i]
+      tmp <- str_to_title(indicator)
+      
+      stats_df <- df %>% 
+        select(Country, contains(tmp)) %>% 
+        select(c(Country, ends_with(tmp), contains("cluster"))) %>%
+        rename(col = 2, cluster = 3) %>% mutate(col = as.numeric(col)) %>%
+        group_by(cluster) %>% 
+        dplyr::summarize(count = n(), mean = mean(col), sd = sd(col), min = min(col), max = max(col))  
+      
+      stats[[indicator]] <- stats_df
+
+}
+
+# save datasets
+write_csv(stats$readiness, "readiness_descriptives.csv")        
+write_csv(stats$implementation, "implementation_descriptives.csv")        
+write_csv(stats$impact, "impact_descriptives.csv")        
+
+# end! 
+``` 
