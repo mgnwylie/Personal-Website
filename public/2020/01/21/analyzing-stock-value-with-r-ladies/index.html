@@ -2,7 +2,7 @@
 	<!doctype html>
 <html lang="en">
   <head>
-    <title>MEGAN WYLIE - Analyzing stocks and portfolios with R Ladies</title>
+    <title>MEGAN WYLIE - Analyzing stocks and portfolios with RLadies</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
@@ -38,7 +38,7 @@
 	    
 	  <div class="post">
 	    <header class="post-header">
-	        <h1><a href="/2020/01/21/analyzing-stock-value-with-r-ladies/">Analyzing stocks and portfolios with R Ladies</a></h1>
+	        <h1><a href="/2020/01/21/analyzing-stock-value-with-r-ladies/">Analyzing stocks and portfolios with RLadies</a></h1>
 	        <div class="post-time">January 21 2020</div>
 	    </header>
 	    <div class="post-after">
@@ -46,11 +46,9 @@
 	            
 	                <a href="//tags/r">R</a>
 	            
-	                <a href="//tags/porfolio-analysis">Porfolio Analysis</a>
+	                <a href="//tags/portfolio-analysis">Portfolio Analysis</a>
 	            
 	                <a href="//tags/stocks">Stocks</a>
-	            
-	                <a href="//tags/efficient-frontier">Efficient Frontier</a>
 	            
 	        </div>
 	    </div>
@@ -68,35 +66,37 @@
 
 
 <p>This week for R Ladies we did stock market analysis! Led by Scott Clone, the group downloaded data on stock market prices from the internet, reformatted the data, and created portfolios of the stocks based on risk preferences. We were risky investors!</p>
-<p>All code here was written by Scott Clone, and I just outline my own learnings from the tutorial.</p>
-<div id="documents" class="section level1">
-<h1>Documents</h1>
+<p>All code here was written by Scott Clone, and I outline in my notes what I learned from the tutorial.</p>
+<div id="documents" class="section level3">
+<h3>Documents</h3>
 <p>As usual, all of the documents can be found on the <a href="https://github.com/rladies/meetup-presentations_montreal">RLadies GitHub page</a>. The documents for this particular tutorial are on <a href="https://github.com/Scott-Clone/portfolio-modelling/tree/993f826eee0fec086201875b14ed0ac4d53c02e8">Scott Clone’s GitHub</a>.</p>
-<p>In this meetup we learned:</p>
+<p>In this meetup we learned how to:</p>
 <ul>
-<li>Extracting stock price data from the internet</li>
-<li>Grouping data into stock portfolios</li>
-<li>Estimating risk of portfolios using economic risk methods</li>
+<li>Extract stock price data from the internet,</li>
+<li>Group data into stock portfolios based on risk preferences,</li>
+<li>Estimate risk of portfolios, and</li>
+<li>Visualize the portfolios in figures based on returns and weights in our portfolios</li>
 </ul>
 </div>
-<div id="tutorial-portfolio-modelling" class="section level1">
-<h1>Tutorial: Portfolio Modelling</h1>
-<div id="side-note-setting-up-r-chunks-in-r-markdown-rmd" class="section level2">
-<h2>Side note: Setting up R chunks in R Markdown (RMD)</h2>
+<div id="side-note-setting-up-r-chunks-in-r-markdown-rmd" class="section level3">
+<h3>Side note: Setting up R chunks in R Markdown (Rmd)</h3>
 <p>An important part of R Markdown is setting up the R chunks. These R-chunk settings decide if the R code is run and displayed on my blog (where you’re probably reading this!) or if the output is the only visible feature. This is really cool because it means that I can have code that is:</p>
 <ol style="list-style-type: decimal">
 <li>not displayed, or</li>
 <li>not run, or</li>
-<li>the complete opposite (or some inbetween).</li>
+<li>the complete opposite (or some in between).</li>
 </ol>
 <p>There are a few settings that allow me to do this (and a lot more to explore).</p>
-<p><em>include = FALSE</em> means that the code doesn’t run when I generate the blog post, therefore not displaying unneccessary errors or notes about loading a package. It also means that the output is not displayed.</p>
+<p><em>include = FALSE</em> means that the code doesn’t run when I generate the blog post, therefore not displaying unnecessary errors or notes about loading a package. It also means that the output is not displayed.</p>
 <p><em>echo = FALSE</em> means that the code will not be shown in the post. I set it to TRUE.</p>
 <p><em>message = FALSE</em> means that errors and messages regarding the code will not be shown.</p>
 </div>
-<div id="getting-stock-price-and-returns-data" class="section level2">
-<h2>Getting stock price and returns data</h2>
-<p>The below code sets up a function to extract stock data from the internet. The dataframe getSymbolData sets the date parameters: from 2019-06-01 until 2019-12-31 and sets up column names and values: r_data, price_data, and returns_data.</p>
+<div id="tutorial-portfolio-modelling" class="section level1">
+<h1>Tutorial: Portfolio Modelling</h1>
+<div id="downloading-stock-price-and-returns-data" class="section level2">
+<h2>Downloading stock price and returns data</h2>
+<p>The below code is a function to download stock data.</p>
+<p><em>getSymbolData</em> is a function with date extraction parameters. In the below example, we set the parameter to extract data from 2019-06-01 until 2019-12-31 and sets column names and values to be r_data, price_data, and returns_data.</p>
 <pre class="r"><code># set parameters for the stock dates, as start and end.
 getSymbolData &lt;- function(symbolList, start = &quot;2019-06-01&quot;, end = &quot;2019-12-31&quot;){
   getSymbols(
@@ -117,12 +117,15 @@ getSymbolData &lt;- function(symbolList, start = &quot;2019-06-01&quot;, end = &
   colnames(r_data) &lt;- symbolList
   list(returns_data = r_data, price_data = p_data)
 }</code></pre>
-<p>We chose to use data from the Bank of Nova Scotia (BNS), Air Canada, Shopify, and GoEasy. These were arbitrary choices, and you can find the companies stock code by just googling <em>stock [company name]</em></p>
-<p>This outputs a data frame with stock data for returns and prices from our chosen companies.</p>
-<p>We group them into the <em>my_stocks</em> data frame to be used later on in this tutorial.</p>
+<p>We chose to use data from the Bank of Nova Scotia (BNS), Air Canada, Shopify, and GoEasy. These were arbitrary choices, and you can find the companies stock code by just googling “<em>stock [company name].</em>”</p>
+<p>This outputs a data frame with stock data for returns and prices from our chosen companies in our chosen time frame.</p>
+<p>We group them into the <em>my_stocks</em>. This will be used later on in this tutorial to create portfolios. BUT FIRST! Data cleaning…</p>
 <pre class="r"><code># Stocks for BNS, Air Canada, Shopify, goeasy
 my_stocks &lt;- getSymbolData(c(&quot;BNS.TO&quot;, &quot;AC&quot;, &quot;SHOP&quot;, &quot;GSY&quot;))</code></pre>
-<p>Here we separated the return data and the price data into two separate data frames and renamed the column headers.</p>
+</div>
+<div id="data-cleaning" class="section level2">
+<h2>Data cleaning</h2>
+<p>Below we separated the return data and the price data into two separate data frames and renamed the column headers.</p>
 <pre class="r"><code>#This makes it a data frame of return data.  
 return_data &lt;- as.data.frame(my_stocks$returns_data)
 
@@ -133,9 +136,7 @@ names(return_data) &lt;- c(&quot;BNS_TO&quot;, &quot;AC&quot;, &quot;SHOP&quot;,
 #return_data$Date &lt;- index(my_stocks$returns_data)
 price_data &lt;- as.data.frame(my_stocks$price_data)
 names(price_data) &lt;- c(&quot;BNS_TO&quot;, &quot;AC&quot;, &quot;SHOP&quot;, &quot;GSY&quot;)</code></pre>
-<p>We can then plot the data!</p>
-<p>The below plot uses the package <a href="https://plot.ly/">Plotly</a>, for interactive plots, to display price data for BNS.</p>
-<p>I added some additional formatting to the figure.</p>
+<p>To see what the stock returns were like over time, we then plot the data for our chosen time periods. The below plot uses the package <a href="https://plot.ly/">Plotly</a>, for interactive plots, to display price data for BNS. Ideally, we would do this for each stock.</p>
 <pre class="r"><code># add column name to first column
 price_data &lt;- setNames(cbind(rownames(price_data), 
                              price_data, row.names = NULL), 
@@ -160,14 +161,14 @@ plotly::plot_ly(
   )
 )</code></pre>
 <div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"visdat":{"1acc20f26b88":["function () ","plotlyVisDat"]},"cur_data":"1acc20f26b88","attrs":{"1acc20f26b88":{"y":{},"x":{},"mode":"lines","tickangle":45,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":160,"l":60,"t":25,"r":10},"title":"BNS Stock Price","xaxis":{"domain":[0,1],"automargin":true,"type":"date","title":"Date","categoryorder":"array","categoryarray":["2019-06-03","2019-06-04","2019-06-05","2019-06-06","2019-06-07","2019-06-10","2019-06-11","2019-06-12","2019-06-13","2019-06-14","2019-06-17","2019-06-18","2019-06-19","2019-06-20","2019-06-21","2019-06-24","2019-06-25","2019-06-26","2019-06-27","2019-06-28","2019-07-01","2019-07-02","2019-07-03","2019-07-04","2019-07-05","2019-07-08","2019-07-09","2019-07-10","2019-07-11","2019-07-12","2019-07-15","2019-07-16","2019-07-17","2019-07-18","2019-07-19","2019-07-22","2019-07-23","2019-07-24","2019-07-25","2019-07-26","2019-07-29","2019-07-30","2019-07-31","2019-08-01","2019-08-02","2019-08-05","2019-08-06","2019-08-07","2019-08-08","2019-08-09","2019-08-12","2019-08-13","2019-08-14","2019-08-15","2019-08-16","2019-08-19","2019-08-20","2019-08-21","2019-08-22","2019-08-23","2019-08-26","2019-08-27","2019-08-28","2019-08-29","2019-08-30","2019-09-03","2019-09-04","2019-09-05","2019-09-06","2019-09-09","2019-09-10","2019-09-11","2019-09-12","2019-09-13","2019-09-16","2019-09-17","2019-09-18","2019-09-19","2019-09-20","2019-09-23","2019-09-24","2019-09-25","2019-09-26","2019-09-27","2019-09-30","2019-10-01","2019-10-02","2019-10-03","2019-10-04","2019-10-07","2019-10-08","2019-10-09","2019-10-10","2019-10-11","2019-10-14","2019-10-15","2019-10-16","2019-10-17","2019-10-18","2019-10-21","2019-10-22","2019-10-23","2019-10-24","2019-10-25","2019-10-28","2019-10-29","2019-10-30","2019-10-31","2019-11-01","2019-11-04","2019-11-05","2019-11-06","2019-11-07","2019-11-08","2019-11-11","2019-11-12","2019-11-13","2019-11-14","2019-11-15","2019-11-18","2019-11-19","2019-11-20","2019-11-21","2019-11-22","2019-11-25","2019-11-26","2019-11-27","2019-11-28","2019-11-29","2019-12-02","2019-12-03","2019-12-04","2019-12-05","2019-12-06","2019-12-09","2019-12-10","2019-12-11","2019-12-12","2019-12-13","2019-12-16","2019-12-17","2019-12-18","2019-12-19","2019-12-20","2019-12-23","2019-12-24","2019-12-26","2019-12-27","2019-12-30"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Price"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"y":[66.728615,67.557777,67.442085,67.519211,67.875954,68.184479,68.232681,67.7024,67.808464,68.059135,68.078423,68.608704,68.705116,68.820808,68.946144,69.119698,68.801537,68.579765,68.43515,68.65966,null,69.079384,69.460075,69.499115,69.28437,69.177002,69.31366,69.089149,68.835358,68.16185,67.829964,67.761635,67.419998,67.71283,67.71283,67.703072,68.152084,68.610855,69.040344,68.854881,69.108673,68.796318,68.776794,68.396111,67.908058,null,66.902657,67.341904,67.71283,67.468803,67.166206,67.419998,66.092484,65.799652,66.102249,66.834335,66.307228,66.590302,66.844093,66.092484,66.151054,66.931946,67.67379,68.786552,69.108673,68.757271,69.323418,69.918839,70.358101,70.836388,71.178024,71.949158,72.486015,73.179062,72.691002,72.96431,72.79837,72.720284,72.96431,73.06192,73.530457,73.862335,74.321098,74.428474,74.329697,73.687645,73.025841,72.897438,73.341927,73.401192,73.292534,73.904961,73.895081,74.230927,null,74.655663,74.833466,74.566765,74.645782,74.369209,74.270432,74.171654,74.161781,74.211166,74.270432,74.62603,74.833466,74.61615,74.872978,75.287834,75.445877,75.534782,75.48539,75.564407,75.564407,75.49527,75.139671,75.169304,75.080406,75.347099,75.564407,75.287834,75.090279,74.635902,74.872978,74.260551,74.003731,74.003731,74.023491,73.76667,73.035721,73.292534,73.983978,74.290184,74.043243,73.75679,73.677765,73.796303,72.917191,73.144379,73.569122,72.709755,72.413422,72.76902,72.571472,72.522079,null,72.62085,72.462814],"x":["2019-06-03","2019-06-04","2019-06-05","2019-06-06","2019-06-07","2019-06-10","2019-06-11","2019-06-12","2019-06-13","2019-06-14","2019-06-17","2019-06-18","2019-06-19","2019-06-20","2019-06-21","2019-06-24","2019-06-25","2019-06-26","2019-06-27","2019-06-28",null,"2019-07-02","2019-07-03","2019-07-04","2019-07-05","2019-07-08","2019-07-09","2019-07-10","2019-07-11","2019-07-12","2019-07-15","2019-07-16","2019-07-17","2019-07-18","2019-07-19","2019-07-22","2019-07-23","2019-07-24","2019-07-25","2019-07-26","2019-07-29","2019-07-30","2019-07-31","2019-08-01","2019-08-02",null,"2019-08-06","2019-08-07","2019-08-08","2019-08-09","2019-08-12","2019-08-13","2019-08-14","2019-08-15","2019-08-16","2019-08-19","2019-08-20","2019-08-21","2019-08-22","2019-08-23","2019-08-26","2019-08-27","2019-08-28","2019-08-29","2019-08-30","2019-09-03","2019-09-04","2019-09-05","2019-09-06","2019-09-09","2019-09-10","2019-09-11","2019-09-12","2019-09-13","2019-09-16","2019-09-17","2019-09-18","2019-09-19","2019-09-20","2019-09-23","2019-09-24","2019-09-25","2019-09-26","2019-09-27","2019-09-30","2019-10-01","2019-10-02","2019-10-03","2019-10-04","2019-10-07","2019-10-08","2019-10-09","2019-10-10","2019-10-11",null,"2019-10-15","2019-10-16","2019-10-17","2019-10-18","2019-10-21","2019-10-22","2019-10-23","2019-10-24","2019-10-25","2019-10-28","2019-10-29","2019-10-30","2019-10-31","2019-11-01","2019-11-04","2019-11-05","2019-11-06","2019-11-07","2019-11-08","2019-11-11","2019-11-12","2019-11-13","2019-11-14","2019-11-15","2019-11-18","2019-11-19","2019-11-20","2019-11-21","2019-11-22","2019-11-25","2019-11-26","2019-11-27","2019-11-28","2019-11-29","2019-12-02","2019-12-03","2019-12-04","2019-12-05","2019-12-06","2019-12-09","2019-12-10","2019-12-11","2019-12-12","2019-12-13","2019-12-16","2019-12-17","2019-12-18","2019-12-19","2019-12-20","2019-12-23","2019-12-24",null,"2019-12-27","2019-12-30"],"mode":"lines","tickangle":45,"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"visdat":{"65ab40ff56b6":["function () ","plotlyVisDat"]},"cur_data":"65ab40ff56b6","attrs":{"65ab40ff56b6":{"y":{},"x":{},"mode":"lines","tickangle":45,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":160,"l":60,"t":25,"r":10},"title":"BNS Stock Price","xaxis":{"domain":[0,1],"automargin":true,"type":"date","title":"Date","categoryorder":"array","categoryarray":["2019-06-03","2019-06-04","2019-06-05","2019-06-06","2019-06-07","2019-06-10","2019-06-11","2019-06-12","2019-06-13","2019-06-14","2019-06-17","2019-06-18","2019-06-19","2019-06-20","2019-06-21","2019-06-24","2019-06-25","2019-06-26","2019-06-27","2019-06-28","2019-07-01","2019-07-02","2019-07-03","2019-07-04","2019-07-05","2019-07-08","2019-07-09","2019-07-10","2019-07-11","2019-07-12","2019-07-15","2019-07-16","2019-07-17","2019-07-18","2019-07-19","2019-07-22","2019-07-23","2019-07-24","2019-07-25","2019-07-26","2019-07-29","2019-07-30","2019-07-31","2019-08-01","2019-08-02","2019-08-05","2019-08-06","2019-08-07","2019-08-08","2019-08-09","2019-08-12","2019-08-13","2019-08-14","2019-08-15","2019-08-16","2019-08-19","2019-08-20","2019-08-21","2019-08-22","2019-08-23","2019-08-26","2019-08-27","2019-08-28","2019-08-29","2019-08-30","2019-09-03","2019-09-04","2019-09-05","2019-09-06","2019-09-09","2019-09-10","2019-09-11","2019-09-12","2019-09-13","2019-09-16","2019-09-17","2019-09-18","2019-09-19","2019-09-20","2019-09-23","2019-09-24","2019-09-25","2019-09-26","2019-09-27","2019-09-30","2019-10-01","2019-10-02","2019-10-03","2019-10-04","2019-10-07","2019-10-08","2019-10-09","2019-10-10","2019-10-11","2019-10-14","2019-10-15","2019-10-16","2019-10-17","2019-10-18","2019-10-21","2019-10-22","2019-10-23","2019-10-24","2019-10-25","2019-10-28","2019-10-29","2019-10-30","2019-10-31","2019-11-01","2019-11-04","2019-11-05","2019-11-06","2019-11-07","2019-11-08","2019-11-11","2019-11-12","2019-11-13","2019-11-14","2019-11-15","2019-11-18","2019-11-19","2019-11-20","2019-11-21","2019-11-22","2019-11-25","2019-11-26","2019-11-27","2019-11-28","2019-11-29","2019-12-02","2019-12-03","2019-12-04","2019-12-05","2019-12-06","2019-12-09","2019-12-10","2019-12-11","2019-12-12","2019-12-13","2019-12-16","2019-12-17","2019-12-18","2019-12-19","2019-12-20","2019-12-23","2019-12-24","2019-12-26","2019-12-27","2019-12-30"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Price"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"y":[65.628487,66.443985,66.330193,66.406059,66.756912,67.060356,67.107758,66.586227,66.690536,66.93708,66.956039,67.477585,67.572411,67.686195,67.809464,67.980148,67.667229,67.449127,67.3069,67.527702,null,67.940506,68.314919,68.353317,68.142113,68.036514,68.170921,67.950111,67.7005,67.038101,66.711685,66.644478,66.308479,66.596481,66.596481,66.586884,67.028496,67.479698,67.902107,67.719704,67.969315,67.662109,67.642906,67.268494,66.78849,null,65.799667,66.231667,66.596481,66.356476,66.058868,66.308479,65.002846,64.714844,65.012451,65.732468,65.21405,65.492462,65.742065,65.002846,65.060455,65.828468,66.558083,67.652504,67.969315,67.623703,68.180519,68.766121,69.198143,69.668541,70.004547,70.762962,71.29097,71.972595,71.492577,71.761383,71.598175,71.521378,71.761383,71.857384,72.318192,72.6446,73.095802,73.201408,73.104256,72.472794,71.821899,71.69561,72.132774,72.191063,72.084198,72.686523,72.676811,73.007118,null,73.42485,73.599724,73.337418,73.415131,73.14312,73.045967,72.948822,72.93911,72.987679,73.045967,73.395706,73.599724,73.385986,73.63858,74.0466,74.202034,74.289474,74.240898,74.318611,74.318611,74.250618,73.900879,73.930023,73.84259,74.104889,74.318611,74.0466,73.852303,73.405418,73.63858,73.036255,72.783669,72.783669,72.803101,72.550514,71.831619,72.084198,72.764236,73.065399,72.822525,72.540794,72.463074,72.579659,71.715042,71.938484,72.356224,71.511024,71.219574,71.569313,71.375023,71.326439,null,71.423584,71.268158],"x":["2019-06-03","2019-06-04","2019-06-05","2019-06-06","2019-06-07","2019-06-10","2019-06-11","2019-06-12","2019-06-13","2019-06-14","2019-06-17","2019-06-18","2019-06-19","2019-06-20","2019-06-21","2019-06-24","2019-06-25","2019-06-26","2019-06-27","2019-06-28",null,"2019-07-02","2019-07-03","2019-07-04","2019-07-05","2019-07-08","2019-07-09","2019-07-10","2019-07-11","2019-07-12","2019-07-15","2019-07-16","2019-07-17","2019-07-18","2019-07-19","2019-07-22","2019-07-23","2019-07-24","2019-07-25","2019-07-26","2019-07-29","2019-07-30","2019-07-31","2019-08-01","2019-08-02",null,"2019-08-06","2019-08-07","2019-08-08","2019-08-09","2019-08-12","2019-08-13","2019-08-14","2019-08-15","2019-08-16","2019-08-19","2019-08-20","2019-08-21","2019-08-22","2019-08-23","2019-08-26","2019-08-27","2019-08-28","2019-08-29","2019-08-30","2019-09-03","2019-09-04","2019-09-05","2019-09-06","2019-09-09","2019-09-10","2019-09-11","2019-09-12","2019-09-13","2019-09-16","2019-09-17","2019-09-18","2019-09-19","2019-09-20","2019-09-23","2019-09-24","2019-09-25","2019-09-26","2019-09-27","2019-09-30","2019-10-01","2019-10-02","2019-10-03","2019-10-04","2019-10-07","2019-10-08","2019-10-09","2019-10-10","2019-10-11",null,"2019-10-15","2019-10-16","2019-10-17","2019-10-18","2019-10-21","2019-10-22","2019-10-23","2019-10-24","2019-10-25","2019-10-28","2019-10-29","2019-10-30","2019-10-31","2019-11-01","2019-11-04","2019-11-05","2019-11-06","2019-11-07","2019-11-08","2019-11-11","2019-11-12","2019-11-13","2019-11-14","2019-11-15","2019-11-18","2019-11-19","2019-11-20","2019-11-21","2019-11-22","2019-11-25","2019-11-26","2019-11-27","2019-11-28","2019-11-29","2019-12-02","2019-12-03","2019-12-04","2019-12-05","2019-12-06","2019-12-09","2019-12-10","2019-12-11","2019-12-12","2019-12-13","2019-12-16","2019-12-17","2019-12-18","2019-12-19","2019-12-20","2019-12-23","2019-12-24",null,"2019-12-27","2019-12-30"],"mode":"lines","tickangle":45,"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
-<div id="looking-at-the-portfolio" class="section level1">
-<h1>Looking at the portfolio</h1>
-<p>We will now test the risk and returns of a portfolio containing the stocks for BNS, Shopify, GoEasy, and Air Canada.</p>
-<p>Below, we take the original data frame, my_stocks, and separate out returns and price data. This differs from the earlier separation of price and returns data as we do not save it as a data frame using <em>as.data.frame</em> but instead as xml documents. This type of document can then be processes by some of the portfolio analtyics packages.</p>
-<p>To test returns, we get the average returns and variance of returns. Scott explained that variance of data for stock market analysts is <em>risk</em>.</p>
+<div id="creating-a-portfolio-to-be-risky-or-to-be-safe" class="section level1">
+<h1>Creating a portfolio: to be risky, or to be safe?</h1>
+<p>We will now test the risk and returns of a portfolio containing the stocks for BNS, Shopify, GoEasy, and Air Canada. Portfolios are groups of stocks someone choose to invest in. By investing in multiple stocks, someone can mitigate the risk of loosing money, as their risk is distributed over more companies. I.e., not putting <em>all your eggs in one risky basket</em>. <a href="https://www.investopedia.com/terms/p/portfolio.asp">Investopedia</a> has more information if you’re interested.</p>
+<p>Below, we take the original data frame, <em>my_stocks</em>, and separate out returns and price data. This differs from the earlier separation of price and returns data as we do not save it as a data frame using <em>as.data.frame</em> but instead as a xml document. This type of document can then be processes by the portfolio analytic package.</p>
+<p>To test returns, we take the average returns and variance/standard deviation of returns. Scott explained that variance/standard deviation of data for stock market analysts is what investors call <em>risk</em>.</p>
 <pre class="r"><code># Separate returns data, in xts format.
 returns &lt;- my_stocks$returns_data
 
@@ -178,9 +179,9 @@ price &lt;- my_stocks$price_data
 mean_returns &lt;- colMeans(returns)
 cov_matrix &lt;- cov(returns)</code></pre>
 </div>
-<div id="deciding-on-your-risk-and-return-preference-in-the-stock-portfolio." class="section level1">
-<h1>Deciding on your risk and return preference in the stock portfolio.</h1>
-<p>The below code then combines all of the returns data into the data frame <em>my_folio</em>, or the portfolio.</p>
+<div id="deciding-on-your-risk-and-return-preference-in-your-portfolio." class="section level1">
+<h1>Deciding on your risk and return preference in your portfolio.</h1>
+<p>The below code then combines all of the returns data from each company into the data frame <em>my_folio</em>, or the portfolio. Assets are the stocks you own.</p>
 <pre class="r"><code># Create the portfolio
 my_folio &lt;- portfolio.spec(assets = colnames(returns))</code></pre>
 <p>As described by Scott, we can then set our risk levels with the min and max options. He did not specify what the values in the risk min and max mean, but they vary from 0 to 1.</p>
@@ -192,7 +193,8 @@ my_folio &lt;- add.constraint(
   min = 0.05, #these are risk
   max = 0.65
 )</code></pre>
-<p>Or we could set a very risky portfolio! Below the very risky portfolio is set with min as 0.99 and max as 1.01.</p>
+<p>Or we could set a very risky portfolio! Below the very risky portfolio is set with min as 0.99 and max as 1.01. Vegas here I come!</p>
+<p>These functions are determining how much of each stock a person should buy from the set list of companies to get returns at their preferred risk level.</p>
 <pre class="r"><code>my_folio &lt;- add.constraint(
   portfolio = my_folio, 
   # The type means the type of investment
@@ -203,8 +205,7 @@ my_folio &lt;- add.constraint(
 </div>
 <div id="maximize-returns-how-much-of-each-stock-to-put-in-the-portfolio" class="section level1">
 <h1>Maximize returns: How much of each stock to put in the portfolio</h1>
-<p>We can then run the <em>optomize.portfolio</em> function to optomize returns based on our risk parameters.</p>
-<p>The function here will analyze the returns data for the stocks we selected and suggest how much of each stock we should put in our portfolio.</p>
+<p>We can then run the <em>optimize.portfolio</em> function to optimize returns based on our risk parameters. The function here analyzes the returns data for the stocks we selected and suggest how much of each stock we should put in our portfolio.</p>
 <pre class="r"><code># Maximize the average returns with return on investment (ROI)
 max_return &lt;- add.objective(
   portfolio = my_folio, 
@@ -219,29 +220,31 @@ opt_max_return &lt;- optimize.portfolio(
   optimize_method = &quot;ROI&quot;,
   trace = TRUE
 )</code></pre>
-<p>One can then use the below <em>print</em> commands to print out results from the optomize portfolio function. The results are quite long, so I don’t include them.</p>
+<p>One can then use the below <em>print</em> commands to print out results from the optimize portfolio function. The results are quite long, so I don’t include them in this post.</p>
 <pre class="r"><code># these print the details on how much I should invest.
 #print.default(opt_max_return) #this prints a lot more than the other one.. (after)
 #print(opt_max_return)</code></pre>
-<p>Below is a plot that visually displays how much of each stock should be in the portfolio to maximize returns.</p>
+<p>Below is a plot that visually displays how much of each stock should be in the portfolio to maximize returns. It needs some visual work, but in essence, the x-axis shows the standard deviation, or risk, of the portfolio. The y-axis shows the average returns for the top chart and the weight of each stock in the portfolio for the bottom chart.</p>
+<p>This figure shows that, at high risk or when searching for max returns, we should mostly buy Shopify stocks. It makes sense that a start-up, Shopify, would be riskier than Air Canada or the Bank of Nova Scotia.</p>
 <pre class="r"><code># Plot optimized maximum mean (i.e. return?)
 plot(
   opt_max_return, 
   risk.col = &quot;StdDev&quot;, 
   return.col = &quot;mean&quot;,
-  main = &quot;Low Risk Optimization&quot;, 
-  chart.assets = TRUE,
+  main = &quot;High Risk Optimization&quot;, 
+  chart.assets = TRUE, #this adds the individual stocks to the figure
   xlim = c(-0.5, 1), 
   ylim = c(-0.002, 0.004)
-)</code></pre>
+  #title(xlab = &quot;Risk&quot;, ylab = &quot;Average Returns&quot;)
+  )</code></pre>
 <p><img src="/post/2020-01-21-analyzing-stock-value-with-r-ladies_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>The below code does a similar function to maxamize returns, but instead minimizes risk.</p>
+<p>The below code does a similar function to maximize returns, but instead minimizes risk.</p>
 <pre class="r"><code># Plot optimized minimum var (i.e. risk)
 plot(
   opt_min_var, 
   risk.col = &quot;StdDev&quot;, 
   return.col = &quot;mean&quot;,
-  main = &quot;Minimum Variance Optimization&quot;, 
+  main = &quot;Medium-Low Risk Optimization&quot;, 
   chart.assets = TRUE,
   xlim = c(-0.5, 1), 
   ylim = c(-0.002, 0.004)
@@ -249,8 +252,8 @@ plot(
 <p><img src="/post/2020-01-21-analyzing-stock-value-with-r-ladies_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 <div id="the-efficient-frontier" class="section level1">
-<h1>The efficient frontier</h1>
-<p>In the end, we plotted our portfolio against the efficient frontier! From a <a href="https://www.investopedia.com/terms/e/efficientfrontier.asp">quick google</a> and what I remember of the tutorial, the efficient frontier helps position the portfolio in its risk and returns level.</p>
+<h1>The Efficient Frontier</h1>
+<p>In the end, we plotted our portfolio against the efficient frontier! From a <a href="https://www.investopedia.com/terms/e/efficientfrontier.asp">quick google</a> and what I remember of the tutorial, the Efficient Frontier helps position the portfolio in its risk and returns level.</p>
 <p>Apparently, optimal portfolios should lie on the curve displayed in the image below.</p>
 <p>Wow, this was a throw back to my business school days!</p>
 <pre class="r"><code># Plot efficient frontier!
@@ -267,8 +270,12 @@ chart.EfficientFrontier(
   element.color = &quot;blue&quot;
 )</code></pre>
 <p><img src="/post/2020-01-21-analyzing-stock-value-with-r-ladies_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<p>This was quite a dive into R analysis of stocks and portfolios! Thank you again Scott for putting together the tutorial and pushing my knowledge of R into a new domain.</p>
-<p>&lt;3 Megan</p>
+<p>This was quite a dive into R analysis of stocks and portfolios! Thank you again Scott for putting together the tutorial and pushing my knowledge of R into a new domain. Apologies for the horrendous figures. All of my R experience is with ggplot and not base R plotting. An area to improve for next time!</p>
+<dl>
+<dt>Happy weekend,</dt>
+<dd>Megan
+</dd>
+</dl>
 </div>
 
 	    </div>
@@ -280,7 +287,7 @@ chart.EfficientFrontier(
 </div>
 
 		<nav id="pagination">
-			
+			<a class="prev" href="/2020/04/15/geospatial-data-analysis-in-r-with-the-mcgill-geographic-information-centre/">Prev</a>
 			<a class="next" href="/2020/01/11/simple-a-hugo-theme-small-edits-to-personalize/">Next</a>
 		</nav>
 	

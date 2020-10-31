@@ -1,0 +1,33 @@
+id,lieu_infraction _no_civique,lieu_infraction _rue,code_arrondissement,nom_contrevenant ,article,nature_infraction,date_jugement,amende_imposée 
+1,4160,46e Rue,VY,Veng Kheang Ngoy,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,11-01-2019,250
+2,4160,46e Rue,VY,Veng Kheang Ngoy,26,En ayant une partie constituante d'un bâtiment qui n'a pas été réparée ou remplacée au besoin.,11-01-2019,1500
+3,4160,46e Rue,VY,Veng Kheang Ngoy,25 al.2 par.10,En ayant les conditions favorisant la prolifération de moisissure dans un logement.,11-01-2019,1500
+4,1150,Marie-Anne Est,PL,9362-1522 QC. Inc.,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,11-01-2019,500
+5,1150,Marie-Anne Est,PL,9362-1522 QC. Inc.,36,En ayant un lavabo qui n'est pas alimenté € d'eau froide ou chaude d'au moins 45o,11-01-2019,1350
+6,680,De Cadillac,HM,Elena Harizomenov,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,28-01-2019,250
+7,11489,Bou. Langelier,MN,Kainth Tajinder,25.1,En ayant une partie ou un accessoire d'un bâtiment qui n'est pas maintenu(e)en bon état.,22-02-2019,675
+8,11489,Bou. Langelier,MN,Kainth Tajinder,60,En ayant une porte d'entrée non munie d'un mécanisme de verrouillage,22-02-2019,250
+9,3275,Barclay,CN,9331-2700 QC. Inc.,25 al. 2 par. 9,En ayant des rongeurs dans un logement.,14-03-2019,1350
+10,3275,Barclay,CN,9331-2700 QC. Inc.,25 al. 2 par. 9.1,En ayant despunaises de lit dans un logement.,14-03-2019,1350
+11,3275,Barclay,CN,9331-2700 QC. Inc.,25 al. 2 par. 9,En ayant des coquerelles dans un logement.,14-03-2019,1350
+12,3265,Barclay,CN,9332-9696 QC.Inc.,25 al. 2 par. 9,En ayant des coquerelles dans un logement.,14-03-2019,1350
+13,2956,Dandurand,RO,Rocco Lavallé,27,En ayant un bâtiment dont l'envoloppe extérieure n'est pas étanche,15-03-2019,1500
+14,11489,Bou. Langelier,MN,Kainth Tajinder,12,En ayant omis de fournir à l'autorité compétente un renseignement ou un document relatif à l'application du présent règlement.,21-03-2019,250
+15,12296,Grenet,AC,Chanthea Say,25 al.2 par.10,En ayant les conditions favorisant la prolifération de moisissure dans un logement.,15-05-2019,2000
+16,12296,Grenet,AC,Chanthea Say,25 al.2 par.10,En ayant les conditions favorisant la prolifération de moisissure dans un logement.,15-05-2019,1500
+17,12296,Grenet,AC,Chanthea Say,54,En ayant une salle de bain qui n'est pas ventillée adéquatement,15-05-2019,350
+18,12296,Grenet,AC,Chanthea Say,25 al. 2 par. 9,En ayant de la vermine (coquerelles) dans un logement.,15-05-2019,1200
+19,325,boul. Côte-Vertu,ST,Immo Côte-Vertu 2Ltd,54,En ayant une salle de bain qui n'est pas ventillée adéquatement (#314),06-06-2019,500
+20,325,boul. Côte-Vertu,ST,Immo Côte-Vertu 2Ltd,54,En ayant une salle de bain qui n'est pas ventillée adéquatement (#304),06-06-2019,500
+21,325,boul. Côte-Vertu,ST,Immo Côte-Vertu 2Ltd,54,En ayant une salle de bain qui n'est pas ventillée adéquatement (#314),06-06-2019,500
+22,325,boul. Côte-Vertu,ST,Immo Côte-Vertu 2Ltd,54,En ayant une salle de bain qui n'est pas ventillée adéquatement (#205),06-06-2019,500
+23,325,boul. Côte-Vertu,ST,Immo Côte-Vertu 2Ltd,54,En ayant une salle de bain qui n'est pas ventillée adéquatement (#214),06-06-2019,500
+24,303,Crémazie Ouest,AC,Luc Vong,23 al.2,"Étant propriétaire d'un bâtiment, en n'ayant pas pris toutes les mesures nécessaires afin de supprimer la condition dangereuse de votre bâtiment",06-06-2019,1500
+25,1150,Marie-Anne Est,PL,9362-1522 QC. Inc.,34,En ayant un logement qui n'est pas pourvu d'un système de plomberie en état de fonctionnement et pouvant être utilisé aux fins auxquelles il est destiné.,15-07-2019,2000
+26,3201,Henri-Bourassa Est,MN,9357-2881 QC Inc.,25 al.2 par.10,En ayant les conditions favorisant la prolifération de moisissure dans un logement.,18-11-2019,2000
+27,3201,Henri-Bourassa Est,MN,9357-2881 QC Inc.,25 al.1,En ayant une partie ou un accessoire d'un bâtiment qui n'est pas maintenu(e)en bon état.(intercom défectueux),18-11-2019,1350
+28,3201,Henri-Bourassa Est,MN,9357-2881 QC Inc.,26,En ayant une partie constituante d'un bâtiment qui n'a pas été réparée ou remplacée au besoin. (allège endommagée),18-11-2019,2000
+29,3201,Henri-Bourassa Est,MN,9357-2881 QC Inc.,28,En ayant un bâtiment dont les ouvertures dans l'enveloppe extérieure ne sont pas étanches (fênetres casées),18-11-2019,2000
+30,3201,Henri-Bourassa Est,MN,9357-2881 QC Inc.,23 al.1,"En ayant un bâtiment évacué en vertu du règlement, vacant ou laissé à l'abandon qui n'est pas clos ou barricadé ( e ) de façon à en empêcher l'accès et à prévenir tout accident",18-11-2019,3500
+31,3201,Henri-Bourassa Est,MN,9357-2881 QC Inc.,25 al.1,En ayant une partie ou un accessoire d'un logement ou bâtiment qui ne remplie pas les fonctions pour lesquelles elle (ou il) a été conçu (e ),18-11-2019,3000
+32,3201,Henri-Bourassa Est,MN,9357-2881 QC Inc.,34,En ayant un logement qui n'est pas pourvu d'un système de plomberie en état de fonctionnement et pouvant être utilisé aux fins auxquelles il est destiné.,18-11-2019,2000

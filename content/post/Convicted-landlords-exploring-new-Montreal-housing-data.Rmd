@@ -1,0 +1,273 @@
+---
+title: 'Convicted landlords: exploring new Montreal housing data'
+author: "Megan Wylie"
+date: "22/02/2020"
+output: html_document
+Tags: []
+draft: TRUE
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(geojsonR)
+library(dplyr)
+library(tidyverse)
+library(RCurl)
+library(RJSONIO)
+library(plyr)
+library(mapsapi)
+library(keyring)
+library(sf)
+library(raster)
+library(dplyr)
+library(spData)
+#library(spDataLarge) #not available for this version of R (tutorial on Lovelace)
+library(tmap)    # for static and interactive maps
+library(leaflet) # for interactive maps
+library(mapview) # for interactive maps
+library(ggplot2) # tidyverse data visualization package
+library(shiny)   # for web applications
+library(rworldmap)
+library(osmdata)
+
+
+if(!requireNamespace("devtools")) install.packages("devtools")
+devtools::install_github("dkahle/ggmap")
+
+# I used the below code to geocode the addressses. Now that those datasets are saved, I've commented out the code.
+
+#keyring_create("Rcredential") #creates keyring
+#keyring_unlock("Rcredential") # opens keyring for session
+#key_set("googleapi", keyring ="Rcredential") #API key
+
+```
+
+## Data cleaning 
+
+
+```{r data}
+
+condamnes2018 <- read.csv(file = 'data/liste_des_contrevenants_condamnes_annee_2018.csv')
+condamnes2019 <- read.csv(file = 'data/liste-des-contrevenants-condamnes-annee-2019.csv')
+exterm <- FROM_GeoJson('data/declarations-exterminations-punaises-de-lit.geojson')
+#sanit <- FROM_GeoJson('data/inspections-salubrite.geojson') #seems like this file has errors
+
+#edit data
+
+# I need the csv files to have geographic coordinates. 
+# I'll geolocate them, but first I have to merge their house numbers and roads 
+
+# makes one column that is 'addresses' for the 2018 data
+cols <- c( 'lieu_infraction._no_civique' , 'lieu_infraction._rue')
+condamnes2018$addresses <- apply( condamnes2018[ , cols ] , 1 , paste , collapse = " " )
+condamnes2018$addresses <- paste0(condamnes2018$addresses, ", Montreal") #ensures geocoded to Montreal
+
+# makes one column that is 'addresses' for the 2019 data
+cols <- c( 'lieu_infraction._no_civique' , 'lieu_infraction._rue')
+condamnes2019$addresses <- apply( condamnes2019[ , cols ] , 1 , paste , collapse = " " )
+condamnes2019$addresses <- paste0(condamnes2019$addresses, ", Montreal") #ensures geocoded to Montreal
+
+#load OSM
+
+
+```
+
+
+## Geocoding
+
+
+```{r geocode}
+# geolocate the addresses
+
+# this makes two functions to use in geocoding.
+
+# builds url to access API
+#url <- function(address, return.call = "json", sensor = "false" , key) {
+ # root <- "https://maps.google.com/maps/api/geocode/"
+  #u <- paste(root, return.call, "?address=", address, "&sensor=", sensor, "&key=" , 
+   #          key , sep = "")
+#  return(URLencode(u))
+#}
+
+# Function to parse the results:
+#geocode <- function(address, api.key , verbose=FALSE) {
+ # if(verbose) cat(address,"\n")
+  # u <- url(address , key = api.key)
+ #  doc <- getURL(u)
+  # x <- fromJSON(doc,simplify = FALSE)
+   # if(x$status=="OK") {
+    #  lat <- x$results[[1]]$geometry$location$lat
+     # lng <- x$results[[1]]$geometry$location$lng
+      #location_type  <- x$results[[1]]$geometry$location_type
+      #formatted_address  <- x$results[[1]]$formatted_address
+      #return(c(lat, lng, location_type, formatted_address))
+      #Sys.sleep(0.5)
+  #} else {
+  #  return(c(NA,NA,NA, NA))
+  #}
+#}
+
+
+#key <- key_get('googleapi', keyring ="Rcredential") 
+
+#2018
+#location18 <- condamnes2018 %>% pull(addresses)
+#locations18_geocode <- ldply(location18, .progress = "text" , function(x) geocode(x , api.key = key))
+
+#rename columns and join to original dataset
+#names(locations18_geocode) <- c("lat","lng","location_type", "formatted")
+#condamnes2018 <- condamnes2018 %>% bind_cols(locations18_geocode)
+
+
+#2019
+#location19 <- condamnes2019 %>% pull(addresses)
+#locations19_geocode <- ldply(location19, .progress = "text" , function(x) geocode(x , api.key = key))
+
+#rename columns and join to original dataset
+#names(locations19_geocode) <- c("lat","lng","location_type", "formatted")
+#condamnes2019 <- condamnes2019 %>% bind_cols(locations19_geocode)
+
+
+
+# keep this - closes opened keyring session
+#keyring_lock("Rcredential")
+```
+
+
+```{r merge}
+
+# merge 2018, 2019 and exterm datasets
+  #condames2018 (tibble), condamnes2019 (tibble) and exterm (list)
+
+#add year variable to 2018 and 2019 condamnes datasets
+#condamnes2018 <- add_column(condamnes2018, year = 2018)
+#condamnes2019 <- add_column(condamnes2019, year = 2019)
+
+#append condamnes datasets
+#condamnes18and19 <- bind_rows(condamnes2018, condamnes2019)
+
+#merge with exterm
+  # TO DO
+
+```
+
+```{r, shiny}
+
+# tmap
+
+#condamnes <- st_as_sf(condamnes18and19, coords = c("lng", 
+ #                                     "lat"),
+  #                 crs = 4326) #epsg codes - numbers that associate with coord systems
+#condamnes
+
+#map <- tm_shape(condamnes) +
+#  tm_dots(condamnes)
+
+#plot(condamnes)
+
+#make shiny app!
+
+# to do:
+# - date of judgement (date_jugement) - many options [date range] (done)
+# - year - two options [checkbox group] (done)
+# - map of them w/ address (done) - could add details in the interaction
+# - nature of infraction - text box 
+# - update button
+# - asthetics
+
+
+#Set up UI
+#ui <- pageWithSidebar(
+
+  # App title ----
+#  headerPanel("Convicted Landlords of Montreal"),
+
+  # Sidebar panel for inputs ----
+#  sidebarPanel(
+    
+ #   selectInput("year", "Year:", 
+  #              c("2018" = "2018",
+   #               "2019" = "2019")),
+    
+    #selectInput("code_arrondissement", "Neighbourhood code:", 
+#                c("ST" = "ST",
+#                  "CN" = "CN",
+#                  "VM" = "VM",
+#                  "MN" = "MN",
+#                  "LN" = "LM",
+#                  "VY" = "VY",
+#                  "AC" = "AC",
+#                  "PL" = "PL")),
+    
+#    selectInput("nom_contrevenant", "Landlord name:", 
+#                c("Michael A. Pires" = "Michael A. Pires",
+#                  "9309-2005 Québec Inc." = "9309-2005 Québec Inc.",
+#                  "9216-3948 Québec Inc\nExtermination Roger" = "9216-3948 Québec Inc\nExtermination Roger",
+#                  "Yen, Bo LY" = "Yen, Bo LY",
+#                  "Tofara Makoni" = "Tofara Makoni",
+#                  "Veng Kheang Ngoy" = "Veng Kheang Ngoy",
+#                  "Elena Harizomenov" = "Elena Harizomenov",
+#                  "9331-2700 QC. Inc." = "9331-2700 QC. Inc.",
+#                  "Rocco Lavallé" = "Rocco Lavallé",
+#                  "Immo Côte-Vertu 2Ltd" = "Immo Côte-Vertu 2Ltd",
+#                  "9357-2881 QC Inc." = "9357-2881 QC Inc.")),
+#  
+    # Date range
+#      dateRangeInput("date_jugement", "Date of Conviction", TRUE)
+#  ),
+
+  # Main panel for displaying outputs ----
+#  mainPanel(
+  
+#      leafletOutput("my_tmap")
+
+#  )
+  
+#)
+
+
+
+#Define server 
+# Define server logic to plot various variables against mpg ----
+#server <- function(input, output) {
+  
+  
+#  output$my_tmap = renderLeaflet({
+#    tm <- tm_shape(condamnes) + tm_dots() +
+#                            tm_scale_bar(position = c(0.5, 0.02)) +
+#                            tm_layout(title = "Conviction Locations",
+#                                                      frame = FALSE)
+   
+#    tmap_leaflet(tm)
+#  })
+  
+#}
+
+
+# deploy the shiny app
+#shinyApp(ui, server)
+
+```
+
+
+
+## Reference links
+
+### Geocoding and Google / API docs
+https://cran.r-project.org/web/packages/ggmap/readme/README.html
+https://www.storybench.org/geocode-csv-addresses-r/
+https://gist.github.com/josecarlosgonz/6417633
+
+### security
+https://www.infoworld.com/article/3320999/r-tip-keep-your-passwords-and-tokens-secure-with-the-keyring-package.html
+
+# Maps
+https://geocompr.robinlovelace.net/adv-map.html
+
+# Shiny
+https://shiny.rstudio.com/articles/build.html
+https://bookdown.org/yihui/rmarkdown/shiny-embedded.html
+https://shiny.rstudio.com/tutorial/written-tutorial/lesson5/ Note: adding data
+https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html#leaflet-and-shiny-integration 
+
