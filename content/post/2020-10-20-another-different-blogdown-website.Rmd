@@ -8,6 +8,7 @@ tags: ["blogdown", "hugo", "website", "business"]
 Categories: []
 Description: ''
 Tags: ["blogdown", "hugo", "website", "business"]
+draft: FALSE
 ---
 
 Hello again, long time no write/read. Also, long time no R programming for me...
@@ -60,7 +61,4 @@ The site is deployed and functioning excellent: my first domain, first customer?
 
 Thanks and stay safe everyone! ❤️
 - Megan
-
-
-
 
