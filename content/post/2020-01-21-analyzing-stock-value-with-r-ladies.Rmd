@@ -1,14 +1,21 @@
 ---
-title: Analyzing stocks and portfolios with RLadies
-author: Megan Wylie
+title: "Analyzing stocks and portfolios with RLadies"
+author: "Megan Wylie"
 date: '2020-01-21'
-slug: analyzing-stock-value-with-r-ladies
-categories: []
-tags: ["stock market", "R", "PortfolioAnalytics", "portfolio" ]
-Categories: []
 Description: ''
-Tags: ["R", "Portfolio Analysis", "Stocks"]
-draft: FALSE
+categories: []
+Tags:
+- R
+- Portfolio Analysis
+- Stocks
+draft: no
+slug: analyzing-stock-value-with-r-ladies
+tags:
+- stock market
+- R
+- PortfolioAnalytics
+- portfolio
+Categories: []
 ---
 
 This week for R Ladies we did stock market analysis! Led by Scott Clone, the group downloaded data on stock market prices from the internet, reformatted the data, and created portfolios of the stocks based on risk preferences. We were risky investors! 
